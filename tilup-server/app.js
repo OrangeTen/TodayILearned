@@ -7,6 +7,8 @@ const logger = require("morgan");
 const routes = require("./routes/index");
 const config = require("./config");
 
+const mongoose = require("./mongoose");
+
 const app = express();
 
 app.use(logger("dev"));
@@ -38,5 +40,7 @@ app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+mongoose();
 
 module.exports = app;
