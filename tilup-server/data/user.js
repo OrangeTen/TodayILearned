@@ -3,15 +3,37 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     _id: {
+        type: Schema.Types.ObjectId
+    },
+    token: {
         type: String
     },
     email: {
-        type: String,
-        trim: true,
-        required: 'Email is required'
+        type: String
+    },
+    name: {
+        type: String
+    },
+    profileUrl: {
+        type: String
+    },
+    follower: [{
+        type: Schema.Types.ObjectId
+    }],
+    following: [{
+        type: Schema.Types.ObjectId
+    }],
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    updated: {
+        type: Date,
+        default: Date.now
     }
 }, {
-    versionKey: false
+    versionKey: false,
+    usePushEach : true
 });
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

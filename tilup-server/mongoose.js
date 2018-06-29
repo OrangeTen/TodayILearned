@@ -11,6 +11,8 @@ module.exports = () => {
     });
 
     require('./data/index').User;
+    require('./data/index').Til;
+    require('./data/index').Directory;
 
     return db;
 }
