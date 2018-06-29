@@ -8,7 +8,7 @@ module.exports = {
     getFeed(req, res, next) { // me and follower's til
         if(req.uid == null){    // login x
             Til
-            .find()
+            .find({isPrivate : false})
             .sort({created : -1})
             .populate('directory', {
                 _id: 0,
