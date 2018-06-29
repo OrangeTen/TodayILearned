@@ -7,12 +7,12 @@ export default ({optionList}) => {
       <div className="til-filter-select__container" style={{position: "relative"}}>
         <select name="select">
           {
-            optionList.map(option => {
-              return <option value="value1">{option.text}</option> 
+            optionList.map((option, idx) => {
+              return <option value="value1" key={idx}>{option.text}</option>
             })
           }
         </select>
-        <div class="select__arrow"></div>
+        <div className="select__arrow"></div>
       </div>
     </div>
   )

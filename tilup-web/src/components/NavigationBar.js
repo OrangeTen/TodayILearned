@@ -5,12 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 // import * as firebase from 'firebase'
-import firebase from 'firebase'
+import firebase from 'firebase';
+import getUserData from '../utils/getUserData';
 
 export default class NavigationBar extends Component {
   handleLogin() {
     var provider = new firebase.auth.GithubAuthProvider();
-    console.log("login", provider);
     
 
     firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -44,7 +44,13 @@ export default class NavigationBar extends Component {
           <Typography variant="title" color="inherit" className="navigation-bar__title">
           TILUP 🍊
           </Typography>
-          <Button color="inherit" onClick={this.handleLogin}>Login with GitHub</Button>
+          {getUserData() ? (
+            <div className="userName">
+              {getUserData().displayName}
+            </div>
+          ) : (
+            <Button color="inherit" onClick={this.handleLogin}>Login with GitHub</Button>
+          )}
         </Toolbar>
       </AppBar>
     );
