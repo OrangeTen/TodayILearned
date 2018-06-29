@@ -22,6 +22,10 @@ const TilSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Til'
     },
+    isPrivate: {
+        type: Boolean,
+        default: true
+    },
     created: {
         type: Date,
         default: Date.now
@@ -32,7 +36,7 @@ const TilSchema = new Schema({
     }
 }, {
     versionKey: false,
-    usePushEach : true
+    usePushEach: true
 });
 
 mongoose.model('Til', TilSchema);
