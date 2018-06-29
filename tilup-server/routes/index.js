@@ -86,7 +86,7 @@ router.get("/feed", verifyFirebase, feedApi.getFeed)
 
 router.get("/search/contents/:word", verifyFirebase, searchApi.searchContents)
 	.get("/search/hash/:word", verifyFirebase, searchApi.searchHash)
-	.get("/search/:word", getFeedWord);
+	.get("/search/:word", feedApi.getFeedWord);
 	//.get("/search/:word", verifyFirebase, searchApi.searchBoth)
 
 router.get("/admin/users", userApi.get)
