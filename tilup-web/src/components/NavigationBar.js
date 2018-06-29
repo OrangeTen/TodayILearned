@@ -68,12 +68,18 @@ export default class NavigationBar extends Component {
         <Toolbar>
           {
             this.state.easterCount <= 0? 
-            <img src={realLogo} className="logo" /> :
-              <img src={logo} className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/> 
+              (
+                <React.Fragment>
+                  <img src={realLogo} className="logo" />
+                  <Typography variant="title" color="inherit" className="navigation-bar__title">TILUP with DecOrange!</Typography>  
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <img src={logo} className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/> 
+                  <Typography variant="title" color="inherit" className="navigation-bar__title">TILUP</Typography>  
+                </React.Fragment>
+              ) 
           }
-          <Typography variant="title" color="inherit" className="navigation-bar__title">
-          TILUP
-          </Typography>
           {getUserData() ? (
             <div className="userName">
               {getUserData().displayName}
