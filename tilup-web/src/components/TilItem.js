@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Icon from '@material-ui/core/Icon';
+import ReactMarkdown from 'react-markdown';
 
 export default class TilItem extends Component {
   render() {
@@ -21,7 +22,7 @@ export default class TilItem extends Component {
           </div>
           <div className="til-card__box">
             <div className="til-card__contents">
-              {data.contents}
+              <ReactMarkdown source={data.contents} className="til-markdown-container" />
             </div>
             <div className="tag-container">
               <span>#Bash</span>

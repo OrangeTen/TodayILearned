@@ -7,3 +7,10 @@ body {
     margin: 0 auto;
     padding: 10px;
 }
+
+.til-markdown-container {
+}
+.til-markdown-container h1:first-of-type,
+.til-markdown-container p:first-of-type {
+    margin-top: 0;
+}
