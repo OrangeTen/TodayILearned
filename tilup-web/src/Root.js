@@ -12,7 +12,10 @@ const Root = () => {
     <BrowserRouter>
       <div>
         {/* Main App */}
-        <Route exact path="/" component={MainApp}/>
+        <Route exact path="/" render={() =>
+          (
+            <MainApp type={PATH.MAIN} />
+          )}/>
         <Route exact path="/search/:string" render={({match}) =>
           (
             <MainApp type={PATH.SEARCH} data={match.params.string}/>
