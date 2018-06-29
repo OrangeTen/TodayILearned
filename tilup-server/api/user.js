@@ -7,6 +7,8 @@ const {
 module.exports = {
     add(req, res, next) {
         const user = new User(req.body);
+        if(user._id === req.uid) return console.log("user duplicated");
+        user._id = req.uid;
         user
             .save(err => {
                 if (err) {
@@ -29,7 +31,7 @@ module.exports = {
 
     getOne(req, res, next) {
         User
-            .findById(req.params.userId)
+            .findById(req.uid)
             .exec((err, user) => {
                 if (err) {
                     throw new BadRequestError(err);
@@ -43,9 +45,7 @@ module.exports = {
 
     updateFollow(req, res, next) {
         User
-            .findOne({
-                token: req.body.token
-            })
+            .findById(req.uid)
             .exec((err, me) => {
                 User
                     .findById(req.body.uid)
