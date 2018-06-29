@@ -31,7 +31,7 @@ module.exports = {
         .exec((err, user) => {
             if(err) return console.log(err);
             const users = user.following;
-            let wordC = '/'+word+'?/'
+            let wordC = '/'+req.params.word+'?/'
             Til.find({"$and" : [{"$or" : [{"$and" : [{"uid" : {"$in":users}}, {"isPrivate" : false}]}, {"uid" : user._id}]}, {"contents" : wordC}]})
                 .sort({created : -1})
                 .populate('directory', {
