@@ -1,7 +1,7 @@
 const Til = require('mongoose').model('Til');
 const User = require('mongoose').model('User');
 const {
-    BadRequestError
+    BadRequestError,NotExistError
 } = require('../error');
 
 module.exports = {
