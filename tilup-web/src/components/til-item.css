@@ -1,3 +1,9 @@
+@media (max-width: 575px) {
+    .til-card {
+        flex-direction: column;
+    }
+}
+
 :root {
     --link-color: #34a3e8;
 }
@@ -9,6 +15,11 @@
 
 .avatar {
     width: 60px;
+}
+.avatar-mobile {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
 }
 .avatar img {
     width: 100%;
