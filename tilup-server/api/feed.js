@@ -27,7 +27,6 @@ module.exports = {
                 created: 0,
                 updated: 0
             })
-            .populate('uid')
             .exec((err, tils) => {
                 if (err) {
                     throw new BadRequestError(err);
@@ -48,7 +47,6 @@ module.exports = {
                         created: 0,
                         updated: 0
                     })
-                    .populate('uid')
                     .sort({created : -1})
                     .exec((err, tils)=>{
                         if(err) return console.log(err);
@@ -65,7 +63,6 @@ module.exports = {
                 created: 0,
                 updated: 0
             })
-            .populate('uid')
             .sort({created : -1})
             .exec((err, tils)=>{
                 if(err) return console.log(err);
@@ -80,7 +77,6 @@ module.exports = {
                 created: 0,
                 updated: 0
             })
-            .populate('uid')
             .sort({created : -1})
             .exec((err, tils) => {
                 if (err) {
