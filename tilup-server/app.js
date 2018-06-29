@@ -1,14 +1,17 @@
+const mongoose = require("./mongoose");
+mongoose();
+
 const express = require("express");
 const path = require("path");
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
-const routes = require("./routes/index");
+const methodOverride = require('method-override');
 const config = require("./config");
-const mongoose = require("./mongoose");
-
+const routes = require("./routes/index");
 const app = express();
+
+
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -16,6 +19,7 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+app.use(methodOverride());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(config.SERVER_PORT, () => {
@@ -39,7 +43,5 @@ app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-mongoose();
 
 module.exports = app;
