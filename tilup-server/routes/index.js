@@ -69,10 +69,9 @@ router.get("/login", verifyFirebase, (req, res, next) => {
 
 router.get("/me", meApi.get);
 
-router.get("/users", userApi.get)
+router.get("/users", verifyFirebase, userApi.getOne)
 	.post("/users", verifyFirebase, userApi.add)
-	.get("/users/:userId", userApi.getOne)
-	.put("/users/follow", userApi.updateFollow)
+	.put("/users/follow", verifyFirebase, userApi.updateFollow)
 
 router.get("/directory", directoryApi.get)
 	.get("/directory/:uid", directoryApi.getMyDir)

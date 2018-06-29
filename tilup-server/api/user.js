@@ -31,7 +31,7 @@ module.exports = {
 
     getOne(req, res, next) {
         User
-            .findById(req.params.userId)
+            .findById(req.uid)
             .exec((err, user) => {
                 if (err) {
                     throw new BadRequestError(err);
@@ -45,9 +45,7 @@ module.exports = {
 
     updateFollow(req, res, next) {
         User
-            .findOne({
-                token: req.body.token
-            })
+            .findById(req.uid)
             .exec((err, me) => {
                 User
                     .findById(req.body.uid)
