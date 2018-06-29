@@ -8,6 +8,8 @@ const {
 module.exports = {
     add(req, res, next) {
         const til = new Til(req.body);
+        til.uid = req.uid;
+
         if (!req.body.directory)
             req.body.directory = "Inbox"; // default
 
@@ -71,7 +73,7 @@ module.exports = {
                 if(err) throw new BadRequestError(err);
                 if(!til) throw new NotExistError("No TIL");
                 const newTil = new Til({contents:til.contents, hash:til.hash, forkRef:til._id});
-                newTil.uid = req.body.uid;
+                newTil.uid = req.uid;
                 newTil.save(err=>{
                     if(err) return console.log(err);
                     res.send(newTil);

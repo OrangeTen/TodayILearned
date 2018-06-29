@@ -76,11 +76,10 @@ router.get("/users", verifyFirebase, userApi.getOne)
 router.get("/directory", verifyFirebase, directoryApi.getMyDir)
 	.post("/directory", verifyFirebase, directoryApi.add);
 
-router.get("/til", tilApi.get)
-	.post("/til", tilApi.add)
-	.put("/til/directory/:tilId", tilApi.changeDir)
-	.get("/til/:tilId", tilApi.getOne)
-	.post("/til/fork", tilApi.fork);
+router.get("/til/:tilId", tilApi.getOne)
+	.post("/til", verifyFirebase, tilApi.add)
+	.post("/til/fork", verifyFirebase, tilApi.fork)
+	.put("/til/directory/:tilId", tilApi.changeDir);		// 연동 test 필요
 
 router.get("/feed", verifyFirebase, feedApi.getFeed)
 	.get("/feed/my", verifyFirebase, feedApi.getMyFeed);
