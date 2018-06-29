@@ -7,6 +7,9 @@ const {
 module.exports = {
     add(req, res, next) {
         const directory = new Directory(req.body);
+        if(req.uid == null){
+            return res.status(401).json("token is expired");
+        }
         directory.uid = req.uid;
 
         directory.save(err => {
