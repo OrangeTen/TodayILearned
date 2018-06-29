@@ -5,6 +5,25 @@ const {
 } = require('../error');
 
 module.exports = {
+    getFeedWord(req, res, next){
+        let word = req.params.word;
+        let wordC = '/'+word+'?/';
+        Til
+        .find({"$or" : [{"$or" : [{"$and" : [{"uid" : {"$in":users}}, {"isPrivate" : false}]}, {"uid" : user._id}]}, {"$or" : [{"contents" : wordC}, {"hash" : word}]}]})
+        .sort({created : -1})
+        .populate('directory', {
+            _id: 0,
+            created: 0,
+            updated: 0
+        })
+        .populate('uid')
+        .exec((err, tils) => {
+            if (err) {
+                throw new BadRequestError(err);
+            }
+            res.send(tils);
+        });
+    },
     getFeed(req, res, next) { // me and follower's til
         if(req.uid == null){    // login x
             Til
@@ -15,6 +34,7 @@ module.exports = {
                 created: 0,
                 updated: 0
             })
+            .populate('uid')
             .exec((err, tils) => {
                 if (err) {
                     throw new BadRequestError(err);
@@ -35,6 +55,7 @@ module.exports = {
                         created: 0,
                         updated: 0
                     })
+                    .populate('uid')
                     .sort({created : -1})
                     .exec((err, tils)=>{
                         if(err) return console.log(err);
@@ -51,6 +72,7 @@ module.exports = {
                 created: 0,
                 updated: 0
             })
+            .populate('uid')
             .sort({created : -1})
             .exec((err, tils)=>{
                 if(err) return console.log(err);
@@ -65,6 +87,7 @@ module.exports = {
                 created: 0,
                 updated: 0
             })
+            .populate('uid')
             .sort({created : -1})
             .exec((err, tils) => {
                 if (err) {

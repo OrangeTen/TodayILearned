@@ -12,7 +12,7 @@ module.exports = {
             const users = user.following;
             let word = req.params.word;
             let wordC = '/'+word+'?/'
-            Til.find({"$and" : [{"$or" : [{"$and" : [{"uid" : {"$in":users}}, {"isPrivate" : false}]}, {"uid" : user._id}]}, {"$or" : [{"contents" : wordC}, {"hash" : word}]}]})
+            Til.find({"$or" : [{"$or" : [{"$and" : [{"uid" : {"$in":users}}, {"isPrivate" : false}]}, {"uid" : user._id}]}, {"$or" : [{"contents" : wordC}, {"hash" : word}]}]})
                 .sort({created : -1})
                 .populate('directory', {
                     _id: 0,

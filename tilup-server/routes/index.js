@@ -28,11 +28,6 @@ router.get("/", (req, res) => {
 
 function verifyFirebase(req, res, next) {
 	const token = req.headers.authorization;
-	
-	if(typeof token == "undefined"){
-		req.uid = null;
-		return next();
-	}
 
 	getFirebaseUidWithToken(token)
 		.then((uid) => {
@@ -89,9 +84,10 @@ router.get("/til/:tilId", tilApi.getOne)
 router.get("/feed", verifyFirebase, feedApi.getFeed)
 	.get("/feed/my", verifyFirebase, feedApi.getMyFeed);
 
-router.get("/search/:word", verifyFirebase, searchApi.searchBoth)
-	.get("/search/contents/:word", verifyFirebase, searchApi.searchContents)
-	.get("/search/hash/:word", verifyFirebase, searchApi.searchHash);
+router.get("/search/contents/:word", verifyFirebase, searchApi.searchContents)
+	.get("/search/hash/:word", verifyFirebase, searchApi.searchHash)
+	.get("/search/:word", feedApi.getFeedWord);
+	//.get("/search/:word", verifyFirebase, searchApi.searchBoth)
 
 router.get("/admin/users", userApi.get)
 	.get("/admin/directory", directoryApi.get)
