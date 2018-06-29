@@ -23,11 +23,16 @@ class ProfileApp extends Component {
 
   loadData() {
     const raw_data = getUserData();
-    const userData = {
-      email: raw_data.email,
-      name: raw_data.displayName,
-      img: raw_data.photoURL
-    };
+    let userData = {};
+    if (raw_data) {
+       userData= {
+        email: raw_data.email,
+        name: raw_data.displayName,
+        img: raw_data.photoURL
+      };
+    }
+
+
     this.setState({userData});
   }
 
