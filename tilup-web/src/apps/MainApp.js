@@ -22,9 +22,15 @@ class MainApp extends Component {
   };
 
   componentDidMount() {
+    this.loadDate();
+  }
+
+  loadDate() {
     const self = this;
-    getTilList().then((response)=>{
-      self.setState({tilList: response.data});
+    getTilList().then((response) => {
+      self.setState({
+        tilList: response.data
+      });
     });
   }
 

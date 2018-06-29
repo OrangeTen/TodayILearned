@@ -10,14 +10,16 @@ import ReactMarkdown from 'react-markdown';
 export default class TilItem extends Component {
   render() {
     const {data} = this.props;
+    const avatarUrl = "https://vignette.wikia.nocookie.net/edukayfun/images/0/0b/Soo_soo_ANOYING%21%21%21%21%21%21%21%21%21%21%21%21%21%21.png/revision/latest?cb=20171206164413"
+    console.log("틸아이템", data)
     return (
       <div className="til-card">
         <div className="avatar">
-          <img src={data.user.avatar} />
+          <img src={avatarUrl} />
         </div>
         <div className="til-card__container">
           <div className="name-container">
-            <div className="name-container__name">{data.user.name}</div>
+            <div className="name-container__name">jayjin</div>
             <div className="name-container__date">6월 29일</div>
           </div>
           <div className="til-card__box">

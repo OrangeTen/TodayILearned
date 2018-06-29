@@ -2,14 +2,19 @@
   "name": "orange10-server",
   "version": "0.0.0",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "rinstall": "cd ../tilup-web && npm install",
+    "rbuild": "cd ../tilup-web && npm run build",
+    "production": "npm run rbuild && pm2 restart app"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
-    "mongoose": "^5.1.7",
     "lodash": "^4.17.10",
+    "method-override": "^2.3.10",
+    "mongoose": "^5.1.7",
     "morgan": "~1.9.0"
   },
   "devDependencies": {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Button from "@material-ui/core/es/Button/Button";
-import TextField from "@material-ui/core/es/TextField/TextField";
 import SimpleMDE from "react-simplemde-editor";
 import "simplemde/dist/simplemde.min.css";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import SelectBox from "../components/SelectBox";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 export default class TilInput extends Component {
   constructor(props) {
