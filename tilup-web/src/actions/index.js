@@ -8,8 +8,15 @@ export function getTilList() {
   return axios.get(targetUrl);
 }
 
+export function getOneTil(idx) {
+  let targetUrl = API_HOST + "api/til/"+idx;
+  console.log(`targetUrl=${targetUrl}`);
+  return axios.get(targetUrl);
+}
+
 export function getRepoListWithUid(uid) {
   let targetUrl = `${API_HOST}api/directory/${uid}`;
+  // header에 Authorization: idToken
   return axios.get(targetUrl);
 }
 

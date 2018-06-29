@@ -15,10 +15,10 @@ const UserSchema = new Schema({
         type: String
     },
     follower: [{
-        type: Schema.Types.ObjectId
+        type: String
     }],
     following: [{
-        type: Schema.Types.ObjectId
+        type: String
     }],
     created: {
         type: Date,

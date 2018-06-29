@@ -5,7 +5,7 @@ const DirectorySchema = new Schema({
         type: String
     },
     uid: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: 'User'
     },
     created: {
