@@ -11,7 +11,6 @@ import getUserData from '../utils/getUserData';
 export default class NavigationBar extends Component {
   handleLogin() {
     var provider = new firebase.auth.GithubAuthProvider();
-    console.log("login", provider);
     
 
     firebase.auth().signInWithPopup(provider).then(function(result) {
