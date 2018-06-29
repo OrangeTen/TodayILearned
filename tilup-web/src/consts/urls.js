@@ -1,6 +1,6 @@
 let host;
 if (process.env.NODE_ENV === 'production') {
-  host = "";
+  host = "/";
 } else {
   host = "http://tilup.sullivan.kr:3000/";
 }
