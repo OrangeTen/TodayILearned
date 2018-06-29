@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import NavigationBar from "../components/NavigationBar";
 import Profile from '../components/Profile';
-import styles from './ProfileApp.css';
+import './ProfileApp.css';
 import BasicLayout from "../components/BasicLayout";
 import {getUserData} from "../actions";
+import GreenPark from "../components/GreenPark";
+import Repo from "../components/Repo";
 
 class ProfileApp extends Component {
   constructor(props) {
@@ -38,6 +40,19 @@ class ProfileApp extends Component {
                 />
               </div>
               <div class="contents">
+                <div className="repos">
+                  <div className="repos__title">
+                    Popular Repositories
+                  </div>
+                  <Repo />
+                  <Repo />
+                  <Repo />
+                  <Repo />
+                  <Repo />
+                  <Repo />
+                  <Repo />
+                </div>
+                <GreenPark />
               </div>
             </div>
           </BasicLayout>

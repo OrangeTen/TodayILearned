@@ -3,6 +3,7 @@ const feedApi = require('./feed');
 const userApi = require('./user');
 const tilApi = require('./til');
 const loginApi = require('./login');
+const searchApi = require('./search');
 const directoryApi = require('./directory');
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
     userApi,
     tilApi,
     loginApi,
-    directoryApi
+    directoryApi,
+    searchApi
 };

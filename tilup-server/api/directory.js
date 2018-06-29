@@ -1,4 +1,5 @@
 const Directory = require('mongoose').model('Directory');
+const User = require('mongoose').model('Directory');
 const {
     BadRequestError
 } = require('../error');
@@ -22,5 +23,14 @@ module.exports = {
             }
             res.send(directories);
         });
+    },
+
+    getMyDir(req, res, next){
+       Directory.find({uid:req.params.uid})
+                .sort({created : -1})
+                .exec((err, directories)=>{
+                    if(err) return console.log(err);
+                    res.send(directories);
+                });
     }
 };
