@@ -1,0 +1,7 @@
+.navigation-bar {
+    flex-grow: 1;
+}
+
+.navigation-bar__title {
+    flex: 1;
+}
