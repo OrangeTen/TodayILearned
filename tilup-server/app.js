@@ -27,6 +27,7 @@ app.listen(config.SERVER_PORT, () => {
 });
 
 app.use("/api", routes);
+app.use("/", express.static(getReactBuildPath()));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -43,5 +44,12 @@ app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+function getReactBuildPath() {
+  let splited = __dirname.split('/');
+  splited.pop();
+  let reactPath = splited.join('/') + '/tilup-web/build';
+  return reactPath;
+}
 
 module.exports = app;
