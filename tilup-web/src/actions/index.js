@@ -1,5 +1,9 @@
-import axiosMock from '../utils/axiosMock';
+import axios from "axios";
+import {API_HOST} from "../consts/urls";
+
 
 export function getTilList() {
-  return axiosMock.get('/api/feed/');
+  let targetUrl = API_HOST + "api/feed/";
+  console.log(`targetUrl=${targetUrl}`);
+  return axios.get(targetUrl);
 }
