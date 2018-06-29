@@ -70,7 +70,7 @@ router.get("/login", verifyFirebase, (req, res, next) => {
 router.get("/me", meApi.get);
 
 router.get("/users", userApi.get)
-	.post("/users", userApi.add)
+	.post("/users", verifyFirebase, userApi.add)
 	.get("/users/:userId", userApi.getOne)
 	.put("/users/follow", userApi.updateFollow)
 
