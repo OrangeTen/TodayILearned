@@ -6,9 +6,27 @@ const {
 
 module.exports = {
     getFeed(req, res, next) { // me and follower's til
-        this.getAllFeed(req, res, next); // temporally
+        User.findById(req.params.uid)
+            .exec((err, user) => {
+                if(err) return console.log(err);
+                const users = user.following;
+                users.unshift(user._id);
+                Til.find({"uid" : {"$in":users}})
+                    .sort({created : -1})
+                    .exec((err, tils)=>{
+                        if(err) return console.log(err);
+                        res.send(tils);
+                    });
+            });
     },
-
+    getMyFeed(req, res, next){
+        Til.find({"uid" : req.params.uid})
+            .sort({created : -1})
+            .exec((err, tils)=>{
+                if(err) return console.log(err);
+                res.send(tils);
+            });
+    },
     getAllFeed(req, res, next) {
         Til
             .find()
