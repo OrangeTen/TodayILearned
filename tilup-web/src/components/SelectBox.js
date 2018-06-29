@@ -12,7 +12,7 @@ export default ({optionList}) => {
             })
           }
         </select>
-        <div class="select__arrow"></div>
+        <div className="select__arrow"></div>
       </div>
     </div>
   )
