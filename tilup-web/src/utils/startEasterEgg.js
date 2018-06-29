@@ -46,21 +46,6 @@ export default function () {
     ctx.fillRect(0, 0, w - 1, h - 1);
 
     document.querySelector('#root').parentNode.insertAdjacentElement("beforebegin", this.canvas);
-
-    this.resetButton = document.createElement("button");
-    this.resetButton.innerHTML = "Reset Canvas";
-    // attach event listener to the button 
-    this.resetButton.addEventListener('click', function resetButtonClickEventListener(e) {
-      if (e.target && e.target.nodeName === 'BUTTON') {
-        console.log("Reset Clicked");
-        ctx.fillStyle = 'red';
-        ctx.fillRect(0, 0, w - 1, h - 1);
-        catElemBuf = [];
-      }
-    });
-
-    document.body.insertBefore(this.resetButton, document.body.nextSibling);
-
     window.requestAnimationFrame(function draw() {
 
       let numNewEmojis = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1];
