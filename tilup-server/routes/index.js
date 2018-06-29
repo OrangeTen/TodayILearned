@@ -26,8 +26,7 @@ router.get("/me", apiResponse())
 router.get("/users", userApi.get)
 	.post("/users", userApi.add)
 	.get("/users/:userId", userApi.getOne)
-	.post("/users/follow", apiResponse())
-	.delete("/users/follow", apiResponse());
+	.put("/users/follow", userApi.updateFollow)
 
 router.get("/directory", directoryApi.get)
 	.post("/directory", directoryApi.add)
