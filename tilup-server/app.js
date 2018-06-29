@@ -6,8 +6,7 @@ const logger = require("morgan");
 
 const routes = require("./routes/index");
 const config = require("./config");
-
-const elasticsearch = require("./elasticsearch");
+const mongoose = require("./mongoose");
 
 const app = express();
 
@@ -41,13 +40,6 @@ app.use(function (err, req, res) {
   res.render("error");
 });
 
-elasticsearch.ping();
-elasticsearch.indexExists().then(exist => {
-  if(!exist){
-    elasticsearch.initIndex().then(elasticsearch.initMapping());
-  }else{
-    console.log("already initialize")
-  }
-});
+mongoose();
 
 module.exports = app;
