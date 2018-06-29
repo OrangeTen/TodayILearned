@@ -3,10 +3,11 @@ import NavigationBar from "../components/NavigationBar";
 import Profile from '../components/Profile';
 import './ProfileApp.css';
 import BasicLayout from "../components/BasicLayout";
-import {getRepoListWithUid, getUserData} from "../actions";
+import {getRepoListWithUid} from "../actions";
 import GreenPark from "../components/GreenPark";
 import Repo from "../components/Repo";
-import {getFirebaseCurrentUser, isSignedIn} from "../utils/firebaseUtils";
+import {getFirebaseCurrentUser} from "../utils/firebaseUtils";
+import getUserData from "../utils/getUserData";
 
 class ProfileApp extends Component {
   constructor(props) {
@@ -22,20 +23,13 @@ class ProfileApp extends Component {
   }
 
   loadData() {
-    if (isSignedIn()) {
-      let user = getFirebaseCurrentUser();
-
-      this.setState({
-        userData: user,
-      });
-
-      getRepoListWithUid(user.uid)
-        .then((response) => {
-          this.setState({
-            repoList: response.data
-          });
-        });
-    }
+    const raw_data = getUserData();
+    const userData = {
+      email: raw_data.email,
+      name: raw_data.displayName,
+      img: raw_data.photoURL
+    };
+    this.setState({userData});
   }
 
   renderRepoList() {
@@ -53,7 +47,7 @@ class ProfileApp extends Component {
                 <Profile
                     img={this.state.userData.img}
                     name={this.state.userData.name}
-                    id={this.props.id}
+                    id={this.props.email}
                 />
               </div>
               <div class="contents">

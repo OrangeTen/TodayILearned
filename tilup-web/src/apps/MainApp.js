@@ -6,7 +6,7 @@ import TilItem from "../components/TilItem";
 import TilInput from "../components/TilInput";
 import SelectBox from "../components/SelectBox";
 import NavigationBar from "../components/NavigationBar";
-import {getTilList} from "../actions";
+import {getTilList, getOneTil} from "../actions";
 import axios from 'axios';
 import firebase from 'firebase';
 import getUserData from '../utils/getUserData';
@@ -27,11 +27,15 @@ class MainApp extends Component {
 
   componentDidMount() {
     this.checkHasUserSignedIn();
-    this.loadDate();
+    if (this.props.type === PATH.MAIN) {
+      this.loadDate();
+    } else if (this.props.type === PATH.TIL) {
+      this.loadOneTil(this.props.index);
+    }
   }
 
   checkHasUserSignedIn() {
-    console.log(getUserData());
+    //console.log(getUserData());
   }
 
   loadDate() {
@@ -39,6 +43,15 @@ class MainApp extends Component {
     getTilList().then((response) => {
       self.setState({
         tilList: response.data
+      });
+    });
+  }
+
+  loadOneTil(idx) {
+    const self = this;
+    getOneTil(idx).then((response) => {
+      self.setState({
+        tilList: [response.data]
       });
     });
   }
@@ -91,8 +104,16 @@ class MainApp extends Component {
     } else if (this.props.type === PATH.TIL) {
       result = (
         <React.Fragment>
-          <div>TIL PAGE</div>
-          <div>inde NUM : {this.props.index}</div>
+          <SelectBox optionList={this.state.optionList} />
+          {this.renderTilList()}
+        </React.Fragment>
+      )
+    } else if (this.props.type === PATH.MAIN) {
+      result = (
+        <React.Fragment>
+          <TilInput submitTil={this.submitTil} />
+          <SelectBox optionList={this.state.optionList} />
+          {this.renderTilList()}
         </React.Fragment>
       )
     }
@@ -100,9 +121,6 @@ class MainApp extends Component {
     return (
       <Container>
       {result}
-      <TilInput submitTil={this.submitTil} />
-      <SelectBox optionList={this.state.optionList}/>
-      {this.renderTilList()}
       </Container>
     );
   }
