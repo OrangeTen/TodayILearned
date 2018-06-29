@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import MainApp from './apps/MainApp';
-import MyApp from './apps/MyApp';
+import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
 
 const Root = () => (
@@ -22,10 +22,10 @@ const Root = () => (
 						<MainApp type={PATH.TIL} index={match.params.index} />
 					)} />
 
-					{/* MyApp */}
+					{/* ProfileApp */}
 					<Route exact path="/:id" render={({match}) =>
 					(
-						<MyApp data={1} id={match.params.id} />
+						<ProfileApp data={1} id={match.params.id} />
 					)} />
 				</div>
     </BrowserRouter>
