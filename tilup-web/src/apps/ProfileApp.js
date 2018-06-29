@@ -3,6 +3,7 @@ import NavigationBar from "../components/NavigationBar";
 import Profile from '../components/Profile';
 import styles from './ProfileApp.css';
 import BasicLayout from "../components/BasicLayout";
+import {getUserData} from "../actions";
 
 class ProfileApp extends Component {
   constructor(props) {
@@ -15,13 +16,21 @@ class ProfileApp extends Component {
       }
     };
   }
+
+  componentDidMount() {
+    const self = this;
+    // getUserData().then((response)=>{
+    //   self.setState({userData: response.data});
+    // });
+  }
+
   render() {
     return (
       <div className="ProfileApp">
           <NavigationBar />
           <BasicLayout>
-            <div class="body">
-              <div class="profile">
+            <div className="body">
+              <div className="profile">
                 <Profile
                     img={this.state.userData.img}
                     name={this.state.userData.name}
