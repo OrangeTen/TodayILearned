@@ -17,7 +17,7 @@ class Container extends Component {
     return (
       <div>
         <NavigationBar />
-        <div className="app-container">
+        <div className="appinitializeFirebase-container">
           {this.props.children}
         </div>
       </div>
