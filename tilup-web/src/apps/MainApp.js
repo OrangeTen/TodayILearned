@@ -6,7 +6,7 @@ import TilItem from "../components/TilItem";
 import TilInput from "../components/TilInput";
 import SelectBox from "../components/SelectBox";
 import NavigationBar from "../components/NavigationBar";
-import {getTilList, getOneTil} from "../actions";
+import {getTilList, getOneTil, postTil} from "../actions";
 import axios from 'axios';
 import firebase from 'firebase';
 import getUserData from '../utils/getUserData';
@@ -28,7 +28,7 @@ class MainApp extends Component {
   componentDidMount() {
     this.checkHasUserSignedIn();
     if (this.props.type === PATH.MAIN) {
-      this.loadDate();
+      this.loadData();
     } else if (this.props.type === PATH.TIL) {
       this.loadOneTil(this.props.index);
     }
@@ -38,7 +38,7 @@ class MainApp extends Component {
     //console.log(getUserData());
   }
 
-  loadDate() {
+  loadData() {
     const self = this;
     getTilList().then((response) => {
       self.setState({
@@ -59,20 +59,25 @@ class MainApp extends Component {
   submitTil(data) {
     console.log("Current User >> ", getUserData(), data);
     const userData = getUserData();
-    axios
-      .post('/api/til/', {
-        headers: {
-          token: userData.stsTokenManager.accessToken
-        },
-        params: {
-          contents: data.contents,
-          hash: data.tag,
-          directory: data.repo,
-          isPrivate: data.isPrivate
-        }
-      }).then(res => {
-      console.log("SubmitTil Result >> ", res);
+    const self = this;
+    const params = {
+      headers: {
+        authentification: userData.stsTokenManager.accessToken
+      },
+      body: {
+        contents: data.contents,
+        hash: data.tag,
+        directory: data.repo,
+        isPrivate: data.isPrivate
+      }
+    }
+
+    postTil(params).then((response) => {
+      self.loadData();
     });
+
+
+    
   }
 
   renderTilList() {

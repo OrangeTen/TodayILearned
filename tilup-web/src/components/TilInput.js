@@ -20,6 +20,10 @@ export default class TilInput extends Component {
     };
   }
 
+  handleChange = (value) => {
+    this.setState({tilValue: value})
+  }
+
 
   render() {
     const returnData = {
@@ -40,6 +44,7 @@ export default class TilInput extends Component {
               <SimpleMDE
                 placeholder="test"
                 value={this.state.tilValue}
+                onChange={this.handleChange}
                 options={{ spellChecker: false }} />
             </div>
             <div className="tag-container">
@@ -56,18 +61,5 @@ export default class TilInput extends Component {
         </div>
       </div>
     )
-    // return (
-    //   <div>
-    //     <form>
-    //       <TextField
-    //         id="multiline-static"
-    //         multiline
-    //         rows="4"
-    //         margin="normal"
-    //       />
-    //       <Button>submit</Button>
-    //     </form>
-    //   </div>
-    // );
   }
 }

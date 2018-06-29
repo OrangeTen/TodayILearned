@@ -54,6 +54,7 @@ export default class NavigationBar extends Component {
   }
 
   render() {
+    const userData = getUserData();
     return (
       <AppBar position="sticky" color="default" className="navigation-bar">
         <Toolbar>
@@ -71,10 +72,13 @@ export default class NavigationBar extends Component {
                 </React.Fragment>
               ) 
           }
-          {getUserData() ? (
-            <div className="userName">
-              {getUserData().displayName}
-            </div>
+          {userData ? (
+            <React.Fragment>
+              <img src={userData.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px"}} />
+              <div className="userName">
+                {userData.displayName}
+              </div>
+            </React.Fragment>
           ) : (
             <Button color="inherit" onClick={this.handleLogin}>Login with GitHub</Button>
           )}

@@ -24,3 +24,10 @@ export function getUserData(uid) {
   let targetUrl = `${API_HOST}api/user/${uid}`;
   return axios.get(targetUrl);
 }
+
+export function postTil(params) {
+  let targetUrl = `${API_HOST}api/til`;
+  return axios.post(targetUrl, params.body, params.header).then(res => {
+      console.log("SubmitTil Result >> ", res);
+    });
+}
