@@ -1,34 +1,54 @@
 const User = require('mongoose').model('User');
+const {
+    NotExistError,
+    BadRequestError
+} = require('../error');
 
 module.exports = {
     add(req, res, next) {
         const user = new User(req.body);
-        user.save(err => {
-            if (err) return console.log(err);
-            res.json(user);
-        });
+        user
+            .save(err => {
+                if (err) {
+                    throw new BadRequestError(err);
+                }
+                res.send(user);
+            });
     },
+
     get(req, res, next) {
-        User.find()
+        User
+            .find()
             .exec((err, users) => {
-                if (err) return console.log(err);
-                res.json(users);
+                if (err) {
+                    throw new BadRequestError(err);
+                }
+                res.send(users);
             });
     },
+
     getOne(req, res, next) {
-        User.findById(req.params.userId)
+        User
+            .findById(req.params.userId)
             .exec((err, user) => {
-                if (err) return console.log(err);
-                if (!user) return console.log("no user");
-                res.json(user);
+                if (err) {
+                    throw new BadRequestError(err);
+                } else if (!directory) {
+                    throw new NotExistError("No user");
+                }
+
+                res.send(user);
             });
     },
+
     updateFollow(req, res, next) {
-        User.findOne({
+        User
+            .findOne({
                 token: req.body.token
             })
             .exec((err, me) => {
-                User.findById(req.body.uid)
+                User
+                    .findById(req.body.uid)
                     .exec((err, user) => {
                         const followingIndex = me.following.indexOf(req.body.uid);
                         const followerIndex = user.follower.indexOf(me._id);
@@ -40,13 +60,18 @@ module.exports = {
                             me.following.unshift(req.body.uid);
                             user.follower.unshift(me._id);
                         }
-                        user.save(err =>{
-                            if(err) return console.log(err);
-                            me.save(err => {
-                                if (err) return console.log(err);
-                                res.json(me);
+                        user
+                            .save(err => {
+                                if (err) {
+                                    throw new BadRequestError(err);
+                                }
+                                me.save(err => {
+                                    if (err) {
+                                        throw new BadRequestError(err);
+                                    }
+                                    res.send(me);
+                                });
                             });
-                        });
                     });
             });
     }

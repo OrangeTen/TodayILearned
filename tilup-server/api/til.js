@@ -20,15 +20,15 @@ module.exports = {
                     throw new BadRequestError(err);
                 } else if (!directory) {
                     throw new NotExistError("No directory");
-                } else {
-                    til.directory = directory._id;
-                    til.save(err => {
-                        if (err) {
-                            throw new BadRequestError(err);
-                        }
-                        res.send(til);
-                    });
                 }
+
+                til.directory = directory._id;
+                til.save(err => {
+                    if (err) {
+                        throw new BadRequestError(err);
+                    }
+                    res.send(til);
+                });
             });
     },
 

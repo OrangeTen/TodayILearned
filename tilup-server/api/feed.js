@@ -1,16 +1,27 @@
 const Til = require('mongoose').model('Til');
 const User = require('mongoose').model('User');
+const {
+    BadRequestError
+} = require('../error');
 
 module.exports = {
-    getFeedIAndFollowing(req, res, next){
-        
+    getFeed(req, res, next) { // me and follower's til
+        this.getAllFeed(req, res, next); // temporally
     },
-    getFeedAll(req, res, next){
-        Til.find()
-            .populate('directory', {_id:0, created:0, updated:0})
-            .exec((err, tils)=>{
-                if(err) console.log(err);
-                res.json(tils);
+
+    getAllFeed(req, res, next) {
+        Til
+            .find()
+            .populate('directory', {
+                _id: 0,
+                created: 0,
+                updated: 0
+            })
+            .exec((err, tils) => {
+                if (err) {
+                    throw new BadRequestError(err);
+                }
+                res.send(tils);
             });
     }
 };
