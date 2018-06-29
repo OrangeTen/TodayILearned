@@ -6,7 +6,8 @@ const {
 	feedApi,
 	tilApi,
 	directoryApi,
-	meApi
+	meApi,
+	searchApi
 } = require('../api');
 
 const {
@@ -40,8 +41,12 @@ router.get("/til", tilApi.get)
 	.get("/til/:tilId", tilApi.getOne)
 	.post("/til/fork", tilApi.fork);
 
-router.get("/feed", feedApi.getAllFeed);
-router.get("/feed/:uid", feedApi.getFeed);
-router.get("/feed/my/:uid", feedApi.getMyFeed);
+router.get("/feed", feedApi.getAllFeed)
+	.get("/feed/:uid", feedApi.getFeed)
+	.get("/feed/my/:uid", feedApi.getMyFeed);
+
+router.get("/search/:uid/:word", searchApi.searchBoth)
+	.get("/search/contents/:uid/:word", searchApi.searchContents)
+	.get("/search/hash/:uid/:word", searchApi.searchHash);
 
 module.exports = router;

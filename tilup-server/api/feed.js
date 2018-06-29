@@ -10,9 +10,14 @@ module.exports = {
             .exec((err, user) => {
                 if(err) return console.log(err);
                 const users = user.following;
-                users.unshift(user._id);
-                Til.find({"uid" : {"$in":users}})
+                
+                Til.find({"$or" : [{"$and" : [{"uid" : {"$in":users}}, {"isPrivate" : false}]}, {"uid" : user._id}]})
                     .sort({created : -1})
+                    .populate('directory', {
+                        _id: 0,
+                        created: 0,
+                        updated: 0
+                    })
                     .exec((err, tils)=>{
                         if(err) return console.log(err);
                         res.send(tils);
@@ -22,6 +27,11 @@ module.exports = {
     getMyFeed(req, res, next){
         Til.find({"uid" : req.params.uid})
             .sort({created : -1})
+            .populate('directory', {
+                _id: 0,
+                created: 0,
+                updated: 0
+            })
             .exec((err, tils)=>{
                 if(err) return console.log(err);
                 res.send(tils);
