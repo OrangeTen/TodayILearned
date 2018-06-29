@@ -16,3 +16,12 @@ export function initializeFirebase() {
     _initialized = true;
   }
 }
+
+export function getFirebaseCurrentUser() {
+  return firebase.auth().currentUser;
+}
+
+export function isSignedIn() {
+  console.log(`firebase.auth().currentUser=${firebase.auth().currentUser}`);
+  return firebase.auth().currentUser;
+}
