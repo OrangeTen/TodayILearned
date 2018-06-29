@@ -31,16 +31,20 @@ class MainApp extends Component {
       this.loadData();
     } else if (this.props.type === PATH.TIL) {
       this.loadOneTil(this.props.index);
-    }
+    } else if (this.props.type === PATH.SEARCH) {
+      this.loadData(this.props.data);
+    } else if (this.props.type === PATH.REPO) {
+      this.loadData(this.props.data);
+    } 
   }
 
   checkHasUserSignedIn() {
     //console.log(getUserData());
   }
 
-  loadData() {
+  loadData(query) {
     const self = this;
-    getTilList().then((response) => {
+    getTilList(query).then((response) => {
       self.setState({
         tilList: response.data
       });
@@ -62,7 +66,7 @@ class MainApp extends Component {
     const self = this;
     const params = {
       headers: {
-        authentification: userData.stsTokenManager.accessToken
+        authorization: userData.stsTokenManager.accessToken
       },
       body: {
         contents: data.contents,
@@ -96,15 +100,18 @@ class MainApp extends Component {
     if (this.props.type === PATH.SEARCH) {
       result = (
         <React.Fragment>
-          <div>검색 결과</div>
-          <div>{this.props.data}</div>
+        <div className="header-container">
+          <h1>Search / {this.props.data}</h1>
+        </div>
+          
         </React.Fragment>
       )
     } else if (this.props.type === PATH.REPO) {
       result = (
         <React.Fragment>
-          <div>REPO VIEW</div>
-          <div>index NUM : {this.props.index}</div>
+          <div className="header-container">
+            <h1>Repo / {this.props.index}</h1>
+          </div>
         </React.Fragment>
       )
     } else if (this.props.type === PATH.TIL) {
@@ -119,14 +126,15 @@ class MainApp extends Component {
         <React.Fragment>
           <TilInput submitTil={this.submitTil} />
           <SelectBox optionList={this.state.optionList} />
-          {this.renderTilList()}
+          
         </React.Fragment>
       )
     }
 
     return (
       <Container>
-      {result}
+        {result}
+        {this.renderTilList()}
       </Container>
     );
   }

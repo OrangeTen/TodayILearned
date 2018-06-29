@@ -30,7 +30,7 @@ const Root = () => {
           )}/>
 
         {/* ProfileApp */}
-        <Route exact path="/:id" render={({match}) =>
+        <Route exact path="/profile" render={({match}) =>
           (
             <ProfileApp data={1} id={match.params.id}/>
           )}/>

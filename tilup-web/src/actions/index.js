@@ -2,7 +2,7 @@ import axios from "axios";
 import {API_HOST} from "../consts/urls";
 
 
-export function getTilList() {
+export function getTilList(query) {
   let targetUrl = API_HOST + "api/feed/";
   console.log(`targetUrl=${targetUrl}`);
   return axios.get(targetUrl);
