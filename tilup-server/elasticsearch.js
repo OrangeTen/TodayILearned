@@ -30,7 +30,7 @@ exports.indexExists = () => {
 
 // Preparing index and its mapping
 exports.initMapping = () => {
-    console.log("initMapping");
+    console.log("mapping success");
     // client.indices.putMapping({
     //     index: indexName,
     //     type: docType,

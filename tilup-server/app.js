@@ -45,6 +45,8 @@ elasticsearch.ping();
 elasticsearch.indexExists().then(exist => {
   if(!exist){
     elasticsearch.initIndex().then(elasticsearch.initMapping());
+  }else{
+    console.log("already initialize")
   }
 });
 
