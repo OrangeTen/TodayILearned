@@ -7,9 +7,8 @@ const {
 module.exports = {
     getFeedWord(req, res, next){
         let word = req.params.word;
-        let wordC = '/'+word+'?/';
         Til
-        .find({"$or" : [{"contents" : wordC}, {"hash" : word}]})
+        .find({"$text":{"$search":word}})
         .sort({created : -1})
         .exec((err, tils) => {
             if (err) {
