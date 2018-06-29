@@ -8,7 +8,12 @@ export function getTilList() {
   return axios.get(targetUrl);
 }
 
-export function getUserData() {
-  return '';
-  //return axiosMock.get('/api/user/:uid');
+export function getRepoListWithUid(uid) {
+  let targetUrl = `${API_HOST}api/directory/${uid}`;
+  return axios.get(targetUrl);
+}
+
+export function getUserData(uid) {
+  let targetUrl = `${API_HOST}api/user/${uid}`;
+  return axios.get(targetUrl);
 }
