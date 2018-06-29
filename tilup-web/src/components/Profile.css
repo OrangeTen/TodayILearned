@@ -1,0 +1,25 @@
+.Profile {
+    width: 230px;
+}
+.Profile__text {
+    margin-bottom: 15px;
+}
+.Profile__img {
+    border-radius: 10px;
+    width: 230px;
+    height: 230px;
+    margin-bottom: 15px;
+    background: #eee;
+}
+.Profile__name {
+    font-size: 26px;
+    font-weight: 600;
+}
+.Profile__id {
+    font-size: 20px;
+    font-weight: 400;
+    color: #666;
+}
+.logoutBtn {
+    width: 100%;
+}
