@@ -7,6 +7,7 @@ const {
 module.exports = {
     add(req, res, next) {
         const directory = new Directory(req.body);
+        directory.uid = req.uid;
 
         directory.save(err => {
             if (err) {
@@ -26,7 +27,7 @@ module.exports = {
     },
 
     getMyDir(req, res, next){
-       Directory.find({uid:req.params.uid})
+       Directory.find({uid:req.uid})
                 .sort({created : -1})
                 .exec((err, directories)=>{
                     if(err) return console.log(err);

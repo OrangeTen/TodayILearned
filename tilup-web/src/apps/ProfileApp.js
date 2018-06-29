@@ -3,27 +3,44 @@ import NavigationBar from "../components/NavigationBar";
 import Profile from '../components/Profile';
 import './ProfileApp.css';
 import BasicLayout from "../components/BasicLayout";
-import {getUserData} from "../actions";
+import {getRepoListWithUid, getUserData} from "../actions";
 import GreenPark from "../components/GreenPark";
 import Repo from "../components/Repo";
+import {getFirebaseCurrentUser, isSignedIn} from "../utils/firebaseUtils";
 
 class ProfileApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: {
-          name: '오렌지',
-          id: 'oragne10',
-          img: '/res/octocat.svg'
-      }
+      userData: {},
+      repoList: [1,2,],
     };
   }
 
   componentDidMount() {
-    const self = this;
-    // getUserData().then((response)=>{
-    //   self.setState({userData: response.data});
-    // });
+    this.loadData();
+  }
+
+  loadData() {
+    if (isSignedIn()) {
+      let user = getFirebaseCurrentUser();
+
+      this.setState({
+        userData: user,
+      });
+
+      getRepoListWithUid(user.uid)
+        .then((response) => {
+          this.setState({
+            repoList: response.data
+          });
+        });
+    }
+  }
+
+  renderRepoList() {
+    return this.state.repoList.map((repoItem, idx) =>
+      <Repo data={repoItem} key={idx} />);
   }
 
   render() {
@@ -44,13 +61,7 @@ class ProfileApp extends Component {
                   <div className="repos__title">
                     Popular Repositories
                   </div>
-                  <Repo />
-                  <Repo />
-                  <Repo />
-                  <Repo />
-                  <Repo />
-                  <Repo />
-                  <Repo />
+                  {this.renderRepoList()}
                 </div>
                 <GreenPark />
               </div>

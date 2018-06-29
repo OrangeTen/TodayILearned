@@ -8,7 +8,8 @@ import SelectBox from "../components/SelectBox";
 import NavigationBar from "../components/NavigationBar";
 import {getTilList} from "../actions";
 import axios from 'axios';
-import firebase from 'firebase'
+import firebase from 'firebase';
+import getUserData from '../utils/getUserData';
 
 class MainApp extends Component {
   constructor(props) {
@@ -25,7 +26,12 @@ class MainApp extends Component {
   };
 
   componentDidMount() {
+    this.checkHasUserSignedIn();
     this.loadDate();
+  }
+
+  checkHasUserSignedIn() {
+    console.log(getUserData());
   }
 
   loadDate() {
