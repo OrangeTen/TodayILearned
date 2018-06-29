@@ -50,7 +50,7 @@ function getFirebaseUidWithToken(token) {
 				console.log("This is uid!  :  " + uid);
 				res(uid);
 			}).catch(error => {
-				rej(error);
+				res(null);
 			});
 	});
 }

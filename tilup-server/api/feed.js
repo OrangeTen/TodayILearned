@@ -6,7 +6,23 @@ const {
 
 module.exports = {
     getFeed(req, res, next) { // me and follower's til
-        User.findById(req.uid)
+        if(req.uid == null){    // login x
+            Til
+            .find()
+            .sort({created : -1})
+            .populate('directory', {
+                _id: 0,
+                created: 0,
+                updated: 0
+            })
+            .exec((err, tils) => {
+                if (err) {
+                    throw new BadRequestError(err);
+                }
+                res.send(tils);
+            });
+        }else{                  // login o
+            User.findById(req.uid)
             .exec((err, user) => {
                 if(err) return console.log(err);
                 
@@ -19,11 +35,13 @@ module.exports = {
                         created: 0,
                         updated: 0
                     })
+                    .sort({created : -1})
                     .exec((err, tils)=>{
                         if(err) return console.log(err);
                         res.send(tils);
                     });
-            });
+            });   
+        }
     },
     getMyFeed(req, res, next){
         Til.find({"uid" : req.uid})
@@ -33,6 +51,7 @@ module.exports = {
                 created: 0,
                 updated: 0
             })
+            .sort({created : -1})
             .exec((err, tils)=>{
                 if(err) return console.log(err);
                 res.send(tils);
@@ -46,6 +65,7 @@ module.exports = {
                 created: 0,
                 updated: 0
             })
+            .sort({created : -1})
             .exec((err, tils) => {
                 if (err) {
                     throw new BadRequestError(err);
