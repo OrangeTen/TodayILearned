@@ -10,6 +10,7 @@ import realLogo from './real_logo.png'
 import startEasterEgg from '../utils/startEasterEgg'
 import firebase from 'firebase';
 import getUserData from '../utils/getUserData';
+import {Link} from 'react-router-dom';
 
 export default class NavigationBar extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ export default class NavigationBar extends Component {
   render() {
     return (
       <AppBar position="sticky" color="default" className="navigation-bar">
-        <Toolbar>
+        <Toolbar className="container">
           {
             this.state.easterCount <= 0? 
             <img src={realLogo} className="logo" /> :
@@ -76,7 +77,7 @@ export default class NavigationBar extends Component {
           </Typography>
           {getUserData() ? (
             <div className="userName">
-              {getUserData().displayName}
+              <Link to="/profile" style={{color:"#fff"}}>{getUserData().displayName}</Link>
             </div>
           ) : (
             <Button color="inherit" onClick={this.handleLogin}>Login with GitHub</Button>
