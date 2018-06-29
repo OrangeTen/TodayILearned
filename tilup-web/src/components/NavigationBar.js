@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import {Navbar} from "react-materialize";
+import AppBar from "@material-ui/core/es/AppBar/AppBar";
+import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 
 export default class NavigationBar extends Component {
   render() {
     return (
-      <Navbar brand={
-        <div>
-          <img src="res/octocat.svg" />
-        </div>
-      } right>
-      </Navbar>
+      <AppBar position="static" color="default">
+        <Toolbar>
+          커밋각
+        </Toolbar>
+      </AppBar>
     );
   }
 }
