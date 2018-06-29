@@ -14,11 +14,12 @@ export default class TilItem extends Component {
     console.log("틸아이템", data)
     return (
       <div className="til-card">
-        <div className="avatar">
+        <div className="avatar d-sm-block d-none">
           <img src={avatarUrl} />
         </div>
         <div className="til-card__container">
           <div className="name-container">
+            <img src={avatarUrl} className="avatar-mobile d-sm-none" />
             <div className="name-container__name">jayjin</div>
             <div className="name-container__date">6월 29일</div>
           </div>
