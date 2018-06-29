@@ -7,14 +7,21 @@ const {
 module.exports = {
     add(req, res, next) {
         const user = new User(req.body);
-        if(user._id === req.uid) return console.log("user duplicated");
+        if (user._id === req.uid) return console.log("user duplicated");
         user._id = req.uid;
         user
             .save(err => {
                 if (err) {
                     throw new BadRequestError(err);
                 }
-                res.send(user);
+                const directory = new Directory({
+                    name: "Inbox",
+                    uid: user._id
+                });
+                directory.save(err => {
+                    if (err) throw new BadRequestError(err);
+                    res.send(user);
+                });
             });
     },
 

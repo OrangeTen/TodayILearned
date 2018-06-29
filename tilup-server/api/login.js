@@ -1,4 +1,6 @@
 const User = require('mongoose').model('User');
+const Directory = require('mongoose').model('Directory');
+
 const {
     NotExistError,
     BadRequestError
@@ -21,6 +23,10 @@ module.exports = {
                             if (err) {
                                 throw new BadRequestError(err);
                             }
+                            const directory = new Directory({name : "Inbox", uid : newUser._id});
+                            directory.save(err=>{
+                                if(err) throw new BadRequestError(err);
+                            });
                         });
                 }
             });
