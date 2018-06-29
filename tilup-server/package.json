@@ -6,6 +6,7 @@
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "elasticsearch": "^15.0.0",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "mongoose": "^5.1.7",

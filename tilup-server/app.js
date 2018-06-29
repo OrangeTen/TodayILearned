@@ -8,6 +8,7 @@ const routes = require("./routes/index");
 const config = require("./config");
 
 const mongoose = require("./mongoose");
+const elasticsearch = require("./elasticsearch");
 
 const app = express();
 
@@ -42,5 +43,6 @@ app.use(function (err, req, res) {
 });
 
 mongoose();
+elasticsearch.testConnection();
 
 module.exports = app;
