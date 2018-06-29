@@ -1,0 +1,45 @@
+.Repo {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 16px;
+    padding: 16px;
+    width: calc(50% - 10px);
+    display: flex;
+    flex-direction: column;
+    height: 115px;
+}
+.Repo__title {
+    font-size: 14px;
+    line-height: 20px;
+    color: #0366d6;
+}
+.Repo__desc {
+    font-size: 12px;
+    color: #586069;
+    flex: 1 0 auto;
+}
+.Repo__tag {
+    font-size: 12px;
+    color: #586069;
+}
+.Repo__dot {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 3px;
+}
+.color-1 {
+    background-color: #e34c26;
+}
+.color-2 {
+    background-color: #b07219;
+}
+.color-3 {
+    background-color: #563d7c;
+}
+.color-4 {
+    background-color: #7bc96f;
+}
