@@ -7,6 +7,8 @@ const {
 module.exports = {
     add(req, res, next) {
         const user = new User(req.body);
+        if(user._id === req.uid) return console.log("user duplicated");
+        user._id = req.uid;
         user
             .save(err => {
                 if (err) {

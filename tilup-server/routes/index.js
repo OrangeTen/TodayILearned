@@ -44,11 +44,11 @@ function getFirebaseUidWithToken(token) {
 	return new Promise((res, rej) => {
 
 		admin.auth().verifyIdToken(token)
-			.then(function (decodedToken) {
+			.then(decodedToken => {
 				var uid = decodedToken.uid;
 				console.log("This is uid!  :  " + uid);
 				res(uid);
-			}).catch(function (error) {
+			}).catch(error => {
 				rej(error);
 			});
 	});
