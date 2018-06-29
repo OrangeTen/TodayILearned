@@ -1,14 +1,17 @@
+const mongoose = require("./mongoose");
+mongoose();
+
 const express = require("express");
 const path = require("path");
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
-const routes = require("./routes/index");
+const methodOverride = require('method-override');
 const config = require("./config");
-const mongoose = require("./mongoose");
-
+const routes = require("./routes/index");
 const app = express();
+
+
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -16,14 +19,15 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+app.use(methodOverride());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(config.SERVER_PORT, () => {
   console.log("Server is running on %d port", config.SERVER_PORT);
 });
 
-app.use("/", express.static(getReactBuildPath()));
 app.use("/api", routes);
+app.use("/", express.static(getReactBuildPath()));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -40,8 +44,6 @@ app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-mongoose();
 
 function getReactBuildPath() {
   let splited = __dirname.split('/');

@@ -2,7 +2,9 @@ var express = require("express");
 var router = express.Router();
 
 const {
-	feedApi
+	feedApi,
+	tilApi,
+	directoryApi
 } = require('../api');
 
 const {
@@ -24,19 +26,18 @@ router.get("/users", apiResponse())
 	.post("/users/follow", apiResponse())
 	.delete("/users/follow", apiResponse());
 
-router.get("/directory", apiResponse())
-	.post("/directory", apiResponse())
+router.get("/directory", directoryApi.get)
+	.post("/directory", directoryApi.add)
 	.put("/directory", apiResponse())
 	.delete("/directory", apiResponse());
 
-router.get("/til", apiResponse())
-	.post("/til", apiResponse())
+router.get("/til", tilApi.get)
+	.post("/til", tilApi.add)
 	.put("/til", apiResponse())
-	.delete("/til", apiResponse());
+	.delete("/til", apiResponse())
+	.get("/til/:tilId", tilApi.getOne);
 
 // router.get("/feed", apiResponse(feedApi.gedFeed));
-router.get("/feed", (req, res) => {
-	res.send(feedApi.getFeed());
-});
+router.get("/feed", feedApi.getFeedAll);
 
 module.exports = router;
