@@ -6,7 +6,7 @@ const {
 
 module.exports = {
     searchBoth(req, res, next){
-        User.findById(req.params.uid)
+        User.findById(req.uid)
         .exec((err, user) => {
             if(err) return console.log(err);
             const users = user.following;
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     searchContents(req, res, next){
-        User.findById(req.params.uid)
+        User.findById(req.uid)
         .exec((err, user) => {
             if(err) return console.log(err);
             const users = user.following;
@@ -47,7 +47,7 @@ module.exports = {
     },
 
     searchHash(req, res, next){
-        User.findById(req.params.uid)
+        User.findById(req.uid)
         .exec((err, user) => {
             if(err) return console.log(err);
             const users = user.following;

@@ -85,8 +85,8 @@ router.get("/til", tilApi.get)
 router.get("/feed", verifyFirebase, feedApi.getFeed)
 	.get("/feed/my", verifyFirebase, feedApi.getMyFeed);
 
-router.get("/search/:uid/:word", searchApi.searchBoth)
-	.get("/search/contents/:uid/:word", searchApi.searchContents)
-	.get("/search/hash/:uid/:word", searchApi.searchHash);
+router.get("/search/:word", verifyFirebase, searchApi.searchBoth)
+	.get("/search/contents/:word", verifyFirebase, searchApi.searchContents)
+	.get("/search/hash/:word", verifyFirebase, searchApi.searchHash);
 
 module.exports = router;
