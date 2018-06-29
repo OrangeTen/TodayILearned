@@ -4,6 +4,9 @@ import {API_HOST} from "../consts/urls";
 
 export function getTilList(query) {
   let targetUrl = API_HOST + "api/feed/";
+  if(query) {
+    targetUrl = API_HOST + `api/search/${query}`;
+  } 
   console.log(`targetUrl=${targetUrl}`);
   return axios.get(targetUrl);
 }
