@@ -3,7 +3,6 @@ import * as firebase from "firebase";
 let _initialized = false;
 export function initializeFirebase() {
   if (!_initialized) {
-    console.log("firebase initialize");
     let config = {
       apiKey: "AIzaSyAiZt3uJqSbvTphwgOdllefmKy2Qfs0ZiA",
       authDomain: "tilu-1c341.firebaseapp.com",

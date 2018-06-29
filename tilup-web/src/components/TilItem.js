@@ -11,7 +11,6 @@ export default class TilItem extends Component {
   render() {
     const {data} = this.props;
     const avatarUrl = "https://vignette.wikia.nocookie.net/edukayfun/images/0/0b/Soo_soo_ANOYING%21%21%21%21%21%21%21%21%21%21%21%21%21%21.png/revision/latest?cb=20171206164413"
-    console.log("틸아이템", data)
     return (
       <div className="til-card">
         <div className="avatar d-sm-block d-none">

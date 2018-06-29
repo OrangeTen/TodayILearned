@@ -7,10 +7,13 @@ import TilInput from "../components/TilInput";
 import SelectBox from "../components/SelectBox";
 import NavigationBar from "../components/NavigationBar";
 import {getTilList} from "../actions";
+import axios from 'axios';
+import firebase from 'firebase'
 
 class MainApp extends Component {
   constructor(props) {
     super(props);
+    this.submitTil = this.submitTil.bind(this);
     this.state = {
       tilList: [],
       optionList: [
@@ -34,8 +37,25 @@ class MainApp extends Component {
     });
   }
 
+  submitTil(data) {
+    console.log("Current User >> ",firebase.auth().currentUser);
+    axios
+      .post('/api/til', {
+        headers: {
+          token: ''
+        },
+        params: {
+          contents: data.contents,
+          hash: data.tag,
+          directory: data.repo,
+          isPrivate: data.isPrivate
+        }
+      }).then(res => {
+      console.log("SubmitTil Result >> ", res);
+    });
+  }
+
   renderTilList() {
-    console.log(this.state.tilList);
     return (
       <div>
         {
@@ -48,7 +68,6 @@ class MainApp extends Component {
 
   render() {
     let result = '';
-    console.log(this.state.tilList);
     if (this.props.type === PATH.SEARCH) {
       result = (
         <React.Fragment>
@@ -75,7 +94,7 @@ class MainApp extends Component {
     return (
       <Container>
       {result}
-      <TilInput />
+      <TilInput submitTil={this.submitTil} />
       <SelectBox optionList={this.state.optionList}/>
       {this.renderTilList()}
       </Container>
