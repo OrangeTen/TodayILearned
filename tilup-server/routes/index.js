@@ -5,7 +5,8 @@ const {
 	userApi,
 	feedApi,
 	tilApi,
-	directoryApi
+	directoryApi,
+	meApi
 } = require('../api');
 
 const {
@@ -19,9 +20,7 @@ router.get("/", (req, res) => {
 
 router.get("/login", apiResponse());
 
-router.get("/me", apiResponse())
-	.put("/me", apiResponse())
-	.delete("/me", apiResponse());
+router.get("/me", meApi.get);
 
 router.get("/users", userApi.get)
 	.post("/users", userApi.add)
