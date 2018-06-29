@@ -20,9 +20,20 @@ module.exports = {
                 });
     },
     get(req, res, next) {
-        Til.find((err,tils) => {
-            if(err) console.log(err);
-            res.json(tils);
-          });
+        Til.find()
+            .populate('directory', {_id:0, created:0, updated:0})
+            .exec((err, tils)=>{
+                if(err) console.log(err);
+                res.json(tils);
+            });
+    },
+    getOne(req, res, next) {
+        Til.findById(req.params.tilId)
+            .populate('directory', {_id:0, created:0, updated:0})
+            .exec((err, til)=>{
+                if(err) return console.log(err);
+                if(!til) return console.log("no til");
+                res.json(til);
+            });
     }
 };

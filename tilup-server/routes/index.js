@@ -34,11 +34,10 @@ router.get("/directory", directoryApi.get)
 router.get("/til", tilApi.get)
 	.post("/til", tilApi.add)
 	.put("/til", apiResponse())
-	.delete("/til", apiResponse());
+	.delete("/til", apiResponse())
+	.get("/til/:tilId", tilApi.getOne);
 
 // router.get("/feed", apiResponse(feedApi.gedFeed));
-router.get("/feed", (req, res) => {
-	res.send(feedApi.getFeed());
-});
+router.get("/feed", feedApi.getFeedAll);
 
 module.exports = router;
