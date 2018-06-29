@@ -7,3 +7,8 @@ export function getTilList() {
   console.log(`targetUrl=${targetUrl}`);
   return axios.get(targetUrl);
 }
+
+export function getUserData() {
+  return '';
+  //return axiosMock.get('/api/user/:uid');
+}
