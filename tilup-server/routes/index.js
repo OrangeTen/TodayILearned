@@ -39,6 +39,6 @@ router.get("/til", tilApi.get)
 	.delete("/til", apiResponse())
 	.get("/til/:tilId", tilApi.getOne);
 
-router.get("/feed", feedApi.getFeedAll);
+router.get("/feed", feedApi.getAllFeed);
 
 module.exports = router;
