@@ -45,11 +45,11 @@ function getFirebaseUidWithToken(token) {
 	return new Promise((res, rej) => {
 
 		admin.auth().verifyIdToken(token)
-			.then(function (decodedToken) {
+			.then(decodedToken => {
 				var uid = decodedToken.uid;
 				console.log("This is uid!  :  " + uid);
 				res(uid);
-			}).catch(function (error) {
+			}).catch(error => {
 				rej(error);
 			});
 	});
@@ -69,21 +69,16 @@ router.get("/login", verifyFirebase, (req, res, next) => {
 
 router.get("/me", meApi.get);
 
-router.get("/users", userApi.get)
-	.post("/users", userApi.add)
-	.get("/users/:userId", userApi.getOne)
-	.put("/users/follow", userApi.updateFollow)
+router.get("/users", verifyFirebase, userApi.getOne)
+	.post("/users", verifyFirebase, userApi.add)
+	.put("/users/follow", verifyFirebase, userApi.updateFollow);
 
-router.get("/directory", directoryApi.get)
-	.get("/directory/:uid", directoryApi.getMyDir)
-	.post("/directory", directoryApi.add)
-	.put("/directory", apiResponse())
-	.delete("/directory", apiResponse());
+router.get("/directory", verifyFirebase, directoryApi.getMyDir)
+	.post("/directory", verifyFirebase, directoryApi.add);
 
 router.get("/til", tilApi.get)
 	.post("/til", tilApi.add)
 	.put("/til/directory/:tilId", tilApi.changeDir)
-	.delete("/til", apiResponse())
 	.get("/til/:tilId", tilApi.getOne)
 	.post("/til/fork", tilApi.fork);
 

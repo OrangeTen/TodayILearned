@@ -1,4 +1,8 @@
 .idea
 node_modules
 .DS_Store
+<<<<<<< HEAD
 firebase_secret.json
+=======
+firebase_secret.json
+>>>>>>> 0787a7a6bc2b396e0ecdd57a460e1875cde9a339
