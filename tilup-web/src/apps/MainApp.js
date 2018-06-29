@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './MainApp.css';
+import Container from './Container';
 import { PATH } from '../consts/consts';
 import TilItem from "../components/TilItem";
 import TilInput from "../components/TilInput";
@@ -60,12 +61,11 @@ class MainApp extends Component {
     }
 
     return (
-      <div className="MainApp">
-        <NavigationBar />
+      <Container>
         {result}
         <TilInput />
         {this.renderTilList()}
-      </div>
+      </Container>
     );
   }
 }

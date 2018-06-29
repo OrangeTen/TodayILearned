@@ -1,0 +1,71 @@
+:root {
+    --link-color: #34a3e8;
+}
+
+.til-card {
+    display: flex;   
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 60px;
+}
+.avatar img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.til-card__container {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.name-container {
+    margin-bottom: 6px;
+    margin-left: 3px;
+    font-size: 14px;
+}
+.name-container__name {
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 5px;
+}
+.name-container__date {
+    display: inline-block;
+    font-weight: lighter;
+    color: #8e8e8e;
+}
+
+.til-card__box {
+    background: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.til-card__footer {
+    border-top: 1px solid #e6e6e6;
+    display: flex;
+    padding-top: 5px;
+    margin-bottom: -10px;
+    font-size: 14px;
+    color: #b7b7b7;
+}
+.til-card__footer .material-icons {
+    font-size: 21px;
+}
+
+.til__forked {
+    margin-left: auto;
+}
+.til__forked .material-icons {
+    vertical-align: bottom;
+}
+
+.tag-container {
+    font-size: 14px;
+    color: var(--link-color);
+    margin: 12px 0;
+}
+.tag-container span {
+}

@@ -1,0 +1,9 @@
+body {
+    background-color: rgb(249, 249, 249);
+    color: #212121;
+}
+.app-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 10px;
+}

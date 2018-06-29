@@ -32,9 +32,13 @@ let axiosMock = {
   {
     _ID: 1,
     user: {
-      name: "오렌지",
+      name: "jayjin",
     },
-    contents: "안녕하세오 오렌지에오",
+    contents: `
+    # rm -rf
+    최상위 폴더와 그 하위 파일들을 모두 삭제하는 명령어다. 실수로 하면 망한다.
+    오픈핵 2018 뱃지 컬렉션에 있다.
+    `,
     hash: [
       "Java",
       "Android",
