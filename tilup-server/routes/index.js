@@ -93,4 +93,6 @@ router.get("/search/:word", verifyFirebase, searchApi.searchBoth)
 	.get("/search/contents/:word", verifyFirebase, searchApi.searchContents)
 	.get("/search/hash/:word", verifyFirebase, searchApi.searchHash);
 
+router.get("/admin/users", userApi.get);
+
 module.exports = router;
