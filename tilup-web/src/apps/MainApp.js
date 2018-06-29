@@ -44,11 +44,12 @@ class MainApp extends Component {
   }
 
   submitTil(data) {
-    console.log("Current User >> ",firebase.auth().currentUser);
+    console.log("Current User >> ", getUserData(), data);
+    const userData = getUserData();
     axios
-      .post('/api/til', {
+      .post('/api/til/', {
         headers: {
-          token: ''
+          token: userData.stsTokenManager.accessToken
         },
         params: {
           contents: data.contents,

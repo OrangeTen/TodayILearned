@@ -31,15 +31,6 @@ export default class NavigationBar extends Component {
       var token = result.credential.accessToken;
       var user = result.user;
       console.log("로긴됨", user, token)
-
-      firebase.auth().currentUser.getIdToken(false).then(function(idToken) {
-        console.log(`idtoken = [${idToken}]`);
-        // Send token to your backend via HTTPS
-        // ...
-      }).catch(function(error) {
-        // Handle error
-      });
-
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
