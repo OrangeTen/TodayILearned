@@ -22,7 +22,6 @@ module.exports = {
                                 throw new BadRequestError(err);
                             }
                         });
-                        // uid, email, displayName, photoURL
                 }
             });
 
