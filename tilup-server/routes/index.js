@@ -76,18 +76,16 @@ router.get("/users", verifyFirebase, userApi.getOne)
 router.get("/directory", verifyFirebase, directoryApi.getMyDir)
 	.post("/directory", verifyFirebase, directoryApi.add);
 
-router.get("/til", tilApi.get)
-	.post("/til", tilApi.add)
-	.put("/til/directory/:tilId", tilApi.changeDir)
-	.get("/til/:tilId", tilApi.getOne)
-	.post("/til/fork", tilApi.fork);
+router.get("/til/:tilId", tilApi.getOne)
+	.post("/til", verifyFirebase, tilApi.add)
+	.post("/til/fork", verifyFirebase, tilApi.fork)
+	.put("/til/directory/:tilId", tilApi.changeDir);		// 연동 test 필요
 
-router.get("/feed", feedApi.getAllFeed)
-	.get("/feed/:uid", feedApi.getFeed)
-	.get("/feed/my/:uid", feedApi.getMyFeed);
+router.get("/feed", verifyFirebase, feedApi.getFeed)
+	.get("/feed/my", verifyFirebase, feedApi.getMyFeed);
 
-router.get("/search/:uid/:word", searchApi.searchBoth)
-	.get("/search/contents/:uid/:word", searchApi.searchContents)
-	.get("/search/hash/:uid/:word", searchApi.searchHash);
+router.get("/search/:word", verifyFirebase, searchApi.searchBoth)
+	.get("/search/contents/:word", verifyFirebase, searchApi.searchContents)
+	.get("/search/hash/:word", verifyFirebase, searchApi.searchHash);
 
 module.exports = router;

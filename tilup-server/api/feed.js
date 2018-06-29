@@ -6,9 +6,10 @@ const {
 
 module.exports = {
     getFeed(req, res, next) { // me and follower's til
-        User.findById(req.params.uid)
+        User.findById(req.uid)
             .exec((err, user) => {
                 if(err) return console.log(err);
+                
                 const users = user.following;
                 
                 Til.find({"$or" : [{"$and" : [{"uid" : {"$in":users}}, {"isPrivate" : false}]}, {"uid" : user._id}]})
@@ -25,7 +26,7 @@ module.exports = {
             });
     },
     getMyFeed(req, res, next){
-        Til.find({"uid" : req.params.uid})
+        Til.find({"uid" : req.uid})
             .sort({created : -1})
             .populate('directory', {
                 _id: 0,
