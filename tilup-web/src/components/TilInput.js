@@ -22,9 +22,16 @@ export default class TilInput extends Component {
 
 
   render() {
+    const returnData = {
+      contents: this.state.tilValue,
+      tag: ['Javascript'],
+      repo: 'Inbox',
+      isPrivate: false
+    };
+
     return (
       <div className="til-card til-input__container">
-        <div className="avatar">
+        <div className="avatar d-sm-block d-none">
           <img src="https://vignette.wikia.nocookie.net/edukayfun/images/0/0b/Soo_soo_ANOYING%21%21%21%21%21%21%21%21%21%21%21%21%21%21.png/revision/latest?cb=20171206164413" />
         </div>
         <div className="til-card__container">
@@ -42,7 +49,7 @@ export default class TilInput extends Component {
               <SelectBox optionList={this.state.optionList}/>
               <div className="right">
                 <FormControlLabel control={<Checkbox value="isSecret" />} label="나만 보기" />
-                <Button variant="outlined">TIL 게시</Button>
+                <Button variant="outlined" onClick={this.props.submitTil(returnData)}>TIL 게시</Button>
               </div>
             </div>
           </div>

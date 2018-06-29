@@ -8,12 +8,15 @@ const {
 module.exports = {
     add(req, res, next) {
         const til = new Til(req.body);
+        til.uid = req.uid;
+
         if (!req.body.directory)
             req.body.directory = "Inbox"; // default
 
         Directory
             .findOne({
-                name: req.body.directory
+                name: req.body.directory,
+                uid: til.uid
             })
             .exec((err, directory) => {
                 if (err) {
@@ -61,7 +64,43 @@ module.exports = {
                 } else if (!til) {
                     throw new NotExistError("No TIL");
                 }
-                res.json(til);
+                res.send(til);
+            });
+    },
+
+    fork(req, res, next) {
+        Til.findById(req.body.tilId)
+            .exec((err, til) => {
+                if (err) throw new BadRequestError(err);
+                if (!til) throw new NotExistError("No TIL");
+                const newTil = new Til({
+                    contents: til.contents,
+                    hash: til.hash,
+                    forkRef: til._id
+                });
+                newTil.uid = req.uid;
+                newTil.save(err => {
+                    if (err) return console.log(err);
+                    res.send(newTil);
+                });
+            });
+    },
+
+    changeDir(req, res, next) {
+        Til.findById(req.params.tilId)
+            .exec((err, til) => {
+                if (err) return console.log(err);
+                Directory.findOne({
+                        name: req.body.name
+                    })
+                    .exec((err, directory) => {
+                        if (err) return console.log(err);
+                        til.directory = directory._id;
+                        til.save(err => {
+                            if (err) return console.log(err);
+                            res.send(til);
+                        });
+                    });
             });
     }
 };
