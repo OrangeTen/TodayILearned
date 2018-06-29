@@ -1,5 +1,6 @@
 .Profile {
     width: 230px;
+    margin: auto;
 }
 .Profile__text {
     margin-bottom: 15px;
