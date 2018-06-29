@@ -4,6 +4,10 @@ const DirectorySchema = new Schema({
     name: {
         type: String
     },
+    uid: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     created: {
         type: Date,
         default: Date.now

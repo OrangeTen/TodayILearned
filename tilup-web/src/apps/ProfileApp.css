@@ -1,0 +1,23 @@
+.body {
+    display: flex;
+    margin: 0 50px;
+    max-width: 1000px;
+}
+.profile {
+    flex: 0 0 auto;
+    padding-right: 20px;
+}
+.contents {
+    flex: 1 1 auto;
+}
+.repos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.repos__title {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
