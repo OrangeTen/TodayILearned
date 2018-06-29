@@ -26,7 +26,7 @@ app.listen(config.SERVER_PORT, () => {
   console.log("Server is running on %d port", config.SERVER_PORT);
 });
 
-app.use("/", routes);
+app.use("/api", routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
