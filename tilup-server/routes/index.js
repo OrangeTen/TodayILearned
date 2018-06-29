@@ -2,6 +2,10 @@ var express = require("express");
 var router = express.Router();
 
 const {
+	feedApi
+} = require('../api');
+
+const {
 	apiResponse
 } = require('../http');
 
@@ -30,6 +34,9 @@ router.get("/til", apiResponse())
 	.put("/til", apiResponse())
 	.delete("/til", apiResponse());
 
-router.get("/feed", apiResponse());
+// router.get("/feed", apiResponse(feedApi.gedFeed));
+router.get("/feed", (req, res) => {
+	res.send(feedApi.getFeed());
+});
 
 module.exports = router;
