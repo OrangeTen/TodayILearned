@@ -43,7 +43,7 @@ app.use(function (err, req, res) {
 
 elasticsearch.ping();
 elasticsearch.indexExists().then(exist => {
-  if(!exist){
+  if (!exist) {
     elasticsearch.initIndex().then(elasticsearch.initMapping());
   }
 });
