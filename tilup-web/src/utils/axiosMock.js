@@ -33,6 +33,7 @@ let axiosMock = {
     _ID: 1,
     user: {
       name: "jayjin",
+      avatar: "https://vignette.wikia.nocookie.net/edukayfun/images/0/0b/Soo_soo_ANOYING%21%21%21%21%21%21%21%21%21%21%21%21%21%21.png/revision/latest?cb=20171206164413"
     },
     contents: `# rm -rf
 최상위 폴더와 그 하위 파일들을 모두 삭제하는 명령어다. 실수로 하면 망한다.
@@ -52,9 +53,10 @@ let axiosMock = {
   {
     _ID: 2,
     user: {
-      name: "오렌지",
+      name: "애플",
+      avatar: "https://vignette.wikia.nocookie.net/annoyingorange/images/e/e7/Apple_%28Season_5%29.PNG/revision/latest?cb=20140706161012"
     },
-    contents: `안녕히계세오 오렌지에오
+    contents: `안녕히계세오 애플이에오
 - 이것은
 - 리스트
 - 랍니다`,

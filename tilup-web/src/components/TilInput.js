@@ -3,12 +3,20 @@ import Button from "@material-ui/core/es/Button/Button";
 import TextField from "@material-ui/core/es/TextField/TextField";
 import SimpleMDE from "react-simplemde-editor";
 import "simplemde/dist/simplemde.min.css";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import SelectBox from "../components/SelectBox";
 
 export default class TilInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tilValue: "",
+      tilValue: "Today I Learned...",
+      optionList: [
+        { text: "Inbox" },
+        { text: "JavaScript" },
+        { text: "Interview Questions" },
+      ]
     };
   }
 
@@ -23,6 +31,7 @@ export default class TilInput extends Component {
           <div className="til-card__box">
             <div className="til-card__contents">
               <SimpleMDE
+                placeholder="test"
                 value={this.state.tilValue}
                 options={{ spellChecker: false }} />
             </div>
@@ -30,7 +39,11 @@ export default class TilInput extends Component {
               <span>#Bash</span>
             </div>
             <div className="til-card__footer">
-              
+              <SelectBox optionList={this.state.optionList}/>
+              <div className="right">
+                <FormControlLabel control={<Checkbox value="isSecret" />} label="나만 보기" />
+                <Button variant="outlined">TIL 게시</Button>
+              </div>
             </div>
           </div>
         </div>

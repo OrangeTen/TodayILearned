@@ -14,3 +14,7 @@ body {
 .til-markdown-container p:first-of-type {
     margin-top: 0;
 }
+
+.right {
+    margin-left: auto;
+}

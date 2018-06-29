@@ -50,6 +50,7 @@
     margin-bottom: -10px;
     font-size: 14px;
     color: #b7b7b7;
+    align-items: center;
 }
 .til-card__footer .material-icons {
     font-size: 21px;

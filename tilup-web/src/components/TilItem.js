@@ -13,7 +13,7 @@ export default class TilItem extends Component {
     return (
       <div className="til-card">
         <div className="avatar">
-          <img src="https://vignette.wikia.nocookie.net/edukayfun/images/0/0b/Soo_soo_ANOYING%21%21%21%21%21%21%21%21%21%21%21%21%21%21.png/revision/latest?cb=20171206164413" />
+          <img src={data.user.avatar} />
         </div>
         <div className="til-card__container">
           <div className="name-container">
