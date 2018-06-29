@@ -2,7 +2,10 @@
   "name": "orange10-server",
   "version": "0.0.0",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "rinstall": "cd ../tilup-web && npm install",
+    "rbuild": "cd ../tilup-web && npm run build"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import AppBar from "@material-ui/core/es/AppBar/AppBar";
-import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
 
 export default class NavigationBar extends Component {
   render() {
