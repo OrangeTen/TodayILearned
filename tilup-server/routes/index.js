@@ -1,5 +1,11 @@
 var express = require("express");
 var router = express.Router();
+var admin = require('firebase-admin');
+var serviceAccount = require('../firebase_secret.json');
+
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount)
+});
 
 const {
 	userApi,
@@ -18,7 +24,47 @@ router.get("/", (req, res) => {
 	return res.send("Hello world");
 });
 
-router.get("/login", apiResponse());
+function verifyFirebase(req, res, next) {
+	const token = req.headers.authorization;
+
+	getFirebaseUidWithToken(token)
+		.then((uid) => {
+			req.uid = uid;
+		})
+		.catch((err) => {
+			res.status(404).send(err);
+		})
+		.then(() => {
+			next();
+		});
+}
+
+function getFirebaseUidWithToken(token) {
+	return new Promise((res, rej) => {
+
+		admin.auth().verifyIdToken(token)
+			.then(function (decodedToken) {
+				var uid = decodedToken.uid;
+				console.log("This is uid!  :  " + uid);
+				res(uid);
+			}).catch(function (error) {
+				rej(error);
+			});
+	});
+}
+
+
+router.get("/login", verifyFirebase, (req, res, next) => {
+	admin.auth().getUser(req.uid)
+		.then(function (userRecord) {
+			// See the UserRecord reference doc for the contents of userRecord.
+			// uid, email, displayName, photoURL
+			console.log("Successfully fetched user data:", userRecord.toJSON());
+		})
+		.catch(function (error) {
+			console.log("Error fetching user data:", error);
+		});
+});
 
 router.get("/me", meApi.get);
 
