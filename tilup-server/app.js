@@ -22,7 +22,8 @@ app.listen(config.SERVER_PORT, () => {
   console.log("Server is running on %d port", config.SERVER_PORT);
 });
 
-app.use("/", routes);
+app.use("/", express.static(getReactBuildPath()));
+app.use("/api", routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -41,5 +42,12 @@ app.use(function (err, req, res) {
 });
 
 mongoose();
+
+function getReactBuildPath() {
+  let splited = __dirname.split('/');
+  splited.pop();
+  let reactPath = splited.join('/') + '/tilup-web/build';
+  return reactPath;
+}
 
 module.exports = app;
