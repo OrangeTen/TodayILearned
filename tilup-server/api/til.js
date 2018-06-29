@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Til = require('mongoose').model('Til');
 const Directory = require('mongoose').model('Directory');
 const {
@@ -61,7 +62,21 @@ module.exports = {
                 } else if (!til) {
                     throw new NotExistError("No TIL");
                 }
-                res.json(til);
+                res.send(til);
+            });
+    },
+
+    fork(req, res, next) {
+        Til.findById(req.body.tilId)
+            .exec((err, til)=>{
+                if(err) throw new BadRequestError(err);
+                if(!til) throw new NotExistError("No TIL");
+                const newTil = new Til({contents:til.contents, hash:til.hash, forkRef:til._id});
+                newTil.uid = req.body.uid;
+                newTil.save(err=>{
+                    if(err) return console.log(err);
+                    res.send(newTil);
+                });
             });
     }
 };

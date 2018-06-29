@@ -36,7 +36,8 @@ router.get("/til", tilApi.get)
 	.post("/til", tilApi.add)
 	.put("/til", apiResponse())
 	.delete("/til", apiResponse())
-	.get("/til/:tilId", tilApi.getOne);
+	.get("/til/:tilId", tilApi.getOne)
+	.post("/til/fork", tilApi.fork);
 
 router.get("/feed", feedApi.getAllFeed);
 router.get("/feed/:uid", feedApi.getFeed);
