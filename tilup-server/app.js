@@ -41,6 +41,11 @@ app.use(function (err, req, res) {
   res.render("error");
 });
 
-elasticsearch.testConnection();
+elasticsearch.ping();
+elasticsearch.indexExists().then(exist => {
+  if(!exist){
+    elasticsearch.initIndex().then(elasticsearch.initMapping());
+  }
+});
 
 module.exports = app;
