@@ -10,6 +10,10 @@ import realLogo from './real_logo.png'
 import startEasterEgg from '../utils/startEasterEgg'
 import firebase from 'firebase';
 import getUserData from '../utils/getUserData';
+import TextField from '@material-ui/core/TextField';
+import Icon from '@material-ui/core/Icon';
+// import { Link } from 'react-router'
+import { Link } from 'react-router-dom';
 
 export default class NavigationBar extends Component {
   constructor(props) {
@@ -20,7 +24,8 @@ export default class NavigationBar extends Component {
         { text: "Inbox" },
         { text: "JavaScript" },
         { text: "Interview Questions" },
-      ]
+      ],
+      query: ""
     };
     
   }
@@ -53,6 +58,14 @@ export default class NavigationBar extends Component {
     }
   }
 
+  handleSubmit = (event) => {
+    console.log("키코", event, event.keyCode)
+    if (event.keyCode === 13) {
+      console.log(this.state.query);
+      window.location.assign(`/search/${this.state.query}`);
+    }
+  }
+
   render() {
     const userData = getUserData();
     return (
@@ -68,10 +81,17 @@ export default class NavigationBar extends Component {
               ) : (
                 <React.Fragment>
                   <img src={logo} className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/> 
-                  <Typography variant="title" color="inherit" className="navigation-bar__title">TILUP</Typography>  
+                  <Link to="/" style={{color: "white", textDecoration: "none"}}><Typography variant="title" color="inherit" className="navigation-bar__title">TILUP</Typography>  </Link>
                 </React.Fragment>
               ) 
           }
+          <div className="search-container">
+            <Icon>search</Icon>
+            <input placeholder="Drop the query!" onKeyUp={this.handleSubmit} onChange={(query) => this.setState({query: query.target.value})} />
+          </div>
+          <div className="padding"></div>
+          
+
           {userData ? (
             <React.Fragment>
               <img src={userData.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px"}} />
