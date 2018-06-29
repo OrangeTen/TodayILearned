@@ -1,0 +1,36 @@
+{
+    "index" : {
+        
+    },
+    "users": {
+        "properties" : {
+            "token" : {"type" : "text"},
+            "email" : {"type" : "text"},
+            "name" : {"type" : "text"},
+            "profileUrl" : {"type" : "text"},
+            "follower" : {"type" : "text"},
+            "following" : {"type" : "text"},
+            "created" : {"type" : "text"},
+            "updated" : {"type" : "text"}
+        }
+    },
+    "tils": {
+        "properties" : {
+            "uid" : {"type" : "text"},
+            "contents" : {"type" : "text"},
+            "hash" : {"type" : "text"},
+            "directory" : {"type" : "text"},
+            "forkRef" : {"type" : "text"},
+            "created" : {"type" : "text"},
+            "updated" : {"type" : "text"}
+        }
+    },
+    "directories": {
+        "properties" : {
+            "token" : {"type" : "text"},
+            "name" : {"type" : "text"},
+            "created" : {"type" : "text"},
+            "updated" : {"type" : "text"}
+        }
+    }
+}
