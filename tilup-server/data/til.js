@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const TilSchema = new Schema({
-    _id: {
-        type: Schema.Types.ObjectId
-    },
     uid: {
         type: String
     },
@@ -24,7 +21,7 @@ const TilSchema = new Schema({
     },
     isPrivate: {
         type: Boolean,
-        default: true
+        default: false
     },
     created: {
         type: Date,

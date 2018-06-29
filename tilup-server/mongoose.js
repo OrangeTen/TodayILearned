@@ -10,9 +10,9 @@ module.exports = () => {
         console.log("mongodb connected");
     });
 
-    require('./data/index').User;
-    require('./data/index').Til;
-    require('./data/index').Directory;
+    require('./data/user');
+    require('./data/til');
+    require('./data/directory');
 
     return db;
 }
