@@ -69,3 +69,26 @@
 }
 .tag-container span {
 }
+
+/* TIL INPUT */
+.til-input__container {
+    margin-top: 15px;
+
+}
+.til-input__container .til-card__contents {
+    margin-top: -10px;
+}
+
+.editor-toolbar {
+    border: none !important;
+    border-bottom: 1px solid #bbb !important;
+    font-size: 14px !important;
+    padding: 0 !important;
+}
+.CodeMirror {
+    border: none !important;
+    min-height: 80px !important;
+}
+.CodeMirror-scroll {
+    min-height: 80px !important;
+}

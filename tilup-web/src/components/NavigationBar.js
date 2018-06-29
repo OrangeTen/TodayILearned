@@ -33,7 +33,7 @@ export default class NavigationBar extends Component {
       <AppBar position="sticky" color="default" className="navigation-bar">
         <Toolbar>
           <Typography variant="title" color="inherit" className="navigation-bar__title">
-          TILUP
+          TILUP 🍊
           </Typography>
           <Button color="inherit" onClick={this.handleLogin}>Login with GitHub</Button>
         </Toolbar>

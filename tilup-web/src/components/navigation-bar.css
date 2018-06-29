@@ -1,7 +1,7 @@
 .navigation-bar {
     flex-grow: 1;
-    color: rgb(255, 255, 255);
-    background-color: #2f2f2f;
+    color: rgb(255, 255, 255) !important;
+    background-color: #2f2f2f !important;
 }
 
 .navigation-bar__title {
