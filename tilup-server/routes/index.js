@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 const {
+	userApi,
 	feedApi,
 	tilApi,
 	directoryApi
@@ -22,7 +23,9 @@ router.get("/me", apiResponse())
 	.put("/me", apiResponse())
 	.delete("/me", apiResponse());
 
-router.get("/users", apiResponse())
+router.get("/users", userApi.get)
+	.post("/users", userApi.add)
+	.get("/users/:userId", userApi.getOne)
 	.post("/users/follow", apiResponse())
 	.delete("/users/follow", apiResponse());
 
