@@ -13,7 +13,8 @@ const {
 	tilApi,
 	directoryApi,
 	meApi,
-	searchApi
+	searchApi,
+	loginApi
 } = require('../api');
 
 const {
@@ -57,10 +58,9 @@ function getFirebaseUidWithToken(token) {
 
 router.get("/login", verifyFirebase, (req, res, next) => {
 	admin.auth().getUser(req.uid)
-		.then(function (userRecord) {
-			// See the UserRecord reference doc for the contents of userRecord.
-			// uid, email, displayName, photoURL
-			console.log("Successfully fetched user data:", userRecord.toJSON());
+		.then((userRecord) => {
+			req.userRecord = userRecord;
+			loginApi.login(req, res, next);
 		})
 		.catch(function (error) {
 			console.log("Error fetching user data:", error);

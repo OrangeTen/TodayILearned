@@ -33,7 +33,7 @@ module.exports = {
             .exec((err, user) => {
                 if (err) {
                     throw new BadRequestError(err);
-                } else if (!directory) {
+                } else if (!user) {
                     throw new NotExistError("No user");
                 }
 
