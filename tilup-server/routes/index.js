@@ -28,6 +28,11 @@ router.get("/", (req, res) => {
 
 function verifyFirebase(req, res, next) {
 	const token = req.headers.authorization;
+	
+	if(typeof token == "undefined"){
+		req.uid = null;
+		return next();
+	}
 
 	getFirebaseUidWithToken(token)
 		.then((uid) => {
