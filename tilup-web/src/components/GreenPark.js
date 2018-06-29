@@ -43,26 +43,28 @@ class GreenPark extends Component {
     return (
       <div>
         <div className="greenPark__title">{this.props.num} activities in recent</div>
-        <div className="greenPark__wrapper">
-          <div className="greenPark">
-            <div className="legend">
-              <div className="legend-cell"/>
-              <div className="legend-cell">Mon</div>
-              <div className="legend-cell" />
-              <div className="legend-cell">Wed</div>
-              <div className="legend-cell" />
-              <div className="legend-cell">Fri</div>
-              <div className="legend-cell" />
+        <div className="greenPark__div">
+          <div className="greenPark__wrapper">
+            <div className="greenPark">
+              <div className="legend">
+                <div className="legend-cell"/>
+                <div className="legend-cell">Mon</div>
+                <div className="legend-cell" />
+                <div className="legend-cell">Wed</div>
+                <div className="legend-cell" />
+                <div className="legend-cell">Fri</div>
+                <div className="legend-cell" />
+              </div>
+              {greenPark}
             </div>
-            {greenPark}
-          </div>
-          <div className="legend-bottom">
-            <div className="legend-bottom-text">
-              Less
-            </div>
-            {legendBottom}
-            <div className="legend-bottom-text">
-              More
+            <div className="legend-bottom">
+              <div className="legend-bottom-text">
+                Less
+              </div>
+              {legendBottom}
+              <div className="legend-bottom-text">
+                More
+              </div>
             </div>
           </div>
         </div>
