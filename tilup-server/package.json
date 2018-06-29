@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {},
   "dependencies": {
+    "bluebird": "^3.5.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "elasticsearch": "^15.0.0",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0"

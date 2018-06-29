@@ -7,6 +7,8 @@ const logger = require("morgan");
 const routes = require("./routes/index");
 const config = require("./config");
 
+const elasticsearch = require("./elasticsearch");
+
 const app = express();
 
 app.use(logger("dev"));
@@ -37,6 +39,15 @@ app.use(function (err, req, res) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+});
+
+elasticsearch.ping();
+elasticsearch.indexExists().then(exist => {
+  if(!exist){
+    elasticsearch.initIndex().then(elasticsearch.initMapping());
+  }else{
+    console.log("already initialize")
+  }
 });
 
 module.exports = app;
