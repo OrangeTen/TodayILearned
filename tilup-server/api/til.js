@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Til = require('mongoose').model('Til');
 const Directory = require('mongoose').model('Directory');
 const {
@@ -77,6 +76,22 @@ module.exports = {
                     if(err) return console.log(err);
                     res.send(newTil);
                 });
+            });
+    },
+
+    changeDir(req, res, next){
+        Til.findById(req.params.tilId)
+            .exec((err, til)=>{
+                if(err) return console.log(err);
+                Directory.findOne({name : req.body.name})
+                    .exec((err, directory)=>{
+                        if(err) return console.log(err);
+                        til.directory = directory._id;
+                        til.save(err=>{
+                            if(err) return console.log(err);
+                            res.send(til);
+                        });
+                    });
             });
     }
 };

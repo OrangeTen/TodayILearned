@@ -29,13 +29,14 @@ router.get("/users", userApi.get)
 	.put("/users/follow", userApi.updateFollow)
 
 router.get("/directory", directoryApi.get)
+	.get("/directory/:uid", directoryApi.getMyDir)
 	.post("/directory", directoryApi.add)
 	.put("/directory", apiResponse())
 	.delete("/directory", apiResponse());
 
 router.get("/til", tilApi.get)
 	.post("/til", tilApi.add)
-	.put("/til", apiResponse())
+	.put("/til/directory/:tilId", tilApi.changeDir)
 	.delete("/til", apiResponse())
 	.get("/til/:tilId", tilApi.getOne)
 	.post("/til/fork", tilApi.fork);
