@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "rinstall": "cd ../tilup-web && npm install",
-    "rbuild": "cd ../tilup-web && npm run build"
+    "rbuild": "cd ../tilup-web && npm run build",
+    "production": "npm run rbuild && pm2 restart app"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
