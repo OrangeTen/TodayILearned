@@ -2,8 +2,11 @@ import axios from "axios";
 import {API_HOST} from "../consts/urls";
 
 
-export function getTilList() {
+export function getTilList(query) {
   let targetUrl = API_HOST + "api/feed/";
+  if(query) {
+    targetUrl = API_HOST + `api/search/${query}`;
+  } 
   console.log(`targetUrl=${targetUrl}`);
   return axios.get(targetUrl);
 }
@@ -23,4 +26,11 @@ export function getRepoListWithUid(uid) {
 export function getUserData(uid) {
   let targetUrl = `${API_HOST}api/user/${uid}`;
   return axios.get(targetUrl);
+}
+
+export function postTil(params) {
+  let targetUrl = `${API_HOST}api/til`;
+  return axios.post(targetUrl, params.body, params.header).then(res => {
+      console.log("SubmitTil Result >> ", res);
+    });
 }

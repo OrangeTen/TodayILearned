@@ -6,7 +6,7 @@ import TilItem from "../components/TilItem";
 import TilInput from "../components/TilInput";
 import SelectBox from "../components/SelectBox";
 import NavigationBar from "../components/NavigationBar";
-import {getTilList, getOneTil} from "../actions";
+import {getTilList, getOneTil, postTil} from "../actions";
 import axios from 'axios';
 import firebase from 'firebase';
 import getUserData from '../utils/getUserData';
@@ -28,19 +28,23 @@ class MainApp extends Component {
   componentDidMount() {
     this.checkHasUserSignedIn();
     if (this.props.type === PATH.MAIN) {
-      this.loadDate();
+      this.loadData();
     } else if (this.props.type === PATH.TIL) {
       this.loadOneTil(this.props.index);
-    }
+    } else if (this.props.type === PATH.SEARCH) {
+      this.loadData(this.props.data);
+    } else if (this.props.type === PATH.REPO) {
+      this.loadData(this.props.data);
+    } 
   }
 
   checkHasUserSignedIn() {
     //console.log(getUserData());
   }
 
-  loadDate() {
+  loadData(query) {
     const self = this;
-    getTilList().then((response) => {
+    getTilList(query).then((response) => {
       self.setState({
         tilList: response.data
       });
@@ -57,21 +61,27 @@ class MainApp extends Component {
   }
 
   submitTil(data) {
-    console.log("Current User >> ",firebase.auth().currentUser);
-    axios
-      .post('/api/til', {
-        headers: {
-          token: ''
-        },
-        params: {
-          contents: data.contents,
-          hash: data.tag,
-          directory: data.repo,
-          isPrivate: data.isPrivate
-        }
-      }).then(res => {
-      console.log("SubmitTil Result >> ", res);
+    console.log("Current User >> ", getUserData(), data);
+    const userData = getUserData();
+    const self = this;
+    const params = {
+      headers: {
+        authorization: userData.stsTokenManager.accessToken
+      },
+      body: {
+        contents: data.contents,
+        hash: data.tag,
+        directory: data.repo,
+        isPrivate: data.isPrivate
+      }
+    }
+
+    postTil(params).then((response) => {
+      self.loadData();
     });
+
+
+    
   }
 
   renderTilList() {
@@ -90,15 +100,18 @@ class MainApp extends Component {
     if (this.props.type === PATH.SEARCH) {
       result = (
         <React.Fragment>
-          <div>검색 결과</div>
-          <div>{this.props.data}</div>
+        <div className="header-container">
+          <h1>Search / {this.props.data}</h1>
+        </div>
+          
         </React.Fragment>
       )
     } else if (this.props.type === PATH.REPO) {
       result = (
         <React.Fragment>
-          <div>REPO VIEW</div>
-          <div>index NUM : {this.props.index}</div>
+          <div className="header-container">
+            <h1>Repo / {this.props.index}</h1>
+          </div>
         </React.Fragment>
       )
     } else if (this.props.type === PATH.TIL) {
@@ -113,14 +126,15 @@ class MainApp extends Component {
         <React.Fragment>
           <TilInput submitTil={this.submitTil} />
           <SelectBox optionList={this.state.optionList} />
-          {this.renderTilList()}
+          
         </React.Fragment>
       )
     }
 
     return (
       <Container>
-      {result}
+        {result}
+        {this.renderTilList()}
       </Container>
     );
   }
