@@ -1,0 +1,4 @@
+Server is running on 3000 port
+mongodb connected
+[0mPOST /api/users [32m200 [0m63.033 ms - 224[0m
+error: Forever detected script was killed by signal: SIGKILL
