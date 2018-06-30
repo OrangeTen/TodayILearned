@@ -36,7 +36,8 @@ app.listen(config.SERVER_PORT, () => {
 });
 
 app.use("/api", routes);
-app.use("/*", express.static(getReactBuildPath()));
+app.use("/search/*", express.static(getReactBuildPath()));
+app.use("/", express.static(getReactBuildPath()));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
