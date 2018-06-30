@@ -3,7 +3,7 @@
 }
 select {
     display: inline-block;
-    width: 130px;
+    width: 100px;
     cursor: pointer;
     padding: 10px 15px;
     outline: 0;

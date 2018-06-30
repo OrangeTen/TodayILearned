@@ -105,7 +105,10 @@ export default class NavigationBar extends Component {
               </div>
             </React.Fragment>
           ) : (
-            <Button color="inherit" onClick={this.handleLogin}>Login with GitHub</Button>
+            <React.Fragment>
+              <Button color="inherit" className="d-none d-sm-block" onClick={this.handleLogin}>Login with GitHub</Button>
+              <Button color="inherit" className="d-sm-none" onClick={this.handleLogin}>Login</Button>
+            </React.Fragment>
           )}
         </Toolbar>
         <div style={{display: "none"}}>
