@@ -13,7 +13,7 @@ class ProfileApp extends Component {
     super(props);
     this.state = {
       userData: {},
-      repoList: [1,2,],
+      repoList: [1,2,3,4]
     };
   }
 

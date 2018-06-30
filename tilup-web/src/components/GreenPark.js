@@ -29,7 +29,7 @@ class GreenPark extends Component {
   render() {
     const greenPark = this.state.greenData.map((col, idx)=>
       (
-        <div className={`greenPark__col ${idx<26 ? 'd-none d-md-block' : ''}`}>
+        <div className={`greenPark__col ${idx<30 ? 'd-none d-lg-block' : ''}`}>
           {col.map((depth) => (
             <div className={`greenPark__cell d-${depth}`}></div>
           ))}

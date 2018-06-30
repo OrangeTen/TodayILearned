@@ -14,6 +14,7 @@ select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+    font-size: 14px;
 }
 .select__arrow {
     position: absolute;

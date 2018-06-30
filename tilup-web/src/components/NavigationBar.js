@@ -10,7 +10,10 @@ import realLogo from './real_logo.png'
 import startEasterEgg from '../utils/startEasterEgg'
 import firebase from 'firebase';
 import getUserData from '../utils/getUserData';
-import {Link} from 'react-router-dom';
+import TextField from '@material-ui/core/TextField';
+import Icon from '@material-ui/core/Icon';
+// import { Link } from 'react-router'
+import { Link } from 'react-router-dom';
 
 export default class NavigationBar extends Component {
   constructor(props) {
@@ -21,7 +24,8 @@ export default class NavigationBar extends Component {
         { text: "Inbox" },
         { text: "JavaScript" },
         { text: "Interview Questions" },
-      ]
+      ],
+      query: ""
     };
     
   }
@@ -32,15 +36,6 @@ export default class NavigationBar extends Component {
       var token = result.credential.accessToken;
       var user = result.user;
       console.log("로긴됨", user, token)
-
-      firebase.auth().currentUser.getIdToken(false).then(function(idToken) {
-        console.log(`idtoken = [${idToken}]`);
-        // Send token to your backend via HTTPS
-        // ...
-      }).catch(function(error) {
-        // Handle error
-      });
-
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -63,22 +58,47 @@ export default class NavigationBar extends Component {
     }
   }
 
+  handleSubmit = (event) => {
+    console.log("키코", event, event.keyCode)
+    if (event.keyCode === 13) {
+      console.log(this.state.query);
+      window.location.assign(`/search/${this.state.query}`);
+    }
+  }
+
   render() {
+    const userData = getUserData();
     return (
       <AppBar position="sticky" color="default" className="navigation-bar">
         <Toolbar className="container">
           {
             this.state.easterCount <= 0? 
-            <img src={realLogo} className="logo" /> :
-              <img src={logo} className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/> 
+              (
+                <React.Fragment>
+                  <img src={realLogo} className="logo" />
+                  <Typography variant="title" color="inherit" className="navigation-bar__title">TILUP with DecOrange!</Typography>  
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <img src={logo} className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/> 
+                  <Link to="/" style={{color: "white", textDecoration: "none"}}><Typography variant="title" color="inherit" className="navigation-bar__title">TILUP</Typography>  </Link>
+                </React.Fragment>
+              ) 
           }
-          <Typography variant="title" color="inherit" className="navigation-bar__title">
-          TILUP
-          </Typography>
-          {getUserData() ? (
-            <div className="userName">
-              <Link to="/profile" style={{color:"#fff"}}>{getUserData().displayName}</Link>
-            </div>
+          <div className="search-container">
+            <Icon>search</Icon>
+            <input placeholder="Drop the query!" onKeyUp={this.handleSubmit} onChange={(query) => this.setState({query: query.target.value})} />
+          </div>
+          <div className="padding"></div>
+          
+
+          {userData ? (
+            <React.Fragment>
+              <img src={userData.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px"}} />
+              <div className="userName">
+                <Link to="/profile" style={{color:"#fff"}}>{getUserData().displayName}</Link>
+              </div>
+            </React.Fragment>
           ) : (
             <Button color="inherit" onClick={this.handleLogin}>Login with GitHub</Button>
           )}

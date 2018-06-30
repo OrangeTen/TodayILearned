@@ -8,7 +8,8 @@
 }
 
 .navigation-bar__title {
-    flex: 1;
+    flex: 0;
+    padding-right: 20px;
 }
 
 .logo {
@@ -19,4 +20,27 @@
 canvas {
     position: fixed;
     z-index: -1;
+}
+
+.search-container {
+    background: white;
+    display: flex;
+    padding: 4px;
+    width: 300px;
+    background: #404448;
+    border-radius: 6px;
+}
+
+.search-container span {
+    color: gray;
+}
+
+.search-container input {
+    border: none;
+    width: 250px;
+    background: #404448;
+    color: #fff;
+}
+.padding {
+    flex : 1;
 }

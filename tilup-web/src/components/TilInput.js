@@ -20,6 +20,10 @@ export default class TilInput extends Component {
     };
   }
 
+  handleChange = (value) => {
+    this.setState({tilValue: value})
+  }
+
 
   render() {
     const returnData = {
@@ -40,6 +44,7 @@ export default class TilInput extends Component {
               <SimpleMDE
                 placeholder="test"
                 value={this.state.tilValue}
+                onChange={this.handleChange}
                 options={{ spellChecker: false }} />
             </div>
             <div className="tag-container">
@@ -49,25 +54,12 @@ export default class TilInput extends Component {
               <SelectBox optionList={this.state.optionList}/>
               <div className="right">
                 <FormControlLabel control={<Checkbox value="isSecret" />} label="나만 보기" />
-                <Button variant="outlined" onClick={this.props.submitTil(returnData)}>TIL 게시</Button>
+                <Button variant="outlined" onClick={()=> this.props.submitTil(returnData)}>TIL 게시</Button>
               </div>
             </div>
           </div>
         </div>
       </div>
     )
-    // return (
-    //   <div>
-    //     <form>
-    //       <TextField
-    //         id="multiline-static"
-    //         multiline
-    //         rows="4"
-    //         margin="normal"
-    //       />
-    //       <Button>submit</Button>
-    //     </form>
-    //   </div>
-    // );
   }
 }
