@@ -31,12 +31,12 @@ app.use((req, res, next) => {
 
 //app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/api", routes);
+app.use("/", express.static(getReactBuildPath()));
+
 app.listen(config.SERVER_PORT, () => {
   console.log("Server is running on %d port", config.SERVER_PORT);
 });
-
-app.use("/api", routes);
-app.use("/", express.static(getReactBuildPath()));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
