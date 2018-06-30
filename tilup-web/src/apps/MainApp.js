@@ -5,11 +5,14 @@ import { PATH } from '../consts/consts';
 import TilItem from "../components/TilItem";
 import TilInput from "../components/TilInput";
 import SelectBox from "../components/SelectBox";
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 import NavigationBar from "../components/NavigationBar";
 import {getTilList, getOneTil, postTil} from "../actions";
 import axios from 'axios';
 import firebase from 'firebase';
 import getUserData from '../utils/getUserData';
+import logo from '../components/logo.png'
 
 class MainApp extends Component {
   constructor(props) {
@@ -24,6 +27,25 @@ class MainApp extends Component {
       ]
     };
   };
+
+  handleLogin() {
+    var provider = new firebase.auth.GithubAuthProvider();
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      var token = result.credential.accessToken;
+      var user = result.user;
+      console.log("로긴됨", user, token);
+      window.location.reload();
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
 
   componentDidMount() {
     this.checkHasUserSignedIn();
@@ -133,6 +155,15 @@ class MainApp extends Component {
 
     return (
       <Container>
+        {!getUserData() ? (
+          <div className="pleaseLogin">
+            <img src={logo} className="pleaseLogin__logo" />
+            <Button variant="extendedFab" color="#000" className="pleaseLogin__btn" onClick={this.handleLogin}>
+              <img src="/res/octocat.svg" className="pleaseLogin__icon" />
+              Login with GitHub</Button>
+          </div>
+        ) : ''}
+
         {result}
         {this.renderTilList()}
       </Container>

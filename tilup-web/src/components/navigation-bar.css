@@ -29,6 +29,7 @@ canvas {
     width: 300px;
     background: #404448;
     border-radius: 6px;
+    flex: 0 1 auto;
 }
 
 .search-container span {
@@ -37,7 +38,7 @@ canvas {
 
 .search-container input {
     border: none;
-    width: 250px;
+    width: 100%;
     background: #404448;
     color: #fff;
 }

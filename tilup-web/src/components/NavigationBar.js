@@ -35,7 +35,8 @@ export default class NavigationBar extends Component {
     firebase.auth().signInWithPopup(provider).then(function(result) {
       var token = result.credential.accessToken;
       var user = result.user;
-      console.log("로긴됨", user, token)
+      console.log("로긴됨", user, token);
+      window.location.reload();
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -94,13 +95,20 @@ export default class NavigationBar extends Component {
 
           {userData ? (
             <React.Fragment>
-              <img src={userData.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px"}} />
-              <div className="userName">
-                <Link to="/profile" style={{color:"#fff"}}>{getUserData().displayName}</Link>
+              <Link to="/profile">
+                <img src={userData.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px", marginLeft: "5px"}} />
+              </Link>
+              <div className="userName d-none d-sm-block">
+                <Link to="/profile">
+                  <span style={{color:"#fff"}}>{getUserData().displayName}</span>
+                </Link>
               </div>
             </React.Fragment>
           ) : (
-            <Button color="inherit" onClick={this.handleLogin}>Login with GitHub</Button>
+            <React.Fragment>
+              <Button color="inherit" className="d-none d-sm-block" onClick={this.handleLogin}>Login with GitHub</Button>
+              <Button color="inherit" className="d-sm-none" onClick={this.handleLogin}>Login</Button>
+            </React.Fragment>
           )}
         </Toolbar>
         <div style={{display: "none"}}>
