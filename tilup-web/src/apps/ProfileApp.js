@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import NavigationBar from "../components/NavigationBar";
 import Profile from '../components/Profile';
 import './ProfileApp.css';
-import BasicLayout from "../components/BasicLayout";
 import {getRepoListWithUid} from "../actions";
 import GreenPark from "../components/GreenPark";
 import Repo from "../components/Repo";
@@ -14,7 +13,7 @@ class ProfileApp extends Component {
     super(props);
     this.state = {
       userData: {},
-      repoList: [1,2,],
+      repoList: [1,2,3,4]
     };
   }
 
@@ -24,11 +23,16 @@ class ProfileApp extends Component {
 
   loadData() {
     const raw_data = getUserData();
-    const userData = {
-      email: raw_data.email,
-      name: raw_data.displayName,
-      img: raw_data.photoURL
-    };
+    let userData = {};
+    if (raw_data) {
+       userData= {
+        email: raw_data.email,
+        name: raw_data.displayName,
+        img: raw_data.photoURL
+      };
+    }
+
+
     this.setState({userData});
   }
 
@@ -40,27 +44,25 @@ class ProfileApp extends Component {
   render() {
     return (
       <div className="ProfileApp">
-          <NavigationBar />
-          <BasicLayout>
-            <div className="body">
-              <div className="profile">
-                <Profile
-                    img={this.state.userData.img}
-                    name={this.state.userData.name}
-                    id={this.props.email}
-                />
-              </div>
-              <div class="contents">
-                <div className="repos">
-                  <div className="repos__title">
-                    Popular Repositories
-                  </div>
-                  {this.renderRepoList()}
-                </div>
-                <GreenPark />
-              </div>
+        <NavigationBar />
+          <div className="ProfileApp__body container">
+            <div className="profile">
+              <Profile
+                  img={this.state.userData.img}
+                  name={this.state.userData.name}
+                  id={this.state.userData.email}
+              />
             </div>
-          </BasicLayout>
+            <div class="contents">
+              <div className="repos">
+                <div className="repos__title">
+                  Popular Repositories
+                </div>
+                {this.renderRepoList()}
+              </div>
+              <GreenPark />
+            </div>
+          </div>
       </div>
     );
   }

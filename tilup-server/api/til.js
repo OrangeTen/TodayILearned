@@ -9,10 +9,6 @@ module.exports = {
     add(req, res, next) {
         const til = new Til(req.body);
         til.uid = req.uid;
-        if(req.uid === null){
-            console.log(req.uid);
-            return res.status(401).json("token is expired");
-        }
 
         if (!req.body.directory)
             req.body.directory = "Inbox"; // default

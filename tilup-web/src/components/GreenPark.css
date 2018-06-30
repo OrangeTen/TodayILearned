@@ -3,11 +3,14 @@
     font-weight: 500;
     margin-bottom: 8px;
 }
+.greenPark__div {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 .greenPark__wrapper {
     width: fit-content;
     padding: 15px 30px 15px 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    margin: auto;
 }
 .greenPark {
     display: flex;

@@ -70,7 +70,7 @@ export default class NavigationBar extends Component {
     const userData = getUserData();
     return (
       <AppBar position="sticky" color="default" className="navigation-bar">
-        <Toolbar>
+        <Toolbar className="container">
           {
             this.state.easterCount <= 0? 
               (
@@ -96,7 +96,7 @@ export default class NavigationBar extends Component {
             <React.Fragment>
               <img src={userData.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px"}} />
               <div className="userName">
-                {userData.displayName}
+                <Link to="/profile" style={{color:"#fff"}}>{getUserData().displayName}</Link>
               </div>
             </React.Fragment>
           ) : (

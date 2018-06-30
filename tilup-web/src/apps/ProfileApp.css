@@ -1,11 +1,22 @@
-.body {
+@media (max-width: 575px) {
+    .ProfileApp__body {
+        flex-direction: column;
+        padding-top: 30px !important;
+    }
+    .profile {
+        border-bottom: 1px solid #bbb;
+    }
+}
+
+.ProfileApp__body {
     display: flex;
-    margin: 0 50px;
-    max-width: 1000px;
+    padding-top: 70px;
 }
 .profile {
     flex: 0 0 auto;
     padding-right: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 .contents {
     flex: 1 1 auto;
