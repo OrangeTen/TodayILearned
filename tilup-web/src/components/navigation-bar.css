@@ -1,7 +1,46 @@
 .navigation-bar {
     flex-grow: 1;
+    color: rgb(255, 255, 255) !important;
+    background-color: #2f2f2f !important;
+}
+.navigation-bar h2 {
+    font-weight: 900;
 }
 
 .navigation-bar__title {
-    flex: 1;
+    flex: 0;
+    padding-right: 20px;
+}
+
+.logo {
+    width: 41px;
+    margin-right: 7px;
+}
+
+canvas {
+    position: fixed;
+    z-index: -1;
+}
+
+.search-container {
+    background: white;
+    display: flex;
+    padding: 4px;
+    width: 300px;
+    background: #404448;
+    border-radius: 6px;
+}
+
+.search-container span {
+    color: gray;
+}
+
+.search-container input {
+    border: none;
+    width: 250px;
+    background: #404448;
+    color: #fff;
+}
+.padding {
+    flex : 1;
 }

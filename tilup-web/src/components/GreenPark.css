@@ -1,0 +1,65 @@
+.greenPark__title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.greenPark__div {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.greenPark__wrapper {
+    width: fit-content;
+    padding: 15px 30px 15px 15px;
+    margin: auto;
+}
+.greenPark {
+    display: flex;
+}
+.greenPark__col {
+    margin-right: 2px;
+}
+.greenPark__cell {
+    width: 10px;
+    height: 10px;
+    margin: 2px 0;
+}
+.d-1 {
+    background-color: #eee;
+}
+.d-2 {
+    background-color: #c6e48b;
+}
+.d-3 {
+    background-color: #7bc96f;
+}
+.d-4 {
+    background-color: #239a3b;
+}
+.d-5 {
+    background-color: #196127;
+}
+.legend {
+    margin-right: 10px;
+}
+.legend-cell {
+    font-size: 7px;
+    color: #888;
+    font-weight: 600;
+    height: 10px;
+    margin: 2px 0;
+}
+.legend-bottom {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+.legend-bottom-text {
+    font-size: 7px;
+    color: #888;
+    font-weight: 600;
+    height: 10px;
+    margin-right: 5px;
+}
+.legend-bottom-cell {
+    margin-right: 2px;
+}
