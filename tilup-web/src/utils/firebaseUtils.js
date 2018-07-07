@@ -1,10 +1,14 @@
 import firebase from 'firebase/app';
 import 'firebase/app';
 import 'firebase/auth';
+import * as log from "./log";
 
 let _initialized = false;
 export function initializeFirebase() {
+  log.d(`utils/firebaseUtils.js`, `initializeFirebase`, `_initialized=${_initialized}`);
+
   if (!_initialized) {
+    log.d(`utils/firebaseUtils.js`, `firebase.initializeApp(config)`);
     let config = {
       apiKey: "AIzaSyAiZt3uJqSbvTphwgOdllefmKy2Qfs0ZiA",
       authDomain: "tilu-1c341.firebaseapp.com",
@@ -22,14 +26,11 @@ export function initializeFirebase() {
         // if a user forgets to sign out.
         // ...
         // New sign-in will be persisted with session persistence.
-        console.log("persistent setted");
+        log.d(`utils/firebaseUtils.js`, `firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)`, `persistent setted`);
       })
-      .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
+      .catch((error) => {
+        log.d(`utils/firebaseUtils.js`, `firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)`, `error=${error}`);
       });
-
 
     _initialized = true;
   }
@@ -41,13 +42,9 @@ export function requestLogin() {
     .then(result => {
       const token = result.credential.accessToken;
       const user = result.user;
-      console.log("로긴됨", user, token);
+      log.d(`utils/firebaseUtils.js`, `requestLogin`, `Login success user=${user}, token=${token}`);
     }).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.email;
-      const credential = error.credential;
-      console.log(`firebaseUtils/ 로그인실패 error=${error}`);
+      log.d(`utils/firebaseUtils.js`, `requestLogin`, `Login failed error=${error}`);
     });
 }
 
@@ -56,6 +53,6 @@ export function getFirebaseCurrentUser() {
 }
 
 export function isSignedIn() {
-  console.log(`firebase.auth().currentUser=${firebase.auth().currentUser}`);
+  log.d(`utils/firebaseUtils.js`, `isSignedIn`, `firebase.auth().currentUser=${firebase.auth().currentUser}`);
   return firebase.auth().currentUser;
 }

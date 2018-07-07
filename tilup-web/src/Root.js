@@ -3,10 +3,11 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import MainApp from './apps/MainApp';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
-import * as FirebaseUtils from "./utils/firebaseUtils";
+import * as log from "./utils/log";
+
 
 const Root = () => {
-  FirebaseUtils.initializeFirebase();
+  log.d(`Root.js`, `render`);
 
   return (
     <BrowserRouter>

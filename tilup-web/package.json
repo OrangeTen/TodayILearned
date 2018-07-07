@@ -14,8 +14,8 @@
     "react-simplemde-editor": "^3.6.16"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "node -r dotenv/config ./node_modules/.bin/react-scripts start",
+    "build": "node -r dotenv/config ./node_modules/.bin/react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

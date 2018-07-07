@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import './container.css';
-import { PATH } from '../consts/consts';
-import TilItem from "../components/TilItem";
-import TilInput from "../components/TilInput";
 import NavigationBar from "../components/NavigationBar";
-import {getTilList} from "../actions";
+import * as log from "../utils/log";
 
 class Container extends Component {
   constructor(props) {
     super(props);
+    log.d(`apps/Container.js`, `constructor`);
+
     this.state = {
     };
   };
 
   render() {
+    log.d(`apps/Container.js`, `render`);
+
     return (
       <div>
         <NavigationBar />
