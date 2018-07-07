@@ -63,9 +63,27 @@ jobs:
             command: |
               cd tilup-web
               CI=false npm run build
-        - persist_to_workspace:
-            root: .
-            paths: .
+
+  docker_build_and_push:
+      docker:
+        - image: circleci/node:7.10
+      working_directory: ~/app
+      steps:
+        - attach_workspace:
+            at: ~/app
+        - setup_remote_docker:
+            docker_layer_caching: true
+        - run:
+           name: docker build
+           command: |
+             docker build -t todayilearned .
+        - run:
+           name: docker push
+           command: |
+             docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+             docker tag todayilearned $DOCKER_USER/todayilearned:$CIRCLE_BRANCH-${CIRCLE_SHA1:0:4}
+             docker tag todayilearned $DOCKER_USER/todayilearned:latest
+             docker push $DOCKER_USER/todayilearned
 
 workflows:
   version: 2
@@ -83,23 +101,20 @@ workflows:
             - react_lint_checks
             - react_tests
 
-      - docker_build:
+      - docker_build_and_push:
           requires:
             - react_build
-      - docker_push:
-          requires:
-            - docker_build
 
       - deploy_to_stage:
           requires:
-            - docker_push
+            - docker_build_and_push
           filters:
             branches:
               only: dev
 
       - deploy_to_prod:
           requires:
-            - docker_push
+            - docker_build_and_push
           filters:
             branches:
               only: master
