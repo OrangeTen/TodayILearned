@@ -82,7 +82,7 @@ jobs:
            command: |
              docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
              BRANCH_SHORTEN=$(echo $CIRCLE_BRANCH | sed 's/[^-_.a-zA-Z0-9]/_/g')
-             docker tag todayilearned $DOCKER_USER/todayilearned:${CIRCLE_BRANCH_SHORTEN:0:12}-${CIRCLE_SHA1:0:4}
+             docker tag todayilearned $DOCKER_USER/todayilearned:${BRANCH_SHORTEN:0:12}-${CIRCLE_SHA1:0:4}
              docker tag todayilearned $DOCKER_USER/todayilearned:latest
              docker push $DOCKER_USER/todayilearned
 
