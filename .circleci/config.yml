@@ -7,8 +7,6 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/app
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "tilup-web/package.json" }}
@@ -64,7 +62,7 @@ jobs:
             name: Run build
             command: |
               cd tilup-web
-              npm run build
+              CI=false npm run build
         - persist_to_workspace:
             root: .
             paths: .
