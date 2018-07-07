@@ -11,7 +11,7 @@ jobs:
           at: ~/app
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-{{ checksum "tilup-web/package.json" }}
           - v1-dependencies-
       - run:
           name: npm install
@@ -22,7 +22,7 @@ jobs:
       - save_cache:
           paths:
             - tilup-web/node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "tilup-web/package.json" }}
       - persist_to_workspace:
           root: .
           paths: .
@@ -39,6 +39,35 @@ jobs:
           command: |
             cd tilup-web
             npm run lint
+
+  react_tests:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/app
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Run tests
+          command: |
+            cd tilup-web
+            npm run test
+
+  react_build:
+      docker:
+        - image: circleci/node:7.10
+      working_directory: ~/app
+      steps:
+        - attach_workspace:
+            at: ~/app
+        - run:
+            name: Run build
+            command: |
+              cd tilup-web
+              npm run build
+        - persist_to_workspace:
+            root: .
+            paths: .
 
 workflows:
   version: 2
@@ -76,4 +105,3 @@ workflows:
           filters:
             branches:
               only: master
-
