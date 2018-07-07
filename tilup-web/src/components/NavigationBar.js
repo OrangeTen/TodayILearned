@@ -4,16 +4,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-// import * as firebase from 'firebase'
 import logo from './logo.png'
 import realLogo from './real_logo.png'
 import startEasterEgg from '../utils/startEasterEgg'
-import firebase from 'firebase';
 import getUserData from '../utils/getUserData';
-import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/core/Icon';
-// import { Link } from 'react-router'
 import { Link } from 'react-router-dom';
+import * as FirebaseUtils from "../utils/firebaseUtils";
 
 export default class NavigationBar extends Component {
   constructor(props) {
@@ -31,22 +28,10 @@ export default class NavigationBar extends Component {
   }
 
   handleLogin() {
-    var provider = new firebase.auth.GithubAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      var token = result.credential.accessToken;
-      var user = result.user;
-      console.log("로긴됨", user, token);
-      window.location.reload();
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-    });
+    FirebaseUtils.requestLogin()
+      .then(_ => {
+        window.location.reload();
+      });
   }
 
   handleEasterEgg = () => {

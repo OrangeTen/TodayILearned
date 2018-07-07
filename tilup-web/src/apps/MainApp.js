@@ -6,11 +6,8 @@ import TilItem from "../components/TilItem";
 import TilInput from "../components/TilInput";
 import SelectBox from "../components/SelectBox";
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import NavigationBar from "../components/NavigationBar";
 import {getTilList, getOneTil, postTil} from "../actions";
-import axios from 'axios';
-import firebase from 'firebase';
+import * as FirebaseUtils from "../utils/firebaseUtils";
 import getUserData from '../utils/getUserData';
 import logo from '../components/logo.png'
 
@@ -29,22 +26,10 @@ class MainApp extends Component {
   };
 
   handleLogin() {
-    var provider = new firebase.auth.GithubAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      var token = result.credential.accessToken;
-      var user = result.user;
-      console.log("로긴됨", user, token);
-      window.location.reload();
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-    });
+    FirebaseUtils.requestLogin()
+      .then(_ => {
+        window.location.reload();
+      });
   }
 
   componentDidMount() {
