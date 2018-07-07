@@ -1,4 +1,6 @@
-import * as firebase from "firebase";
+import firebase from 'firebase/app';
+import 'firebase/app';
+import 'firebase/auth';
 
 let _initialized = false;
 export function initializeFirebase() {
@@ -31,6 +33,22 @@ export function initializeFirebase() {
 
     _initialized = true;
   }
+}
+
+export function requestLogin() {
+  const provider = new firebase.auth.GithubAuthProvider();
+  return firebase.auth().signInWithPopup(provider)
+    .then(result => {
+      const token = result.credential.accessToken;
+      const user = result.user;
+      console.log("로긴됨", user, token);
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.email;
+      const credential = error.credential;
+      console.log(`firebaseUtils/ 로그인실패 error=${error}`);
+    });
 }
 
 export function getFirebaseCurrentUser() {

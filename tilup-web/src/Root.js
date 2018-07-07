@@ -3,10 +3,10 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import MainApp from './apps/MainApp';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
-import {initializeFirebase} from "./utils/firebaseUtils";
+import * as FirebaseUtils from "./utils/firebaseUtils";
 
 const Root = () => {
-  initializeFirebase();
+  FirebaseUtils.initializeFirebase();
 
   return (
     <BrowserRouter>
