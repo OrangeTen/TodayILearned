@@ -16,6 +16,7 @@
   "scripts": {
     "start": "node -r dotenv/config ./node_modules/.bin/react-scripts start",
     "build": "node -r dotenv/config ./node_modules/.bin/react-scripts build",
+    "lint": "node ./node_modules/eslint/bin/eslint.js -c ./node_modules/eslint-config-react-app/index.js src",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

@@ -1,0 +1,79 @@
+version: 2.0
+
+jobs:
+  react_install_dependencies:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/app
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/app
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run:
+          name: npm install
+          command: |
+            cd tilup-web
+            npm install
+
+      - save_cache:
+          paths:
+            - tilup-web/node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  react_lint_checks:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/app
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Run lint checks
+          command: |
+            cd tilup-web
+            npm run lint
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - react_install_dependencies
+      - react_lint_checks:
+          requires:
+            - react_install_dependencies
+      - react_tests:
+          requires:
+            - react_install_dependencies
+      - react_build:
+          requires:
+            - react_lint_checks
+            - react_tests
+
+      - docker_build:
+          requires:
+            - react_build
+      - docker_push:
+          requires:
+            - docker_build
+
+      - deploy_to_stage:
+          requires:
+            - docker_push
+          filters:
+            branches:
+              only: dev
+
+      - deploy_to_prod:
+          requires:
+            - docker_push
+          filters:
+            branches:
+              only: master
+
