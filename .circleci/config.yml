@@ -125,33 +125,33 @@ jobs:
                && apk add --no-cache wget
 
         - run:
-            name: docker environment variables check
-            command: |
-              echo Docker environment variables check
-              NUM_OF_VARIABLES_TO_CHECK=5
-              VARIABLES_TO_CHECK=(\
-              $CI_DEPLOY_SSH_PEMURL \
-              $CI_STAGE_SSH_USER \
-              $CI_STAGE_HOST \
-              $CI_STAGE_APP_PORT \
-              $CI_DOCKER_USER \
-              )
+           name: docker environment variables check
+           command: |
+             echo Docker environment variables check
+             NUM_OF_VARIABLES_TO_CHECK=5
+             VARIABLES_TO_CHECK=(\
+             $CI_STAGE_SSH_PEMURL \
+             $CI_STAGE_SSH_USER \
+             $CI_STAGE_HOST \
+             $CI_STAGE_APP_PORT \
+             $CI_DOCKER_USER \
+             )
 
-              if [ $NUM_OF_VARIABLES_TO_CHECK -ne ${#VARIABLES_TO_CHECK[@]} ]
-              then
-                echo "  "Add Environment Variables on ci environment.
-                echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
-                echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
-                echo "  "CI_DEPLOY_SSH_PEMURL CI_STAGE_SSH_USER CI_STAGE_HOST \
-                  CI_STAGE_APP_PORT CI_DOCKER_USER required.
-                exit 1
-              fi
+             if [ $NUM_OF_VARIABLES_TO_CHECK -ne ${#VARIABLES_TO_CHECK[@]} ]
+             then
+               echo "  "Add Environment Variables on ci environment.
+               echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
+               echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
+               echo "  "CI_STAGE_SSH_PEMURL CI_STAGE_SSH_USER CI_STAGE_HOST \
+                 CI_STAGE_APP_PORT CI_DOCKER_USER required.
+               exit 1
+             fi
 
         - run:
             name: docker push to stage
             command: |
               TAG=${BRANCH_SHORTEN:0:12}-${CIRCLE_SHA1:0:4}
-              export DEPLOY_SSH_PEMURL=$CI_DEPLOY_SSH_PEMURL
+              export DEPLOY_SSH_PEMURL=$CI_STAGE_SSH_PEMURL
               export DEPLOY_SSH_USER=$CI_STAGE_SSH_USER
               export DEPLOY_SSH_HOST=$CI_STAGE_HOST
               export DEPLOY_APP_PORT=$CI_STAGE_APP_PORT
