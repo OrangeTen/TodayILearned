@@ -52,6 +52,8 @@ else
   echo "$PEMFILE is already exists."
 fi
 
+echo $DEPLOY_SSH_FINGERPRINT >> ~/.ssh/known_hosts
+
 ssh -i $PEMFILE $DEPLOY_SSH_USER@$DEPLOY_SSH_HOST \
   DOCKER_TAG=$DOCKER_TAG \
   DOCKER_USER=$DOCKER_USER \
