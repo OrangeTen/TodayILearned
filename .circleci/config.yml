@@ -77,15 +77,35 @@ jobs:
            name: docker build
            command: |
              docker build -t todayilearned .
+
+        - run:
+           name: docker environment variables check
+           command: |
+             echo Docker environment variables check
+             NUM_OF_VARIABLES_TO_CHECK=2
+             VARIABLES_TO_CHECK=(\
+             $CI_DOCKER_PASSWORD \
+             $CI_DOCKER_USER \
+             )
+
+             if [ $NUM_OF_VARIABLES_TO_CHECK -ne ${#VARIABLES_TO_CHECK[@]} ]
+             then
+               echo "  "Add Environment Variables on ci environment.
+               echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
+               echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
+               echo "  "CI_DOCKER_USER CI_DOCKER_PASSWORD required.
+               exit 1
+             fi
+
         - run:
            name: docker push
            command: |
-             docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+             docker login -u $CI_DOCKER_USER -p $CI_DOCKER_PASSWORD
              BRANCH_SHORTEN=$(echo $CIRCLE_BRANCH | sed 's/[^-_.a-zA-Z0-9]/_/g')
              TAG=${BRANCH_SHORTEN:0:12}-${CIRCLE_SHA1:0:4}
-             docker tag todayilearned $DOCKER_USER/todayilearned:$TAG
-             docker tag todayilearned $DOCKER_USER/todayilearned:latest
-             docker push $DOCKER_USER/todayilearned
+             docker tag todayilearned $CI_DOCKER_USER/todayilearned:$TAG
+             docker tag todayilearned $CI_DOCKER_USER/todayilearned:latest
+             docker push $CI_DOCKER_USER/todayilearned
 
   deploy_to_stage:
       docker:
