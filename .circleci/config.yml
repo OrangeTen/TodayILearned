@@ -121,9 +121,10 @@ jobs:
            name: Docker environment variables check
            command: |
              echo Docker environment variables check
-             NUM_OF_VARIABLES_TO_CHECK=5
+             NUM_OF_VARIABLES_TO_CHECK=6
              VARIABLES_TO_CHECK=(\
              $CI_STAGE_SSH_PEMURL \
+             $CI_STAGE_SSH_FINGERPRINT \
              $CI_STAGE_SSH_USER \
              $CI_STAGE_HOST \
              $CI_STAGE_APP_PORT \
@@ -135,8 +136,8 @@ jobs:
                echo "  "Add Environment Variables on ci environment.
                echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
                echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
-               echo "  "CI_STAGE_SSH_PEMURL CI_STAGE_SSH_USER CI_STAGE_HOST \
-                 CI_STAGE_APP_PORT CI_DOCKER_USER required.
+               echo "  "CI_STAGE_SSH_PEMURL CI_STAGE_SSH_FINGERPRINT CI_STAGE_SSH_USER \
+                 CI_STAGE_HOST CI_STAGE_APP_PORT CI_DOCKER_USER required.
                exit 1
              fi
 
@@ -147,6 +148,7 @@ jobs:
               TAG=${BRANCH_SHORTEN:0:12}-${CIRCLE_SHA1:0:4}
 
               export DEPLOY_SSH_PEMURL=$CI_STAGE_SSH_PEMURL
+              export DEPLOY_SSH_FINGERPRINT=$CI_STAGE_SSH_FINGERPRINT
               export DEPLOY_SSH_USER=$CI_STAGE_SSH_USER
               export DEPLOY_SSH_HOST=$CI_STAGE_HOST
               export DEPLOY_APP_PORT=$CI_STAGE_APP_PORT
@@ -168,9 +170,10 @@ jobs:
            name: Docker environment variables check
            command: |
              echo Docker environment variables check
-             NUM_OF_VARIABLES_TO_CHECK=5
+             NUM_OF_VARIABLES_TO_CHECK=6
              VARIABLES_TO_CHECK=(\
              $CI_PROD_SSH_PEMURL \
+             $CI_PROD_SSH_FINGERPRINT \
              $CI_PROD_SSH_USER \
              $CI_PROD_HOST \
              $CI_PROD_APP_PORT \
@@ -182,8 +185,8 @@ jobs:
                echo "  "Add Environment Variables on ci environment.
                echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
                echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
-               echo "  "CI_PROD_SSH_PEMURL CI_PROD_SSH_USER CI_PROD_HOST \
-                 CI_PROD_APP_PORT CI_DOCKER_USER required.
+               echo "  "CI_PROD_SSH_PEMURL CI_PROD_SSH_FINGERPRINT CI_PROD_SSH_USER \
+                 CI_PROD_HOST CI_PROD_APP_PORT CI_DOCKER_USER required.
                exit 1
              fi
 
@@ -194,6 +197,7 @@ jobs:
               TAG=${BRANCH_SHORTEN:0:12}-${CIRCLE_SHA1:0:4}
 
               export DEPLOY_SSH_PEMURL=$CI_PROD_SSH_PEMURL
+              export DEPLOY_SSH_FINGERPRINT=$CI_PROD_SSH_FINGERPRINT
               export DEPLOY_SSH_USER=$CI_PROD_SSH_USER
               export DEPLOY_SSH_HOST=$CI_PROD_HOST
               export DEPLOY_APP_PORT=$CI_PROD_APP_PORT
