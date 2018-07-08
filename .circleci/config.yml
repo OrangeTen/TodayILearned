@@ -74,12 +74,12 @@ jobs:
         - setup_remote_docker:
             docker_layer_caching: true
         - run:
-           name: docker build
+           name: Docker build
            command: |
              docker build -t todayilearned .
 
         - run:
-           name: docker environment variables check
+           name: Docker environment variables check
            command: |
              echo Docker environment variables check
              NUM_OF_VARIABLES_TO_CHECK=2
@@ -98,7 +98,7 @@ jobs:
              fi
 
         - run:
-           name: docker push
+           name: Docker push
            command: |
              docker login -u $CI_DOCKER_USER -p $CI_DOCKER_PASSWORD
              BRANCH_SHORTEN=$(echo $CIRCLE_BRANCH | sed 's/[^-_.a-zA-Z0-9]/_/g')
@@ -118,7 +118,7 @@ jobs:
             docker_layer_caching: true
 
         - run:
-           name: docker environment variables check
+           name: Docker environment variables check
            command: |
              echo Docker environment variables check
              NUM_OF_VARIABLES_TO_CHECK=5
@@ -141,9 +141,11 @@ jobs:
              fi
 
         - run:
-            name: docker push to stage
+            name: Deploy docker container on stage server
             command: |
+              BRANCH_SHORTEN=$(echo $CIRCLE_BRANCH | sed 's/[^-_.a-zA-Z0-9]/_/g')
               TAG=${BRANCH_SHORTEN:0:12}-${CIRCLE_SHA1:0:4}
+
               export DEPLOY_SSH_PEMURL=$CI_STAGE_SSH_PEMURL
               export DEPLOY_SSH_USER=$CI_STAGE_SSH_USER
               export DEPLOY_SSH_HOST=$CI_STAGE_HOST
