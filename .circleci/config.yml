@@ -109,20 +109,13 @@ jobs:
 
   deploy_to_stage:
       docker:
-        - image: docker:18.03.0-ce
+        - image: circleci/node:7.10
       working_directory: ~/app
       steps:
         - attach_workspace:
             at: ~/app
         - setup_remote_docker:
             docker_layer_caching: true
-        - run:
-            name: install bash
-            command: |
-              apk update\
-               && apk upgrade\
-               && apk add --no-cache bash\
-               && apk add --no-cache wget
 
         - run:
            name: docker environment variables check
