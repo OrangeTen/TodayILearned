@@ -152,7 +152,7 @@ jobs:
               export DEPLOY_APP_PORT=$CI_STAGE_APP_PORT
               export DOCKER_USER=$CI_DOCKER_USER
               export DOCKER_TAG=$TAG
-              ./deploy.sh
+              ./deploy-scripts/deploy.sh
 
 workflows:
   version: 2
