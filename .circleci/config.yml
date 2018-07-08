@@ -91,8 +91,7 @@ jobs:
              if [ $NUM_OF_VARIABLES_TO_CHECK -ne ${#VARIABLES_TO_CHECK[@]} ]
              then
                echo "  "Add Environment Variables on ci environment.
-               echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
-               echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
+               echo "  "Number of variables. Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
                echo "  "CI_DOCKER_USER CI_DOCKER_PASSWORD required.
                exit 1
              fi
@@ -134,8 +133,7 @@ jobs:
              if [ $NUM_OF_VARIABLES_TO_CHECK -ne ${#VARIABLES_TO_CHECK[@]} ]
              then
                echo "  "Add Environment Variables on ci environment.
-               echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
-               echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
+               echo "  "Number of variables. Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
                echo "  "CI_STAGE_SSH_PEMURL CI_STAGE_SSH_FINGERPRINT CI_STAGE_SSH_USER \
                  CI_STAGE_HOST CI_STAGE_APP_PORT CI_DOCKER_USER required.
                exit 1
@@ -183,8 +181,7 @@ jobs:
              if [ $NUM_OF_VARIABLES_TO_CHECK -ne ${#VARIABLES_TO_CHECK[@]} ]
              then
                echo "  "Add Environment Variables on ci environment.
-               echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
-               echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
+               echo "  "Number of variables. Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
                echo "  "CI_PROD_SSH_PEMURL CI_PROD_SSH_FINGERPRINT CI_PROD_SSH_USER \
                  CI_PROD_HOST CI_PROD_APP_PORT CI_DOCKER_USER required.
                exit 1
