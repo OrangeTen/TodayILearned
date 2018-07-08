@@ -2,6 +2,7 @@
 
 #  How to execute.
 # export DEPLOY_SSH_PEMURL="https://foo.com/"
+# export DEPLOY_SSH_FINGERPRINT="0.0.0.0 ecdsa-sha2-nistp256 ~"
 # export DEPLOY_SSH_USER=foo
 # export DEPLOY_SSH_HOST="0.0.0.0"
 # export DEPLOY_APP_PORT=0
@@ -23,9 +24,10 @@ if [ -z $DOCKER_TAG ]; then
 fi
 
 echo Check Script environment variables.
-NUM_OF_VARIABLES_TO_CHECK=6
+NUM_OF_VARIABLES_TO_CHECK=7
 VARIABLES_TO_CHECK=(\
 $DEPLOY_SSH_PEMURL \
+"$DEPLOY_SSH_FINGERPRINT" \
 $DEPLOY_SSH_USER \
 $DEPLOY_SSH_HOST \
 $DEPLOY_APP_PORT \
@@ -36,10 +38,10 @@ $DOCKER_TAG \
 if [ $NUM_OF_VARIABLES_TO_CHECK -ne ${#VARIABLES_TO_CHECK[@]} ]
 then
     echo "  "Add Environment Variables before running script. With export statements.
-    echo "  "Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
-    echo "  "Actual VARIABLES_TO_CHECK = [${VARIABLES_TO_CHECK[*]}]
-    echo "  "DEPLOY_SSH_PEMURL, DEPLOY_SSH_USER, DEPLOY_SSH_HOST, \
-      DEPLOY_APP_PORT, DOCKER_USER, DOCKER_TAG required.
+    echo "  "Number of variables. Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
+    echo "  "DEPLOY_SSH_PEMURL, DEPLOY_SSH_FINGERPRINT, DEPLOY_SSH_USER, \
+      DEPLOY_SSH_HOST, DEPLOY_APP_PORT, DOCKER_USER, \
+      DOCKER_TAG required.
     exit 1
 fi
 
