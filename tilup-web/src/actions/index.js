@@ -9,16 +9,16 @@ export function getTilList(query) {
   let targetUrl = API_HOST + "api/feed/";
   if(query) {
     targetUrl = API_HOST + `api/search/${query}`;
-  } 
-  console.log(`targetUrl=${targetUrl}`);
+  }
+  log.d(`actions/index.js`, `getTilList`, `targetUrl=${targetUrl}`);
   return axios.get(targetUrl);
 }
 
 export function getOneTil(idx) {
   log.d(`actions/index.js`, `getOneTil`);
-
   let targetUrl = API_HOST + "api/til/"+idx;
-  console.log(`targetUrl=${targetUrl}`);
+
+  log.d(`actions/index.js`, `getOneTil`, `targetUrl=${targetUrl}`);
   return axios.get(targetUrl);
 }
 
@@ -41,7 +41,8 @@ export function postTil(params) {
   log.d(`actions/index.js`, `postTil`);
 
   let targetUrl = `${API_HOST}api/til`;
-  return axios.post(targetUrl, params.body, params.header).then(res => {
-      console.log("SubmitTil Result >> ", res);
+  return axios.post(targetUrl, params.body, params.header)
+    .then(res => {
+      log.d(`actions/index.js`, `postTil`, 'SubmitTil Result >> ', res);
     });
 }

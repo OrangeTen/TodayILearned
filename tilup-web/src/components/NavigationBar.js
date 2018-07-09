@@ -11,6 +11,7 @@ import getUserData from '../utils/getUserData';
 import Icon from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom';
 import * as FirebaseUtils from "../utils/firebaseUtils";
+import * as log from "../utils/log";
 
 export default class NavigationBar extends Component {
   constructor(props) {
@@ -45,9 +46,9 @@ export default class NavigationBar extends Component {
   }
 
   handleSubmit = (event) => {
-    console.log("키코", event, event.keyCode)
+    log.d("componnts/NavigationBar.js", "handleSubmit", "키코", event, event.keyCode)
     if (event.keyCode === 13) {
-      console.log(this.state.query);
+      log.d("componnts/NavigationBar.js", "handleSubmit", `query=${this.state.query}`);
       window.location.assign(`/search/${this.state.query}`);
     }
   }

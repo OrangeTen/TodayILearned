@@ -10,6 +10,7 @@ import {getTilList, getOneTil, postTil} from "../actions";
 import * as FirebaseUtils from "../utils/firebaseUtils";
 import getUserData from '../utils/getUserData';
 import logo from '../components/logo.png'
+import * as log from "../utils/log";
 
 class MainApp extends Component {
   constructor(props) {
@@ -68,7 +69,7 @@ class MainApp extends Component {
   }
 
   submitTil(data) {
-    console.log("Current User >> ", getUserData(), data);
+    log.d("apps/MainApp.js", "submitTil", "Current User >> ", getUserData(), data);
     const userData = getUserData();
     const self = this;
     const params = {
