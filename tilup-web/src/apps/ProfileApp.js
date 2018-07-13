@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import NavigationBar from "../components/NavigationBar";
 import Profile from '../components/Profile';
 import './ProfileApp.css';
-import {getRepoListWithUid} from "../actions";
 import GreenPark from "../components/GreenPark";
 import Repo from "../components/Repo";
-import {getFirebaseCurrentUser} from "../utils/firebaseUtils";
-import getUserData from "../utils/getUserData";
 
 class ProfileApp extends Component {
   constructor(props) {
@@ -22,7 +19,7 @@ class ProfileApp extends Component {
   }
 
   loadData() {
-    const raw_data = getUserData();
+    const raw_data = this.props.user;
     let userData = {};
     if (raw_data) {
        userData= {
@@ -44,7 +41,7 @@ class ProfileApp extends Component {
   render() {
     return (
       <div className="ProfileApp">
-        <NavigationBar />
+        <NavigationBar user={this.props.user} />
           <div className="ProfileApp__body container">
             <div className="profile">
               <Profile

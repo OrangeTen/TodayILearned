@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import './til-item.css';
-import Card from '@material-ui/core/Card';
-import Button from "@material-ui/core/Button";
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Icon from '@material-ui/core/Icon';
 import ReactMarkdown from 'react-markdown';
 
