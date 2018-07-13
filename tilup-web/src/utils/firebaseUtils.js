@@ -3,14 +3,8 @@ import 'firebase/app';
 import 'firebase/auth';
 import * as log from "./log";
 
-export function onUserChanged() {
-  return new Promise((res, rej) => {
-    firebase.auth().onAuthStateChanged((user) => {
-      log.d(`utils/firebaseUtils.js`, `onUserChanged`, `user=`, user);
-
-      res(user);
-    });
-  });
+export function onUserChanged(callback) {
+  firebase.auth().onAuthStateChanged(callback);
 }
 
 let _initialized = false;
@@ -56,4 +50,8 @@ export function requestLogin() {
     }).catch((error) => {
       log.d(`utils/firebaseUtils.js`, `requestLogin`, `Login failed error=${error}`);
     });
+}
+
+export function requestLogout() {
+  return firebase.auth().signOut();
 }

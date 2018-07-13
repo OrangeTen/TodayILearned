@@ -23,12 +23,14 @@ export default class Root extends Component {
   }
 
   bindWithUser() {
-    FirebaseUtils.onUserChanged()
-      .then((user) => {
+    FirebaseUtils.onUserChanged(
+      (user) => {
+        log.d("Root.js", "bindWithUser", "onUserChanged user=", user);
         this.setState({
           user: user
         });
-      });
+      }
+    );
   }
 
   render() {

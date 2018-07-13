@@ -39,6 +39,8 @@ export default class NavigationBar extends Component {
             <span style={{color:"#fff"}}>{user.displayName}</span>
           </Link>
         </div>
+
+        <Button color="inherit" className="d-none d-sm-block" onClick={this.handleLogout}>Logout</Button>
       </React.Fragment>
     ) : (
       <React.Fragment>
@@ -50,8 +52,15 @@ export default class NavigationBar extends Component {
 
   handleLogin() {
     FirebaseUtils.requestLogin()
+      .then((_) => {
+        log.d("components/NavigationBar.js", "handleLogin", "FirebaseUtils.requestLogin()");
+      });
+  }
+
+  handleLogout() {
+    FirebaseUtils.requestLogout()
       .then(_ => {
-        window.location.reload();
+        log.d("components/NavigationBar.js", "handleLogin", "FirebaseUtils.requestLogout()");
       });
   }
 
@@ -66,9 +75,9 @@ export default class NavigationBar extends Component {
   };
 
   handleSubmit = (event) => {
-    log.d("componnts/NavigationBar.js", "handleSubmit", "키코", event, event.keyCode)
+    log.d("components/NavigationBar.js", "handleSubmit", "키코", event, event.keyCode);
     if (event.keyCode === 13) {
-      log.d("componnts/NavigationBar.js", "handleSubmit", `query=${this.state.query}`);
+      log.d("components/NavigationBar.js", "handleSubmit", `query=${this.state.query}`);
       window.location.assign(`/search/${this.state.query}`);
     }
   };
