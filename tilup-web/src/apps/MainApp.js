@@ -67,9 +67,6 @@ class MainApp extends Component {
   submitTil(data) {
     const self = this;
     const params = {
-      headers: {
-        authorization: this.props.user.stsTokenManager.accessToken
-      },
       body: {
         contents: data.contents,
         hash: data.tag,

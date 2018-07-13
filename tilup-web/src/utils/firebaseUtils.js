@@ -7,6 +7,12 @@ export function onUserChanged(callback) {
   firebase.auth().onAuthStateChanged(callback);
 }
 
+export function getToken() {
+  return firebase.auth().currentUser ?
+    firebase.auth().currentUser.getIdToken(false) :
+    new Promise((res) => res(null));
+}
+
 let _initialized = false;
 export function initializeFirebase() {
   log.d(`utils/firebaseUtils.js`, `initializeFirebase`, `_initialized=${_initialized}`);
