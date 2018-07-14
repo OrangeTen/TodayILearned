@@ -37,6 +37,9 @@ app.listen(config.SERVER_PORT, () => {
 
 app.use("/api", routes);
 app.use("/search/*", express.static(getReactBuildPath()));
+app.use("/repo/*", express.static(getReactBuildPath()));
+app.use("/til/*", express.static(getReactBuildPath()));
+app.use("/profile", express.static(getReactBuildPath()));
 app.use("/", express.static(getReactBuildPath()));
 
 // catch 404 and forward to error handler
