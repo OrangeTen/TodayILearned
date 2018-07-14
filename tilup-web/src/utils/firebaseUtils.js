@@ -1,7 +1,19 @@
 import firebase from 'firebase/app';
 import 'firebase/app';
 import 'firebase/auth';
+
 import * as log from "./log";
+
+
+export function onUserChanged(callback) {
+  firebase.auth().onAuthStateChanged(callback);
+}
+
+export function getToken() {
+  return firebase.auth().currentUser ?
+    firebase.auth().currentUser.getIdToken(false) :
+    new Promise((res) => res(null));
+}
 
 let _initialized = false;
 export function initializeFirebase() {
@@ -19,17 +31,17 @@ export function initializeFirebase() {
     };
     firebase.initializeApp(config);
 
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(function() {
         // Existing and future Auth states are now persisted in the current
         // session only. Closing the window would clear any existing state even
         // if a user forgets to sign out.
         // ...
         // New sign-in will be persisted with session persistence.
-        log.d(`utils/firebaseUtils.js`, `firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)`, `persistent setted`);
+        log.d(`utils/firebaseUtils.js`, `firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)`, `persistent setted`);
       })
       .catch((error) => {
-        log.d(`utils/firebaseUtils.js`, `firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)`, `error=${error}`);
+        log.d(`utils/firebaseUtils.js`, `firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)`, `error=${error}`);
       });
 
     _initialized = true;
@@ -48,11 +60,6 @@ export function requestLogin() {
     });
 }
 
-export function getFirebaseCurrentUser() {
-  return firebase.auth().currentUser;
-}
-
-export function isSignedIn() {
-  log.d(`utils/firebaseUtils.js`, `isSignedIn`, `firebase.auth().currentUser=${firebase.auth().currentUser}`);
-  return firebase.auth().currentUser;
+export function requestLogout() {
+  return firebase.auth().signOut();
 }

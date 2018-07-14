@@ -2,38 +2,18 @@ import React, { Component } from 'react';
 import NavigationBar from "../components/NavigationBar";
 import Profile from '../components/Profile';
 import './ProfileApp.css';
-import {getRepoListWithUid} from "../actions";
 import GreenPark from "../components/GreenPark";
 import Repo from "../components/Repo";
-import {getFirebaseCurrentUser} from "../utils/firebaseUtils";
-import getUserData from "../utils/getUserData";
 
 class ProfileApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: {},
       repoList: [1,2,3,4]
     };
   }
 
   componentDidMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    const raw_data = getUserData();
-    let userData = {};
-    if (raw_data) {
-       userData= {
-        email: raw_data.email,
-        name: raw_data.displayName,
-        img: raw_data.photoURL
-      };
-    }
-
-
-    this.setState({userData});
   }
 
   renderRepoList() {
@@ -44,14 +24,15 @@ class ProfileApp extends Component {
   render() {
     return (
       <div className="ProfileApp">
-        <NavigationBar />
+        <NavigationBar user={this.props.user} />
           <div className="ProfileApp__body container">
             <div className="profile">
-              <Profile
-                  img={this.state.userData.img}
-                  name={this.state.userData.name}
-                  id={this.state.userData.email}
-              />
+              { this.props.user ?
+                <Profile
+                  img={this.props.user.photoURL}
+                  name={this.props.user.displayName}
+                  id={this.props.user.email}
+                /> : '' }
             </div>
             <div class="contents">
               <div className="repos">

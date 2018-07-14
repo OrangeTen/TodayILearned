@@ -17,7 +17,7 @@ class Container extends Component {
 
     return (
       <div>
-        <NavigationBar />
+        <NavigationBar user={this.props.user} />
         <div className="app-container">
           {this.props.children}
         </div>

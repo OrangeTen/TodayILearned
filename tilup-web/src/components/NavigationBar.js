@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import './navigation-bar.css';
+import { Link } from 'react-router-dom';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+
 import logo from './logo.png'
 import realLogo from './real_logo.png'
+import './navigation-bar.css';
 import startEasterEgg from '../utils/startEasterEgg'
-import getUserData from '../utils/getUserData';
-import Icon from '@material-ui/core/Icon';
-import { Link } from 'react-router-dom';
 import * as FirebaseUtils from "../utils/firebaseUtils";
+import * as log from "../utils/log";
+
 
 export default class NavigationBar extends Component {
   constructor(props) {
@@ -24,13 +26,43 @@ export default class NavigationBar extends Component {
       ],
       query: ""
     };
-    
+  }
+
+  getSigninOrUserIcon() {
+    const user = this.props.user;
+
+    return user ? (
+      <React.Fragment>
+        <Link to="/profile">
+          <img src={user.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px", marginLeft: "5px"}} />
+        </Link>
+        <div className="userName d-none d-sm-block">
+          <Link to="/profile">
+            <span style={{color:"#fff"}}>{user.displayName}</span>
+          </Link>
+        </div>
+
+        <Button color="inherit" className="d-none d-sm-block" onClick={this.handleLogout}>Logout</Button>
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        <Button color="inherit" className="d-none d-sm-block" onClick={this.handleLogin}>Login with GitHub</Button>
+        <Button color="inherit" className="d-sm-none" onClick={this.handleLogin}>Login</Button>
+      </React.Fragment>
+    )
   }
 
   handleLogin() {
     FirebaseUtils.requestLogin()
+      .then((_) => {
+        log.d("components/NavigationBar.js", "handleLogin", "FirebaseUtils.requestLogin()");
+      });
+  }
+
+  handleLogout() {
+    FirebaseUtils.requestLogout()
       .then(_ => {
-        window.location.reload();
+        log.d("components/NavigationBar.js", "handleLogin", "FirebaseUtils.requestLogout()");
       });
   }
 
@@ -42,18 +74,17 @@ export default class NavigationBar extends Component {
     if(this.state.easterCount <= 1) {
       startEasterEgg();
     }
-  }
+  };
 
   handleSubmit = (event) => {
-    console.log("키코", event, event.keyCode)
+    log.d("components/NavigationBar.js", "handleSubmit", "키코", event, event.keyCode);
     if (event.keyCode === 13) {
-      console.log(this.state.query);
+      log.d("components/NavigationBar.js", "handleSubmit", `query=${this.state.query}`);
       window.location.assign(`/search/${this.state.query}`);
     }
-  }
+  };
 
   render() {
-    const userData = getUserData();
     return (
       <AppBar position="sticky" color="default" className="navigation-bar">
         <Toolbar className="container">
@@ -76,25 +107,9 @@ export default class NavigationBar extends Component {
             <input placeholder="Drop the query!" onKeyUp={this.handleSubmit} onChange={(query) => this.setState({query: query.target.value})} />
           </div>
           <div className="padding"></div>
-          
 
-          {userData ? (
-            <React.Fragment>
-              <Link to="/profile">
-                <img src={userData.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px", marginLeft: "5px"}} />
-              </Link>
-              <div className="userName d-none d-sm-block">
-                <Link to="/profile">
-                  <span style={{color:"#fff"}}>{getUserData().displayName}</span>
-                </Link>
-              </div>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Button color="inherit" className="d-none d-sm-block" onClick={this.handleLogin}>Login with GitHub</Button>
-              <Button color="inherit" className="d-sm-none" onClick={this.handleLogin}>Login</Button>
-            </React.Fragment>
-          )}
+          { this.getSigninOrUserIcon() }
+
         </Toolbar>
         <div style={{display: "none"}}>
           <img id="source" src={realLogo} width="300" height="227" />

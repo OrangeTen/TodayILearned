@@ -5,7 +5,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import SelectBox from "../components/SelectBox";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 
 export default class TilInput extends Component {
   constructor(props) {

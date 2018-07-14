@@ -11,7 +11,6 @@ class GreenPark extends Component {
   }
 
   componentDidMount() {
-    const self = this;
     let greenData = [];
     for (let i=0; i<52; i++) {
       greenData[i] = [];

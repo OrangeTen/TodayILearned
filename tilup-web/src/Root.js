@@ -1,43 +1,89 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+
 import MainApp from './apps/MainApp';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
 import * as log from "./utils/log";
+import * as FirebaseUtils from "./utils/firebaseUtils";
 
 
-const Root = () => {
-  log.d(`Root.js`, `render`);
+export default class Root extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <BrowserRouter>
-      <div>
-        {/* Main App */}
-        <Route exact path="/" render={() =>
-          (
-            <MainApp type={PATH.MAIN} />
-          )}/>
-        <Route exact path="/search/:string" render={({match}) =>
-          (
-            <MainApp type={PATH.SEARCH} data={match.params.string}/>
-          )}/>
-        <Route exact path="/repo/:index" render={({match}) =>
-          (
-            <MainApp type={PATH.REPO} index={match.params.index}/>
-          )}/>
-        <Route exact path="/til/:index" render={({match}) =>
-          (
-            <MainApp type={PATH.TIL} index={match.params.index}/>
-          )}/>
+    this.state = {
+      user: undefined,
+    };
 
-        {/* ProfileApp */}
-        <Route exact path="/profile" render={({match}) =>
-          (
-            <ProfileApp data={1} id={match.params.id}/>
-          )}/>
-      </div>
-    </BrowserRouter>
-  )
-};
+    this.bindWithUser = this.bindWithUser.bind(this);
+  }
 
-export default Root;
+  componentDidMount() {
+    this.bindWithUser();
+  }
+
+  bindWithUser() {
+    FirebaseUtils.onUserChanged(
+      (user) => {
+        log.d("Root.js", "bindWithUser", "onUserChanged user=", user);
+        this.setState({
+          user: user
+        });
+      }
+    );
+  }
+
+  render() {
+    log.d(`Root.js`, `render`);
+
+    return (
+      <BrowserRouter>
+        <div>
+          {/* Main App */}
+          <Route exact path="/" render={() =>
+            (
+              <MainApp
+                user={this.state.user}
+                type={PATH.MAIN}
+              />
+            )}/>
+          <Route exact path="/search/:string" render={({match}) =>
+            (
+              <MainApp
+                user={this.state.user}
+                type={PATH.SEARCH}
+                data={match.params.string}
+              />
+            )}/>
+          <Route exact path="/repo/:index" render={({match}) =>
+            (
+              <MainApp
+                user={this.state.user}
+                type={PATH.REPO}
+                index={match.params.index}
+              />
+            )}/>
+          <Route exact path="/til/:index" render={({match}) =>
+            (
+              <MainApp
+                user={this.state.user}
+                type={PATH.TIL}
+                index={match.params.index}
+              />
+            )}/>
+
+          {/* ProfileApp */}
+          <Route exact path="/profile" render={({match}) =>
+            (
+              <ProfileApp
+                user={this.state.user}
+                data={1}
+                id={match.params.id}
+              />
+            )}/>
+        </div>
+      </BrowserRouter>
+    )
+  }
+}
