@@ -1,7 +1,9 @@
 import firebase from 'firebase/app';
 import 'firebase/app';
 import 'firebase/auth';
+
 import * as log from "./log";
+
 
 export function onUserChanged(callback) {
   firebase.auth().onAuthStateChanged(callback);

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import {API_HOST} from "../consts/urls";
 import * as log from "../utils/log";
 import * as FirebaseUtils from "../utils/firebaseUtils";
@@ -22,6 +23,7 @@ export function getTilList(query) {
 
 export function getOneTil(idx) {
   log.d(`actions/index.js`, `getOneTil`);
+
   let targetUrl = API_HOST + "api/til/"+idx;
 
   log.d(`actions/index.js`, `getOneTil`, `targetUrl=${targetUrl}`);

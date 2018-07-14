@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import './navigation-bar.css';
+import { Link } from 'react-router-dom';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+
 import logo from './logo.png'
 import realLogo from './real_logo.png'
+import './navigation-bar.css';
 import startEasterEgg from '../utils/startEasterEgg'
-import Icon from '@material-ui/core/Icon';
-import { Link } from 'react-router-dom';
 import * as FirebaseUtils from "../utils/firebaseUtils";
 import * as log from "../utils/log";
+
 
 export default class NavigationBar extends Component {
   constructor(props) {

@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+
 import MainApp from './apps/MainApp';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
