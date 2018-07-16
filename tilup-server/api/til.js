@@ -1,5 +1,6 @@
 const Til = require('mongoose').model('Til');
 const Directory = require('mongoose').model('Directory');
+const popConfig = require('../popConfig.json');
 const {
     NotExistError,
     BadRequestError
@@ -38,11 +39,8 @@ module.exports = {
     get(req, res, next) {
         Til
             .find()
-            .populate('directory', {
-                _id: 0,
-                created: 0,
-                updated: 0
-            })
+            .populate('directory', popConfig.directory)
+            .populate('uid', popConfig.user)
             .exec((err, tils) => {
                 if (err) {
                     throw new BadRequestError(err);
@@ -53,11 +51,8 @@ module.exports = {
 
     getOne(req, res, next) {
         Til.findById(req.params.tilId)
-            .populate('directory', {
-                _id: 0,
-                created: 0,
-                updated: 0
-            })
+            .populate('directory', popConfig.directory)
+            .populate('uid', popConfig.user)
             .exec((err, til) => {
                 if (err) {
                     throw new BadRequestError(err);

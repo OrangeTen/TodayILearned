@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const TilSchema = new Schema({
     uid: {
-        type: String
+        type: String,
+        ref: 'User'
     },
     contents: {
         type: String
