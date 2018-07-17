@@ -3,7 +3,53 @@ import axios from "axios";
 import {API_HOST} from "../consts/urls";
 import * as log from "../utils/log";
 import * as FirebaseUtils from "../utils/firebaseUtils";
+import * as types from "./ActionTypes";
 
+
+export function getToken(option) {
+  FirebaseUtils.getToken().then(token => {
+    let header = {
+      authorization: token
+    };
+  });
+}
+
+function fetchTilListRequest() {
+	return {type: types.FETCH_TILLIST}
+};
+
+function fetchTilListSuccess(json) {
+	return{
+		type: types.FETCH_TILLIST_SUCCESS,
+		data: json
+	}
+};
+
+function fetchTilListError(json) {
+	return {
+		type: types.FETCH_TILLIST_ERROR,
+		data: json
+	}
+};
+
+export function fetchTilList(option) {
+  const url = `${API_HOST}api/feed/`
+  // const url = "https://jsonplaceholder.typicode.com/posts/1" // example api
+	return function(dispatch) {
+		dispatch(fetchTilListRequest());
+		return axios.get(url, option)
+			.then(function(response) {
+				dispatch(fetchTilListSuccess(response.data));
+			})
+			.catch(function(response){
+				dispatch(fetchTilListError(response.data));
+			})
+	}
+};
+
+
+
+// ----------- TODO: Delete below this line after apply redux
 
 export function getTilList(query) {
   log.d(`actions/index.js`, `getTilList`);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import MainApp from './apps/MainApp';
+import Home from './containers/Home';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
 import * as log from "./utils/log";
@@ -46,6 +47,12 @@ export default class Root extends Component {
               <MainApp
                 user={this.state.user}
                 type={PATH.MAIN}
+              />
+            )}/>
+          <Route exact path="/home" render={() =>
+            (
+              <Home
+                type={"HOME"}
               />
             )}/>
           <Route exact path="/search/:string" render={({match}) =>
