@@ -23,5 +23,8 @@
     "lint": "node ./node_modules/eslint/bin/eslint.js -c ./node_modules/eslint-config-react-app/index.js src",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "redux-logger": "^3.0.6"
   }
 }
