@@ -8,11 +8,11 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { tilList } = nextProps;
+    // const { tilList } = nextProps;
   }
 
   renderTilList = (tilList) => {
-    return tilList.map(til => <div style={{border: "1px solid black", margin: "1rem"}}>{til.contents}</div>)
+    return tilList.map(til => <div style={{border: "1px solid black", margin: "1rem"}}>{til.contents}</div>);
   }
 
   render() {

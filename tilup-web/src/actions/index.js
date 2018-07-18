@@ -6,50 +6,42 @@ import * as FirebaseUtils from "../utils/firebaseUtils";
 import * as types from "./ActionTypes";
 
 
-export function getToken(option) {
-  FirebaseUtils.getToken().then(token => {
-    let header = {
-      authorization: token
-    };
-  });
+export const fetchTilListRequest = () => {
+	return { type: types.FETCH_TILLIST };
 }
 
-function fetchTilListRequest() {
-	return {type: types.FETCH_TILLIST}
-};
-
-function fetchTilListSuccess(json) {
-	return{
+export const fetchTilListSuccess = json => {
+	return {
 		type: types.FETCH_TILLIST_SUCCESS,
 		data: json
-	}
-};
+	};
+}
 
-function fetchTilListError(json) {
+export const fetchTilListError = json => {
 	return {
 		type: types.FETCH_TILLIST_ERROR,
 		data: json
-	}
-};
+	};
+}
 
-export function fetchTilList(option) {
+export const fetchTilList = (option) => {
   const url = `${API_HOST}api/feed/`
   // const url = "https://jsonplaceholder.typicode.com/posts/1" // example api
-	return function(dispatch) {
+	return dispatch => {
 		dispatch(fetchTilListRequest());
 		return axios.get(url, option)
-			.then(function(response) {
+			.then(response => {
 				dispatch(fetchTilListSuccess(response.data));
 			})
-			.catch(function(response){
+			.catch(response => {
 				dispatch(fetchTilListError(response.data));
 			})
-	}
-};
+	};
+}
 
 
 
-// ----------- TODO: Delete below this line after apply redux
+// ----------- TODO: 2018/07/18 @milooy: Delete below this line after apply redux:
 
 export function getTilList(query) {
   log.d(`actions/index.js`, `getTilList`);
