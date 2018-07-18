@@ -7,7 +7,7 @@ import { PATH } from '../consts/consts';
 import TilItem from "../components/TilItem";
 import TilInput from "../components/TilInput";
 import SelectBox from "../components/SelectBox";
-import {getTilList, getOneTil, postTil} from "../actions";
+import { getTilList, getOneTil, postTil } from "../actions";
 import logo from '../components/logo.png'
 import * as log from "../utils/log";
 import * as FirebaseUtils from "../utils/firebaseUtils";

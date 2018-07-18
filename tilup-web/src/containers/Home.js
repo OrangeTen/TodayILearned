@@ -1,27 +1,32 @@
 import React, { Component } from "react";
-import { fetchTilList } from "../actions/index";
 import { connect } from "react-redux";
 
+import NavigationBar from "../components/NavigationBar";
+import Loading from "../components/Loading";
+import Signin from "../components/Signin";
+import Feed from "./Feed";
+
+
 class Home extends Component {
-  componentDidMount() {
-    this.props.fetchTilList();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // const { tilList } = nextProps;
-  }
-
-  renderTilList = (tilList) => {
-    return tilList.map(til => <div style={{border: "1px solid black", margin: "1rem"}}>{til.contents}</div>);
-  }
-
   render() {
-    const { tilList } = this.props;
+    const {
+      user,
+      isFetchingSignedinUser,
+    } = this.props;
+
+    let body = '';
+    if (user == null && !isFetchingSignedinUser) {
+      body = <Signin />;
+    } else if (isFetchingSignedinUser) {
+      body = <Loading />;
+    } else {
+      body = <Feed />
+    }
+
     return (
       <div>
-        <h2>홈</h2>
-        <div>Data: {}</div>
-        {this.renderTilList(tilList)}
+        <NavigationBar />
+        { body }
       </div>
     );
   }
@@ -29,10 +34,9 @@ class Home extends Component {
 
 function mapStateToProps(state) {
   return {
-    tilList: state.lists.tilList,
+    user: state.firebase.user,
+    isFetchingSignedinUser: state.firebase.isFetchingSignedinUser,
   };
 }
 
-export default connect(mapStateToProps, {
-  fetchTilList,
-})(Home);
+export default connect(mapStateToProps)(Home);

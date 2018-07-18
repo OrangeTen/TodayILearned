@@ -5,39 +5,14 @@ import MainApp from './apps/MainApp';
 import Home from './containers/Home';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
-import * as log from "./utils/log";
-import * as FirebaseUtils from "./utils/firebaseUtils";
 
 
 export default class Root extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      user: undefined,
-    };
-
-    this.bindWithUser = this.bindWithUser.bind(this);
-  }
-
-  componentDidMount() {
-    this.bindWithUser();
-  }
-
-  bindWithUser() {
-    FirebaseUtils.onUserChanged(
-      (user) => {
-        log.d("Root.js", "bindWithUser", "onUserChanged user=", user);
-        this.setState({
-          user: user
-        });
-      }
-    );
   }
 
   render() {
-    log.d(`Root.js`, `render`);
-
     return (
       <BrowserRouter>
         <div>
