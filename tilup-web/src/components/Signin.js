@@ -4,14 +4,14 @@ import Button from '@material-ui/core/Button';
 import logo from '../components/logo.png'
 
 
-const Loading = () => (
+const Signin = () => (
   <div className="pleaseLogin">
-    <img src={logo} className="pleaseLogin__logo" />
+    <img src={logo} alt="pleaseLoginLogo" className="pleaseLogin__logo" />
     <Button variant="extendedFab" color="#000" className="pleaseLogin__btn" onClick={this.handleLogin}>
-      <img src="/res/octocat.svg" className="pleaseLogin__icon" />
+      <img src="/res/octocat.svg" alt="octocat" className="pleaseLogin__icon" />
       Login with GitHub
     </Button>
   </div>
 );
 
-export default Loading;
+export default Signin;

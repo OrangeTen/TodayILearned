@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { fetchTilList } from "../actions/index";
 import { connect } from "react-redux";
+
+import { fetchTilList } from "../actions/index";
+
 
 class Feed extends Component {
   componentDidMount() {
@@ -12,7 +14,11 @@ class Feed extends Component {
   }
 
   renderTilList = (tilList) => {
-    return tilList.map(til => <div style={{border: "1px solid black", margin: "1rem"}}>{til.contents}</div>);
+    return tilList.map(til =>
+      <div style={{border: "1px solid black", margin: "1rem"}}>
+        { til.contents }
+      </div>
+    );
   };
 
   render() {
@@ -23,7 +29,7 @@ class Feed extends Component {
     return (
       <div>
         <div>Data: {}</div>
-        {this.renderTilList(tilList)}
+        { this.renderTilList(tilList) }
       </div>
     );
   }

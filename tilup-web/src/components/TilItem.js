@@ -25,11 +25,11 @@ export default class TilItem extends Component {
     return (
       <div className="til-card">
         <div className="avatar d-sm-block d-none">
-          <img src={avatarUrl} />
+          <img src={avatarUrl} alt="avatarImage" />
         </div>
         <div className="til-card__container">
           <div className="name-container">
-            <img src={avatarUrl} className="avatar-mobile d-sm-none" />
+            <img src={avatarUrl} alt="avatarPhoto" className="avatar-mobile d-sm-none" />
             <div className="name-container__name">{ data.uid ? data.uid.substr(0, 8) : "비회원"}</div>
             <div className="name-container__date">{ this.dateHumanize(data.created) }</div>
           </div>

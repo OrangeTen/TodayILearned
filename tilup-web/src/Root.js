@@ -8,10 +8,6 @@ import { PATH } from './consts/consts';
 
 
 export default class Root extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <BrowserRouter>

@@ -5,9 +5,6 @@ import 'firebase/auth';
 import * as log from "./log";
 import firebaseConfig from "../consts/firebaseConfig";
 
-export function onUserChanged(callback) {
-  firebase.auth().onAuthStateChanged(callback);
-}
 
 export function getToken() {
   return firebase.auth().currentUser ?

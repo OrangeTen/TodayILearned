@@ -4,7 +4,6 @@ import 'firebase/auth';
 
 import * as types from './ActionTypes';
 import { getInitializedApp } from "../utils/firebaseUtils";
-import * as log from "../utils/log";
 
 
 export const firebaseInitialize = () => {
@@ -25,15 +24,9 @@ export const firebaseLoadSignedInUser = () => {
       type: types.FIREBASE_LOAD_SIGNEDINUSER,
     });
 
-    let isFirstAuthStateChanged = true;
-    firebase.auth().onAuthStateChanged(
+    const unsubscribe = firebase.auth().onAuthStateChanged(
       (user) => {
-        if (!isFirstAuthStateChanged) {
-          log.d("actions/firebase.js", "firebaseLoadSignedInUser", "!isFirstAuthStateChanged");
-          return;
-        }
-
-        isFirstAuthStateChanged = false;
+        unsubscribe();
         dispatch({
           type: types.FIREBASE_LOAD_SIGNEDINUSER_SUCCESS,
           data: {

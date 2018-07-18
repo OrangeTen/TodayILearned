@@ -34,7 +34,7 @@ export default class NavigationBar extends Component {
     return user ? (
       <React.Fragment>
         <Link to="/profile">
-          <img src={user.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px", marginLeft: "5px"}} />
+          <img src={user.photoURL} alt="profilePhoto" style={{width: "40px", borderRadius: "50%", marginRight: "5px", marginLeft: "5px"}} />
         </Link>
         <div className="userName d-none d-sm-block">
           <Link to="/profile">
@@ -92,12 +92,12 @@ export default class NavigationBar extends Component {
             this.state.easterCount <= 0? 
               (
                 <React.Fragment>
-                  <img src={realLogo} className="logo" />
+                  <img src={realLogo} alt="logo" className="logo" />
                   <Typography variant="title" color="inherit" className="navigation-bar__title">TILUP with DecOrange!</Typography>  
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <img src={logo} className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/> 
+                  <img src={logo} alt="logo" className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/>
                   <Link to="/" style={{color: "white", textDecoration: "none"}}><Typography variant="title" color="inherit" className="navigation-bar__title">TILUP</Typography>  </Link>
                 </React.Fragment>
               ) 
@@ -112,7 +112,7 @@ export default class NavigationBar extends Component {
 
         </Toolbar>
         <div style={{display: "none"}}>
-          <img id="source" src={realLogo} width="300" height="227" />
+          <img id="source" src={realLogo} alt="realLogo" width="300" height="227" />
         </div>
       </AppBar>
     );
