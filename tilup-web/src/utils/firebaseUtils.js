@@ -31,6 +31,10 @@ export function getInitializedApp() {
   return app;
 }
 
+export function getGithubProvider() {
+  return new firebase.auth.GithubAuthProvider();
+}
+
 export function requestLogin() {
   const provider = new firebase.auth.GithubAuthProvider();
   return firebase.auth().signInWithPopup(provider)

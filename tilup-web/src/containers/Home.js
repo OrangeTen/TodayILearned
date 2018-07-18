@@ -11,16 +11,16 @@ class Home extends Component {
   render() {
     const {
       user,
-      isFetchingSignedinUser,
+      hasPrevSignedinUserChecked,
     } = this.props;
 
     let body = '';
-    if (user == null && !isFetchingSignedinUser) {
-      body = <Signin />;
-    } else if (isFetchingSignedinUser) {
+    if (!hasPrevSignedinUserChecked) {
       body = <Loading />;
+    } else if (user == null) {
+      body = <Signin />;
     } else {
-      body = <Feed />
+      body = <Feed />;
     }
 
     return (
@@ -35,7 +35,7 @@ class Home extends Component {
 function mapStateToProps(state) {
   return {
     user: state.firebase.user,
-    isFetchingSignedinUser: state.firebase.isFetchingSignedinUser,
+    hasPrevSignedinUserChecked: state.firebase.hasPrevSignedinUserChecked,
   };
 }
 
