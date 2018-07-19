@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { fetchTilList } from "../actions/index";
+import { fetchTilList } from "../actions/list";
 
 
 class Feed extends Component {

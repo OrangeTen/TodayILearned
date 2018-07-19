@@ -1,43 +1,8 @@
 import axios from "axios";
 
-import {API_HOST} from "../consts/urls";
+import { API_HOST } from "../consts/urls";
 import * as log from "../utils/log";
 import * as FirebaseUtils from "../utils/firebaseUtils";
-import * as types from "./ActionTypes";
-
-
-export const fetchTilListRequest = () => {
-	return { type: types.FETCH_TILLIST };
-};
-
-export const fetchTilListSuccess = json => {
-	return {
-		type: types.FETCH_TILLIST_SUCCESS,
-		data: json
-	};
-};
-
-export const fetchTilListError = json => {
-	return {
-		type: types.FETCH_TILLIST_ERROR,
-		data: json
-	};
-};
-
-export const fetchTilList = (option) => {
-  const url = `${API_HOST}api/feed/`;
-  // const url = "https://jsonplaceholder.typicode.com/posts/1" // example api
-	return dispatch => {
-		dispatch(fetchTilListRequest());
-		return axios.get(url, option)
-			.then(response => {
-				dispatch(fetchTilListSuccess(response.data));
-			})
-			.catch(response => {
-				dispatch(fetchTilListError(response.data));
-			})
-	};
-};
 
 
 // ----------- TODO: 2018/07/18 @milooy: Delete below this line after apply redux:
