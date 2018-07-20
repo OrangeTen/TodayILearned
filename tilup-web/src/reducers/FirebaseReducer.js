@@ -4,6 +4,7 @@ import * as types from "../actions/ActionTypes";
 const initialState = {
   auth: null,
   githubProvider: null,
+  facebookProvider: null,
   user: null,
   isNewUser: false,
   newUserInfo: null,
@@ -20,6 +21,7 @@ export default function (state = initialState, action) {
         ...state,
         auth: action.data.auth,
         githubProvider: action.data.githubProvider,
+        facebookProvider: action.data.facebookProvider,
       };
 
     case types.FIREBASE_CHECK_PREVSIGNEDINUSER:
@@ -44,21 +46,40 @@ export default function (state = initialState, action) {
       };
 
     case types.FIREBASE_GITHUBSIGNIN_SUCCESS:
-      const isNewUser = action.data.additionalUserInfo.isNewUser;
-      const newUserInfo = {};
-      if (isNewUser) {
+      let isNewGhUser = action.data.additionalUserInfo.isNewUser;
+      let newGhUserInfo = {};
+      if (isNewGhUser) {
         const account = action.data.additionalUserInfo.profile.login;
         const name = action.data.additionalUserInfo.profile.name;
-        newUserInfo.push(account);
-        newUserInfo.push(name);
+        newGhUserInfo.account = account;
+        newGhUserInfo.name = name;
       }
 
       return {
         ...state,
         user: action.data.user,
         token: action.data.user.h.b,
-        isNewUser: isNewUser,
-        newUserInfo: newUserInfo,
+        isNewUser: isNewGhUser,
+        newUserInfo: newGhUserInfo,
+      };
+
+    case types.FIREBASE_FACEBOOKSIGNIN_SUCCESS:
+      let isNewFbUser = action.data.additionalUserInfo.isNewUser;
+      let newFbUserInfo = {};
+      if (isNewFbUser) {
+        const account = action.data.additionalUserInfo.profile.email ||
+          action.data.additionalUserInfo.profile.id;
+        const name = action.data.additionalUserInfo.profile.name;
+        newFbUserInfo.account = account;
+        newFbUserInfo.name = name;
+      }
+
+      return {
+        ...state,
+        user: action.data.user,
+        token: action.data.user.h.b,
+        isNewUser: isNewFbUser,
+        newUserInfo: newFbUserInfo,
       };
 
     case types.FIREBASE_SIGNOUT:
