@@ -7,7 +7,7 @@ import { PATH } from '../consts/consts';
 import TilItem from "../components/TilItem";
 import TilInput from "../components/TilInput";
 import SelectBox from "../components/SelectBox";
-import {getTilList, getOneTil, postTil} from "../actions";
+import { getTilList, getOneTil, postTil } from "../actions";
 import logo from '../components/logo.png'
 import * as log from "../utils/log";
 import * as FirebaseUtils from "../utils/firebaseUtils";
@@ -136,9 +136,9 @@ class MainApp extends Component {
       <Container user={this.props.user}>
         {!this.props.user ? (
           <div className="pleaseLogin">
-            <img src={logo} className="pleaseLogin__logo" />
+            <img src={logo} alt="pleaseLoginLogo" className="pleaseLogin__logo" />
             <Button variant="extendedFab" color="#000" className="pleaseLogin__btn" onClick={this.handleLogin}>
-              <img src="/res/octocat.svg" className="pleaseLogin__icon" />
+              <img src="/res/octocat.svg" alt="octocat" className="pleaseLogin__icon" />
               Login with GitHub
             </Button>
           </div>

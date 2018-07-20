@@ -1,9 +1,11 @@
 import axios from "axios";
 
-import {API_HOST} from "../consts/urls";
+import { API_HOST } from "../consts/urls";
 import * as log from "../utils/log";
 import * as FirebaseUtils from "../utils/firebaseUtils";
 
+
+// ----------- TODO: 2018/07/18 @milooy: Delete below this line after apply redux:
 
 export function getTilList(query) {
   log.d(`actions/index.js`, `getTilList`);

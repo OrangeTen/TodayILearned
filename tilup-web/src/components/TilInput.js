@@ -20,8 +20,10 @@ export default class TilInput extends Component {
   }
 
   handleChange = (value) => {
-    this.setState({tilValue: value})
-  }
+    this.setState({
+      tilValue: value
+    })
+  };
 
 
   render() {
@@ -35,7 +37,8 @@ export default class TilInput extends Component {
     return (
       <div className="til-card til-input__container">
         <div className="avatar d-sm-block d-none">
-          <img src="https://vignette.wikia.nocookie.net/edukayfun/images/0/0b/Soo_soo_ANOYING%21%21%21%21%21%21%21%21%21%21%21%21%21%21.png/revision/latest?cb=20171206164413" />
+          <img src="https://vignette.wikia.nocookie.net/edukayfun/images/0/0b/Soo_soo_ANOYING%21%21%21%21%21%21%21%21%21%21%21%21%21%21.png/revision/latest?cb=20171206164413"
+            alt="avatar" />
         </div>
         <div className="til-card__container">
           <div className="til-card__box">

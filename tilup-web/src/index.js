@@ -1,14 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
-import * as FirebaseUtils from "./utils/firebaseUtils";
-import * as log from "./utils/log";
+import { Provider } from "react-redux";
+
+// import registerServiceWorker from './registerServiceWorker';
+import configureStore from './store/configureStore';
 import './index.css';
 import Root from './Root';
+import { firebaseInitialize, firebaseLoadSignedInUser } from "./actions/firebase";
 
 
-log.d(`index.js`);
-FirebaseUtils.initializeFirebase();
+const store = configureStore();
+store.dispatch(firebaseInitialize());
+store.dispatch(firebaseLoadSignedInUser());
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <Root />
+  </Provider>,
+  document.getElementById('root')
+);
+
 // registerServiceWorker();
