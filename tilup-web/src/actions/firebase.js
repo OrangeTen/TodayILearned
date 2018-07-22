@@ -1,5 +1,7 @@
 import * as types from './ActionTypes';
-import { getInitializedApp, getGithubProvider } from "../utils/firebaseUtils";
+import {
+  getInitializedApp, getGithubProvider, getFacebookProvider
+} from "../utils/firebaseUtils";
 
 
 export const firebaseInitialize = () => {
@@ -11,6 +13,7 @@ export const firebaseInitialize = () => {
     data: {
       auth,
       githubProvider: getGithubProvider(),
+      facebookProvider: getFacebookProvider(),
     },
   });
 };
@@ -57,6 +60,29 @@ export const firebasePopupGithubSignin = () => {
     }).catch((err) => {
       dispatch({
         type: types.FIREBASE_GITHUBSIGNIN_FAILURE,
+        data: {
+          err,
+        },
+      });
+    });
+  }
+};
+
+export const firebasePopupFacebookSignin = () => {
+  return (dispatch, getState) => {
+    const {
+      firebase: { auth, facebookProvider }
+    } = getState();
+
+    auth.signInWithPopup(facebookProvider).then((result) => {
+      dispatch({
+        type: types.FIREBASE_FACEBOOKSIGNIN_SUCCESS,
+        data: result,
+      });
+      dispatch(firebaseSubscribeIdToken());
+    }).catch((err) => {
+      dispatch({
+        type: types.FIREBASE_FACEBOOKSIGNIN_FAILURE,
         data: {
           err,
         },

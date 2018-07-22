@@ -12,7 +12,9 @@ import realLogo from './real_logo.png'
 import './navigation-bar.css';
 import startEasterEgg from '../utils/startEasterEgg'
 import * as log from "../utils/log";
-import { firebasePopupGithubSignin, firebaseSignout } from "../actions/firebase";
+import {
+  firebasePopupGithubSignin, firebasePopupFacebookSignin, firebaseSignout,
+} from "../actions/firebase";
 import Loading from "./Loading";
 
 
@@ -38,7 +40,10 @@ class NavigationBar extends Component {
       signinOrUserIcon = <Loading />;
     } else if (user == null) {
       signinOrUserIcon = (
-        <Button color="inherit" className="d-none d-sm-block" onClick={this.props.firebasePopupGithubSignin}>Signin with GitHub</Button>
+        <React.Fragment>
+          <Button color="inherit" className="d-none d-sm-block" onClick={this.props.firebasePopupGithubSignin}>Signin with GitHub</Button>
+          <Button color="inherit" className="d-none d-sm-block" onClick={this.props.firebasePopupFacebookSignin}>Signin with Facebook</Button>
+        </React.Fragment>
       );
     } else {
       signinOrUserIcon = (
@@ -127,6 +132,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   firebasePopupGithubSignin,
+  firebasePopupFacebookSignin,
   firebaseSignout,
 };
 
