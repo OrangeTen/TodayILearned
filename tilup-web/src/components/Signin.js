@@ -1,12 +1,10 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { connect } from "react-redux";
-
-import logo from '../components/logo.png'
+import './Signin.css';
 import {
   firebasePopupFacebookSignin, firebasePopupGithubSignin
 } from "../actions/firebase";
-import {connect} from "react-redux";
 
 
 const Signin = (props) => {
@@ -15,18 +13,27 @@ const Signin = (props) => {
     body = "Already signed in.";
   } else {
     body = (
-      <div className="pleaseLogin">
-        <img src={logo} alt="pleaseLoginLogo" className="pleaseLogin__logo"/>
-        <Button variant="extendedFab" color="#000" className="pleaseLogin__btn"
-                onClick={props.firebasePopupGithubSignin}>
-          <img src="/res/octocat.svg" alt="octocat" className="pleaseLogin__icon"/>
-          Signin with GitHub
-        </Button>
-        <br/>
-        <Button variant="extendedFab" color="#000" className="pleaseLogin__btn"
-                onClick={props.firebasePopupFacebookSignin}>
-          Signin with Facebook
-        </Button>
+      <div className="signin">
+        <div className="signin__container">
+          <img src="/res/logo_black.png" alt="signinLogo" className="signin__logo"/>
+          <span className="signin__title">Sign in to TILUP</span>
+          <div className="signin__github" onClick={props.firebasePopupGithubSignin}>
+            <div className="signin__github__logo">
+              <img src="/res/github_logo.svg" width="26px"/>
+            </div>
+            <div className="signin__btn__text">
+            Continue with Github
+            </div>
+          </div>
+          <div className="signin__fb" onClick={props.firebasePopupFacebookSignin}>
+            <div className="signin__fb__logo">
+              <img src="/res/facebook.svg" width="26px"/>
+            </div>
+            <div className="signin__btn__text">
+            Continue with Facebook
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
