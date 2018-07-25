@@ -19,16 +19,7 @@ class Root extends Component {
           {/* Main App */}
           <Route exact path="/" render={() =>
             (
-              <MainApp
-                user={this.state.user}
-                type={PATH.MAIN}
-              />
-            )}/>
-          <Route exact path="/home" render={() =>
-            (
-              <Home
-                type={"HOME"}
-              />
+              <Home />
             )}/>
           <Route exact path="/search/:string" render={({match}) =>
             (
