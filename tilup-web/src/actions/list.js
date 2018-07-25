@@ -2,6 +2,7 @@ import axios from "axios/index";
 
 import * as types from "./ActionTypes";
 import { API_HOST } from "../consts/urls";
+import { getHeadersWithToken } from "./index";
 
 
 export const fetchTilListRequest = () => {
@@ -30,7 +31,7 @@ export const fetchTilList = (option) => {
       }
     } = getState();
     const url = `${API_HOST}api/feed/`;
-    const headers = _getHeadersWithToken(token);
+    const headers = getHeadersWithToken(token);
 
     dispatch(fetchTilListRequest());
     return axios.get(url, Object.assign(headers, option))
@@ -42,11 +43,3 @@ export const fetchTilList = (option) => {
       })
   };
 };
-
-function _getHeadersWithToken(token) {
-  return {
-    headers: {
-      authorization: token
-    }
-  };
-}

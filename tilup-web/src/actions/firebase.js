@@ -2,46 +2,64 @@ import * as types from './ActionTypes';
 import {
   getInitializedApp, getGithubProvider, getFacebookProvider
 } from "../utils/firebaseUtils";
+import { signin } from "./user";
+import * as log from "../utils/log";
 
 
 export const firebaseInitialize = () => {
   const firebaseApp = getInitializedApp();
   const auth = firebaseApp.auth();
 
-  return dispatch => dispatch({
-    type: types.FIREBASE_INITIALIZED_SUCCESS,
-    data: {
-      auth,
-      githubProvider: getGithubProvider(),
-      facebookProvider: getFacebookProvider(),
-    },
-  });
+  return dispatch => {
+    dispatch({
+      type: types.FIREBASE_INITIALIZE,
+      data: {
+        auth,
+        githubProvider: getGithubProvider(),
+        facebookProvider: getFacebookProvider(),
+      },
+    });
+
+    return dispatch(firebaseLoadSignedInUser())
+      .then(() => {
+      }).catch((err) => {
+        log.d("actions/firebase.js", "firebaseInitialize", err);
+      }).then(() => {
+        return dispatch({
+          type: types.FIREBASE_INITIALIZE_SUCCESS,
+        });
+      });
+  }
 };
 
 export const firebaseLoadSignedInUser = () => {
   return (dispatch, getState) => {
     const {
-      firebase: {auth}
+      firebase: { auth }
     } = getState();
 
     dispatch({
       type: types.FIREBASE_CHECK_PREVSIGNEDINUSER,
     });
 
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    return new Promise((res, _) => {
+      const unsubscribe = auth.onAuthStateChanged(user => {
         unsubscribe();
-        dispatch({
-          type: types.FIREBASE_CHECK_PREVSIGNEDINUSER_SUCCESS,
-          data: {
-            user,
-          },
-        });
-
         if (user) {
-          dispatch(firebaseSubscribeIdToken());
+          const token = user.h.b;
+          dispatch(firebaseSigninSuccess(user, token))
+            .then(() => {
+              res();
+            });
         }
-      }
-    );
+
+        res();
+      })
+    }).then(() => {
+      dispatch({
+        type: types.FIREBASE_CHECK_PREVSIGNEDINUSER_SUCCESS,
+      });
+    });
   }
 };
 
@@ -52,11 +70,10 @@ export const firebasePopupGithubSignin = () => {
     } = getState();
 
     auth.signInWithPopup(githubProvider).then((result) => {
-      dispatch({
-        type: types.FIREBASE_GITHUBSIGNIN_SUCCESS,
-        data: result,
-      });
-      dispatch(firebaseSubscribeIdToken());
+      const user = result.user;
+      const token = result.user.h.b;
+
+      dispatch(firebaseSigninSuccess(user, token));
     }).catch((err) => {
       dispatch({
         type: types.FIREBASE_GITHUBSIGNIN_FAILURE,
@@ -68,6 +85,21 @@ export const firebasePopupGithubSignin = () => {
   }
 };
 
+export const firebaseSigninSuccess = (user, token) => {
+  return dispatch => {
+    dispatch({
+      type: types.FIREBASE_SIGNIN_SUCCESS,
+      data: {
+        user,
+        token,
+      },
+    });
+
+    dispatch(firebaseSubscribeIdToken());
+    return dispatch(signin());
+  }
+};
+
 export const firebasePopupFacebookSignin = () => {
   return (dispatch, getState) => {
     const {
@@ -75,11 +107,20 @@ export const firebasePopupFacebookSignin = () => {
     } = getState();
 
     auth.signInWithPopup(facebookProvider).then((result) => {
-      dispatch({
-        type: types.FIREBASE_FACEBOOKSIGNIN_SUCCESS,
-        data: result,
-      });
-      dispatch(firebaseSubscribeIdToken());
+      const isNewFbUser = result.additionalUserInfo.isNewUser;
+
+      if (isNewFbUser) {
+        const account = result.additionalUserInfo.profile.email ||
+          result.additionalUserInfo.profile.id;
+        const name = result.additionalUserInfo.profile.name;
+
+        dispatch(firebaseSignup(account, name));
+      }
+
+      const user = result.user;
+      const token = result.user.h.b;
+
+      dispatch(firebaseSigninSuccess(user, token));
     }).catch((err) => {
       dispatch({
         type: types.FIREBASE_FACEBOOKSIGNIN_FAILURE,
@@ -88,6 +129,16 @@ export const firebasePopupFacebookSignin = () => {
         },
       });
     });
+  }
+};
+
+export const firebaseSignup = (account, name) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.FIREBASE_SIGNUP
+    });
+
+    // todo 180725 jyp Implementation
   }
 };
 
