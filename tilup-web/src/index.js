@@ -6,12 +6,11 @@ import { Provider } from "react-redux";
 import configureStore from './store/configureStore';
 import './index.css';
 import Root from './Root';
-import { firebaseInitialize, firebaseLoadSignedInUser } from "./actions/firebase";
+import { firebaseInitialize } from "./actions/firebase";
 
 
 const store = configureStore();
 store.dispatch(firebaseInitialize());
-store.dispatch(firebaseLoadSignedInUser());
 
 ReactDOM.render(
   <Provider store={store}>

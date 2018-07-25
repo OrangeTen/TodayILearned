@@ -10,13 +10,13 @@ const initialState = {
   newUserInfo: null,
   token: null,
   isSigningOut: false,
-  hasPrevSignedinUserChecked: false,
+  isInitialized: false,
   idtokenUnsubscribe: null,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case types.FIREBASE_INITIALIZED_SUCCESS:
+    case types.FIREBASE_INITIALIZE:
       return {
         ...state,
         auth: action.data.auth,
@@ -24,62 +24,17 @@ export default function (state = initialState, action) {
         facebookProvider: action.data.facebookProvider,
       };
 
-    case types.FIREBASE_CHECK_PREVSIGNEDINUSER:
+    case types.FIREBASE_INITIALIZE_SUCCESS:
       return {
         ...state,
-        hasPrevSignedinUserChecked: false,
+        isInitialized: true,
       };
 
-    case types.FIREBASE_CHECK_PREVSIGNEDINUSER_SUCCESS:
-      const user = action.data.user;
-      let token = null;
-
-      if (user) {
-        token = action.data.user.h.b;
-      }
-
-      return {
-        ...state,
-        hasPrevSignedinUserChecked: true,
-        user: user,
-        token: token,
-      };
-
-    case types.FIREBASE_GITHUBSIGNIN_SUCCESS:
-      let isNewGhUser = action.data.additionalUserInfo.isNewUser;
-      let newGhUserInfo = {};
-      if (isNewGhUser) {
-        const account = action.data.additionalUserInfo.profile.login;
-        const name = action.data.additionalUserInfo.profile.name;
-        newGhUserInfo.account = account;
-        newGhUserInfo.name = name;
-      }
-
+    case types.FIREBASE_SIGNIN_SUCCESS:
       return {
         ...state,
         user: action.data.user,
-        token: action.data.user.h.b,
-        isNewUser: isNewGhUser,
-        newUserInfo: newGhUserInfo,
-      };
-
-    case types.FIREBASE_FACEBOOKSIGNIN_SUCCESS:
-      let isNewFbUser = action.data.additionalUserInfo.isNewUser;
-      let newFbUserInfo = {};
-      if (isNewFbUser) {
-        const account = action.data.additionalUserInfo.profile.email ||
-          action.data.additionalUserInfo.profile.id;
-        const name = action.data.additionalUserInfo.profile.name;
-        newFbUserInfo.account = account;
-        newFbUserInfo.name = name;
-      }
-
-      return {
-        ...state,
-        user: action.data.user,
-        token: action.data.user.h.b,
-        isNewUser: isNewFbUser,
-        newUserInfo: newFbUserInfo,
+        token: action.data.token,
       };
 
     case types.FIREBASE_SIGNOUT:

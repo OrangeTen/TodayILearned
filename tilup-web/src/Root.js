@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { connect } from "react-redux";
 
 import MainApp from './apps/MainApp';
 import Home from './containers/Home';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
+import Loading from "./components/Loading";
 
 
-export default class Root extends Component {
+class Root extends Component {
   render() {
-    return (
-      <BrowserRouter>
+    let body = <Loading />;
+
+    if (this.props.isInitialized) {
+      body = (
         <div>
           {/* Main App */}
           <Route exact path="/" render={() =>
@@ -61,7 +65,21 @@ export default class Root extends Component {
               />
             )}/>
         </div>
+      );
+    }
+
+    return (
+      <BrowserRouter>
+        { body }
       </BrowserRouter>
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    isInitialized: state.firebase.isInitialized,
+  };
+}
+
+export default connect(mapStateToProps)(Root);

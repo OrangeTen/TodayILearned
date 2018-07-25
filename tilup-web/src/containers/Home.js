@@ -11,11 +11,11 @@ class Home extends Component {
   render() {
     const {
       user,
-      hasPrevSignedinUserChecked,
+      isSigningIn,
     } = this.props;
 
     let body = '';
-    if (!hasPrevSignedinUserChecked) {
+    if (isSigningIn) {
       body = <Loading />;
     } else if (user == null) {
       body = <Signin />;
@@ -35,7 +35,7 @@ class Home extends Component {
 function mapStateToProps(state) {
   return {
     user: state.firebase.user,
-    hasPrevSignedinUserChecked: state.firebase.hasPrevSignedinUserChecked,
+    isSigningIn: state.user.isSigningIn,
   };
 }
 

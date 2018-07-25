@@ -1,11 +1,11 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import { connect } from "react-redux";
 
 import logo from '../components/logo.png'
 import {
   firebasePopupFacebookSignin, firebasePopupGithubSignin
 } from "../actions/firebase";
-import {connect} from "react-redux";
 
 
 const Signin = (props) => {
@@ -41,7 +41,7 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
   return {
     user: state.firebase.user,
-    hasPrevSignedinUserChecked: state.firebase.hasPrevSignedinUserChecked,
+    isSigningIn: state.user.isSigningIn,
     isSigningOut: state.firebase.isSigningOut,
   };
 }

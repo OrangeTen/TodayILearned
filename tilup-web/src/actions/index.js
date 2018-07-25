@@ -5,7 +5,13 @@ import * as log from "../utils/log";
 import * as FirebaseUtils from "../utils/firebaseUtils";
 
 
-// ----------- TODO: 2018/07/18 @milooy: Delete below this line after apply redux:
+export function getHeadersWithToken(token) {
+  return {
+    headers: {
+      authorization: token
+    }
+  };
+}
 
 export function getTilList(query) {
   log.d(`actions/index.js`, `getTilList`);
@@ -29,21 +35,6 @@ export function getOneTil(idx) {
   let targetUrl = API_HOST + "api/til/"+idx;
 
   log.d(`actions/index.js`, `getOneTil`, `targetUrl=${targetUrl}`);
-  return axios.get(targetUrl);
-}
-
-export function getRepoListWithUid(uid) {
-  log.d(`actions/index.js`, `getRepoListWithUid`);
-
-  let targetUrl = `${API_HOST}api/directory/${uid}`;
-  // header에 Authorization: idToken
-  return axios.get(targetUrl);
-}
-
-export function getUserData(uid) {
-  log.d(`actions/index.js`, `getUserData`);
-
-  let targetUrl = `${API_HOST}api/user/${uid}`;
   return axios.get(targetUrl);
 }
 

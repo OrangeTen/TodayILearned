@@ -15,7 +15,6 @@ import * as log from "../utils/log";
 import {
   firebasePopupGithubSignin, firebasePopupFacebookSignin, firebaseSignout,
 } from "../actions/firebase";
-import Loading from "./Loading";
 
 
 class NavigationBar extends Component {
@@ -33,16 +32,20 @@ class NavigationBar extends Component {
   }
 
   getSigninOrUserIcon() {
-    const { user, hasPrevSignedinUserChecked } = this.props;
+    const {
+      user,
+    } = this.props;
 
     let signinOrUserIcon = '';
-    if (!hasPrevSignedinUserChecked) {
-      signinOrUserIcon = <Loading />;
-    } else if (user == null) {
+    if (user == null) {
       signinOrUserIcon = (
         <React.Fragment>
-          <Button color="inherit" className="d-none d-sm-block" onClick={this.props.firebasePopupGithubSignin}>Signin with GitHub</Button>
-          <Button color="inherit" className="d-none d-sm-block" onClick={this.props.firebasePopupFacebookSignin}>Signin with Facebook</Button>
+          <Button color="inherit" className="d-none d-sm-block"
+                  disabled={this.props.isSigningIn}
+                  onClick={this.props.firebasePopupGithubSignin}>Signin with GitHub</Button>
+          <Button color="inherit" className="d-none d-sm-block"
+                  disabled={this.props.isSigningIn}
+                  onClick={this.props.firebasePopupFacebookSignin}>Signin with Facebook</Button>
         </React.Fragment>
       );
     } else {
@@ -71,7 +74,7 @@ class NavigationBar extends Component {
 
   handleEasterEgg = () => {
     // this.setState({easterCount: this.state.easterCount - 1})
-    this.setState(function(prevState, props){
+    this.setState((prevState, props) => {
       return {easterCount: prevState.easterCount -1}
     });
     if(this.state.easterCount <= 1) {
@@ -125,7 +128,7 @@ class NavigationBar extends Component {
 function mapStateToProps(state) {
   return {
     user: state.firebase.user,
-    hasPrevSignedinUserChecked: state.firebase.hasPrevSignedinUserChecked,
+    isSigningIn: state.user.isSigningIn,
     isSigningOut: state.firebase.isSigningOut,
   };
 }
