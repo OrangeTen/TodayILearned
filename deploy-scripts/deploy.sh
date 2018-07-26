@@ -63,6 +63,7 @@ ssh -i $PEMFILE $DEPLOY_SSH_USER@$DEPLOY_SSH_HOST \
   DOCKER_TAG=$DOCKER_TAG \
   'bash -s' << 'DEPLOY'
     APPNAME=todayileanred
+    sudo docker system prune -af
     sudo docker pull $DOCKER_USER/todayileanred:$DOCKER_TAG
     set +e
     sudo docker kill $APPNAME
