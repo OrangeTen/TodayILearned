@@ -7,6 +7,7 @@ import Home from './containers/Home';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
 import Loading from "./components/Loading";
+import NavigationBar from "./components/NavigationBar";
 
 
 class Root extends Component {
@@ -16,6 +17,7 @@ class Root extends Component {
     if (this.props.isInitialized) {
       body = (
         <div>
+          <NavigationBar />
           {/* Main App */}
           <Route exact path="/" render={() =>
             <Home />
@@ -46,13 +48,9 @@ class Root extends Component {
             )}/>
 
           {/* ProfileApp */}
-          <Route exact path="/profile" render={({match}) =>
+          <Route exact path="/profile" render={({_}) =>
             (
-              <ProfileApp
-                user={this.state.user}
-                data={1}
-                id={match.params.id}
-              />
+              <ProfileApp />
             )}/>
         </div>
       );

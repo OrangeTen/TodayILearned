@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import NavigationBar from "../components/NavigationBar";
 import Loading from "../components/Loading";
 import Signin from "../components/Signin";
 import Feed from "./Feed";
@@ -31,7 +30,6 @@ class Home extends Component {
 
     return (
       <div>
-        <NavigationBar />
         { body }
       </div>
     );
