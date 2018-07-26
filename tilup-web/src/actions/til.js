@@ -5,6 +5,40 @@ import { API_HOST } from "../consts/urls";
 import { getOptionWithAuthHeadersFromGetState } from "./index";
 
 
+export const fetchTilListRequest = () => {
+  return { type: types.FETCH_TILLIST };
+};
+
+export const fetchTilListSuccess = json => {
+  return {
+    type: types.FETCH_TILLIST_SUCCESS,
+    data: json
+  };
+};
+
+export const fetchTilListError = json => {
+  return {
+    type: types.FETCH_TILLIST_ERROR,
+    data: json
+  };
+};
+
+export const fetchTilList = (option) => {
+  return (dispatch, getState) => {
+    const url = `${API_HOST}api/feed/`;
+    const options = getOptionWithAuthHeadersFromGetState(getState);
+
+    dispatch(fetchTilListRequest());
+    return axios.get(url, Object.assign(options, option))
+      .then(response => {
+        dispatch(fetchTilListSuccess(response.data));
+      })
+      .catch(response => {
+        dispatch(fetchTilListError(response.data));
+      })
+  };
+};
+
 export const onTilContentsChanged = contents => {
   return {
     type: types.TIL_CONTENTS_CHANGED,

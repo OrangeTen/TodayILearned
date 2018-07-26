@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import './til-item.css';
+import { connect } from "react-redux";
 import Icon from '@material-ui/core/Icon';
 import ReactMarkdown from 'react-markdown';
 
-export default class TilItem extends Component {
+import './til-item.css';
+
+
+class TilItem extends Component {
   getHashes() {
     const { data } = this.props;
 
@@ -26,9 +29,14 @@ export default class TilItem extends Component {
     if (!data.uid) {
       profileUrl = "https://vignette.wikia.nocookie.net/edukayfun/images/0/0b/Soo_soo_ANOYING%21%21%21%21%21%21%21%21%21%21%21%21%21%21.png/revision/latest?cb=20171206164413";
       name = "비회원";
-    } else {
+    } else if (typeof(data.uid) === "object") {
       profileUrl = data.uid.profileUrl;
       name = data.uid.name;
+
+      // TODO 180726 jyp : Fix to populate uid on response of posting til and Remove
+    } else if (typeof(data.uid) === "string") {
+      profileUrl = this.props.user.photoURL;
+      name = this.props.user.displayName;
     }
 
     const humanizedDate = this.dateHumanize(data.created);
@@ -64,15 +72,13 @@ export default class TilItem extends Component {
         </div>
       </div>
     )
-    // return (
-    //   <Card>
-    //     <CardContent>
-    //       {this.props.data.contents}
-    //     </CardContent>
-    //     <CardActions>
-    //       <Button size="small">button</Button>
-    //     </CardActions>
-    //   </Card>
-    // );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.firebase.user,
+  };
+}
+
+export default connect(mapStateToProps)(TilItem);

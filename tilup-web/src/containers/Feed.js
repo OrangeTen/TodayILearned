@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { fetchTilList } from "../actions/list";
+import { fetchTilList } from "../actions/til";
 import TilItem from "../components/TilItem";
 
 
@@ -33,7 +33,7 @@ class Feed extends Component {
 
 function mapStateToProps(state) {
   return {
-    tilList: state.lists.tilList,
+    tilList: state.til.tilList,
   };
 }
 

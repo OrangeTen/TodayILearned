@@ -2,6 +2,7 @@ import * as types from "../actions/ActionTypes";
 
 
 const initialState = {
+  tilList: [],
   contents: "",
   isCreating: false,
   directory: "Inbox",
@@ -16,6 +17,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case types.FETCH_TILLIST_SUCCESS:
+      return {
+        ...state,
+        tilList: action.data
+      };
+
     case types.TIL_CONTENTS_CHANGED:
       return {
         ...state,
@@ -31,6 +38,10 @@ export default function (state = initialState, action) {
     case types.TIL_CREATE_SUCCESS:
       return {
         ...state,
+        tilList: [
+          action.data.data,
+          ...state.tilList,
+          ],
         contents: "",
         isCreating: false,
       };
