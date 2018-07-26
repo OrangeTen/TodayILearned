@@ -10,6 +10,7 @@ import {
   onTilContentsChanged
 } from "../actions/til";
 import SimpleMDEReact from "../utils/simplemde/SimpleMDEReact";
+import messages from "../consts/messages";
 
 
 class TilInput extends Component {
@@ -27,6 +28,7 @@ class TilInput extends Component {
 
   render() {
     console.log(this.props.contents);
+    console.log(messages);
 
     return (
       <div className="til-card til-input__container">
@@ -51,11 +53,11 @@ class TilInput extends Component {
               <SelectBox optionList={this.props.directorieList}/>
               <div className="right">
                 <FormControlLabel
-                  control={<Checkbox value="isSecret" />} label="나만 보기" />
+                  control={<Checkbox value="isSecret" />} label={ messages.TILINPUT_PRIVATE } />
                 <Button variant="outlined"
                         disabled={this.props.isCreating}
                         onClick={this.onSubmit}>
-                  TIL 게시
+                  { messages.TILINPUT_SUBMIT_TIL }
                 </Button>
               </div>
             </div>
