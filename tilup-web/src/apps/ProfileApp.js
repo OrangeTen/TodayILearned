@@ -5,24 +5,35 @@ import './ProfileApp.css';
 import Profile from '../components/Profile';
 import GreenPark from "../components/GreenPark";
 import Repo from "../components/Repo";
+import { fetchDirectoryList } from "../actions/directory";
+import Loading from "../components/Loading";
 
 class ProfileApp extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      repoList: [1,2,3,4]
-    };
   }
 
   componentDidMount() {
+    this.props.fetchDirectoryList();
   }
 
   renderRepoList() {
-    return this.state.repoList.map((repoItem, idx) =>
-      <Repo data={repoItem} key={idx} />);
+    let repos = "";
+    if (this.props.isFetchingList) {
+      repos = <Loading />
+    } else {
+      repos = this.props.directoryList.map((repoItem, idx) =>
+        <Repo data={repoItem}
+              key={idx}
+              index={idx} />);
+    }
+
+    return repos;
   }
 
   render() {
+    const repos = this.renderRepoList();
+
     return (
       <div className="ProfileApp">
         <div className="ProfileApp__body container">
@@ -39,7 +50,7 @@ class ProfileApp extends Component {
               <div className="repos__title">
                 Popular Repositories
               </div>
-              {this.renderRepoList()}
+              { repos }
             </div>
             <GreenPark />
           </div>
@@ -49,10 +60,19 @@ class ProfileApp extends Component {
   }
 }
 
+const mapDispatchToProps = {
+  fetchDirectoryList,
+};
+
 function mapStateToProps(state) {
   return {
     user: state.firebase.user,
+    directoryList: state.directory.directoryList,
+    isFetchingList: state.directory.isFetchingList,
   };
 }
 
-export default connect(mapStateToProps)(ProfileApp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileApp);
