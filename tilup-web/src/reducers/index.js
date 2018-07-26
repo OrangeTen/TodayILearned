@@ -4,6 +4,7 @@ import FirebaseReducer from "./FirebaseReducer";
 import UserReducer from "./UserReducer";
 import TilReducer from "./TilReducer";
 import DirectoryReducer from "./DirectoryReducer";
+import SearchReducer from "./SearchReducer";
 
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   user: UserReducer,
   til: TilReducer,
   directory: DirectoryReducer,
+  search: SearchReducer,
 });
 
 export default rootReducer;
