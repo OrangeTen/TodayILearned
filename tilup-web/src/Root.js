@@ -8,6 +8,7 @@ import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
 import Loading from "./components/Loading";
 import NavigationBar from "./components/NavigationBar";
+import Search from "./components/Search";
 
 
 class Root extends Component {
@@ -22,13 +23,9 @@ class Root extends Component {
           <Route exact path="/" render={() =>
             <Home />
           } />
-          <Route exact path="/search/:string" render={({match}) =>
+          <Route exact path="/search/:query" render={({match}) =>
             (
-              <MainApp
-                user={this.state.user}
-                type={PATH.SEARCH}
-                data={match.params.string}
-              />
+              <Search query={match.params.query} />
             )}/>
           <Route exact path="/repo/:index" render={({match}) =>
             (
