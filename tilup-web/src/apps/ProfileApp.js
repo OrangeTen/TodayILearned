@@ -38,7 +38,6 @@ class ProfileApp extends Component {
 
   createRepo() {
     this.props.createDirectory(this.state.newRepoName);
-    window.location.reload();
   }
 
   render() {

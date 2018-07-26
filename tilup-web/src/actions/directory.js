@@ -59,6 +59,9 @@ export const createDirectory = (name) => {
           data: response,
         });
       })
+      .then(()=> {
+        dispatch(fetchDirectoryList());
+      })
       .catch(err => {
         dispatch({
           type: types.DIRECTORY_CREATE_FAILURE,
