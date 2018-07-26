@@ -32,3 +32,11 @@
     font-weight: 500;
     margin-bottom: 8px;
 }
+.repos__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.repos__new__input {
+    max-width: 300px;
+}
