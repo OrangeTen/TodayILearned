@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import SimpleMDE from "react-simplemde-editor";
-import "simplemde/dist/simplemde.min.css";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from "@material-ui/core/Button";
@@ -11,6 +9,7 @@ import {
   createTil,
   onTilContentsChanged
 } from "../actions/til";
+import SimpleMDEReact from "../utils/simplemde/SimpleMDEReact";
 
 
 class TilInput extends Component {
@@ -37,8 +36,7 @@ class TilInput extends Component {
         <div className="til-card__container">
           <div className="til-card__box">
             <div className="til-card__contents">
-              <SimpleMDE
-                label="MarkdownEditor"
+              <SimpleMDEReact
                 value={this.props.contents}
                 onChange={value => this.props.onTilContentsChanged(value)}
                 options={{

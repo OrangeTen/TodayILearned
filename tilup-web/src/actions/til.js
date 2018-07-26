@@ -9,7 +9,7 @@ export const onTilContentsChanged = contents => {
   return {
     type: types.TIL_CONTENTS_CHANGED,
     data: {
-      contents: contents+"d"
+      contents
     }
   }
 };
