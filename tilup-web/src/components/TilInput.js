@@ -51,11 +51,11 @@ class TilInput extends Component {
               <SelectBox optionList={this.props.directorieList}/>
               <div className="right">
                 <FormControlLabel
-                  control={<Checkbox value="isSecret" />} label="나만 보기" />
+                  control={<Checkbox value="isSecret" />} label="Private" />
                 <Button variant="outlined"
                         disabled={this.props.isCreating}
                         onClick={this.onSubmit}>
-                  TIL 게시
+                  Post TIL
                 </Button>
               </div>
             </div>

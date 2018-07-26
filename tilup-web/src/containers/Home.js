@@ -22,10 +22,10 @@ class Home extends Component {
       body = <Signin />;
     } else {
       body = (
-        <React.Fragment>
+        <div className="container" style={{marginTop:'50px'}}>
           <TilInput />
           <Feed />
-        </React.Fragment>
+        </div>
       );
     }
 
