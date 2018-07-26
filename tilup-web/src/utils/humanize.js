@@ -1,5 +1,8 @@
+import { locale } from "../consts/locale";
+
+
 export function dateHumanize(rawDate) {
   let date = new Date(rawDate);
 
-  return date.toLocaleString("ko-KR");
+  return date.toLocaleString(locale);
 }
