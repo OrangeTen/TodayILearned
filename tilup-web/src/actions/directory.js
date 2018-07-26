@@ -38,3 +38,37 @@ export const fetchDirectoryList = () => {
       })
   };
 };
+
+export const createDirectory = (name) => {
+  return (dispatch, getState) => {
+    const url = `${API_HOST}api/directory/`;
+    const options = getOptionWithAuthHeadersFromGetState(getState);
+
+    const data = {
+      name
+    };
+
+    dispatch({
+      type: types.DIRECTORY_CREATE
+    });
+
+    return axios.post(url, data, options)
+      .then(response => {
+        dispatch({
+          type: types.DIRECTORY_CREATE_SUCCESS,
+          data: response,
+        });
+      })
+      .then(() => {
+        dispatch(fetchDirectoryList());
+      })
+      .catch(err => {
+        dispatch({
+          type: types.DIRECTORY_CREATE_FAILURE,
+          data: {
+            err
+          },
+        });
+      })
+  };
+};
