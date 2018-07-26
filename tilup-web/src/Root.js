@@ -18,9 +18,8 @@ class Root extends Component {
         <div>
           {/* Main App */}
           <Route exact path="/" render={() =>
-            (
-              <Home />
-            )}/>
+            <Home />
+          } />
           <Route exact path="/search/:string" render={({match}) =>
             (
               <MainApp
