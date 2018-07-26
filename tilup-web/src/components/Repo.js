@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
+
 import './Repo.css';
+import { dateHumanize } from "../utils/humanize";
 
 class Repo extends Component {
   render() {
-    const color_num = Math.round(Math.random()*3)+1;
+    const color_num = this.props.index % 4 + 1;
+
     return (
       <div className="Repo">
         <div className="Repo__title">
-          Orange10
+          <span className={`Repo__dot color-${color_num}`} />
+          { this.props.data.name }
         </div>
         <div className="Repo__desc">
-          오렌지텐 프로젝트
         </div>
         <div className="Repo__tag">
-          <span className={`Repo__dot color-${color_num}`} />
-          Javascript
+          { dateHumanize(this.props.data.created) }
         </div>
       </div>
     );

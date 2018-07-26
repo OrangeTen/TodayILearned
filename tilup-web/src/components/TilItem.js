@@ -4,6 +4,7 @@ import Icon from '@material-ui/core/Icon';
 import ReactMarkdown from 'react-markdown';
 
 import './til-item.css';
+import { dateHumanize } from "../utils/humanize";
 
 
 class TilItem extends Component {
@@ -13,12 +14,6 @@ class TilItem extends Component {
     return data.hash.map((eachHash) => (
       <span>#{eachHash} </span>
     ));
-  }
-
-  dateHumanize(rawDate) {
-    let date = new Date(rawDate);
-
-    return date.toLocaleString("ko-KR");
   }
 
   render() {
@@ -39,7 +34,7 @@ class TilItem extends Component {
       name = this.props.user.displayName;
     }
 
-    const humanizedDate = this.dateHumanize(data.created);
+    const humanizedDate = dateHumanize(data.created);
 
     return (
       <div className="til-card">
