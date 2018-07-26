@@ -59,7 +59,7 @@ export const createDirectory = (name) => {
           data: response,
         });
       })
-      .then(()=> {
+      .then(() => {
         dispatch(fetchDirectoryList());
       })
       .catch(err => {

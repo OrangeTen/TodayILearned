@@ -4,6 +4,7 @@ import * as types from "../actions/ActionTypes";
 const initialState = {
   directoryList: [],
   isFetchingList: false,
+  isCreating: false,
 };
 
 export default function (state = initialState, action) {
@@ -25,6 +26,24 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isFetchingList: false,
+      };
+
+    case types.DIRECTORY_CREATE:
+      return {
+        ...state,
+        isCreating: true,
+      };
+
+    case types.DIRECTORY_CREATE_SUCCESS:
+      return {
+        ...state,
+        isCreating: false,
+      };
+
+    case types.DIRECTORY_CREATE_FAILURE:
+      return {
+        ...state,
+        isCreating: false,
       };
 
     default:

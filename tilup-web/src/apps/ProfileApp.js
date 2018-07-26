@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import axios from 'axios';
 import './ProfileApp.css';
 import Profile from '../components/Profile';
 import GreenPark from "../components/GreenPark";
@@ -64,12 +63,14 @@ class ProfileApp extends Component {
                   <div className="repos__new__input input-group input-group-sm">
                     <input type="text" className="form-control" placeholder="Hello World!" onChange={e=>this.setState({newRepoName: e.target.value})} value={this.state.newRepoName} />
                     <div className="input-group-append">
-                      <button className="btn btn-outline-secondary" type="button" onClick={this.createRepo}>Create</button>
-                      <button className="btn btn-outline-danger" type="button" onClick={()=>this.setState({showRepoInput: false})}>X</button>
+                      <button className="btn btn-outline-secondary" type="button"
+                              disabled={this.props.isCreating}
+                              onClick={this.createRepo}>Create</button>
+                      <button className="btn btn-outline-danger" type="button" onClick={()=>this.setState({ showRepoInput: false })}>X</button>
                     </div>
                   </div>
                 ) : (
-                  <span className="repos__new btn btn-success btn-sm" onClick={()=>this.setState({showRepoInput: true})}>
+                  <span className="repos__new btn btn-success btn-sm" onClick={()=>this.setState({ showRepoInput: true })}>
                     New Repository
                   </span>
                 )}
@@ -94,6 +95,7 @@ function mapStateToProps(state) {
     user: state.firebase.user,
     directoryList: state.directory.directoryList,
     isFetchingList: state.directory.isFetchingList,
+    isCreating: state.directory.isCreating,
   };
 }
 
