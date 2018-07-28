@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import NavigationBar from "../components/NavigationBar";
 import Loading from "../components/Loading";
 import Signin from "../components/Signin";
 import Feed from "./Feed";
+import TilInput from "../components/TilInput";
 
 
 class Home extends Component {
@@ -20,12 +20,16 @@ class Home extends Component {
     } else if (user == null) {
       body = <Signin />;
     } else {
-      body = <Feed />;
+      body = (
+        <div className="container" style={{marginTop:'50px'}}>
+          <TilInput />
+          <Feed />
+        </div>
+      );
     }
 
     return (
       <div>
-        <NavigationBar />
         { body }
       </div>
     );

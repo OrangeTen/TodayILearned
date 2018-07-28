@@ -7,6 +7,8 @@ import Home from './containers/Home';
 import ProfileApp from './apps/ProfileApp';
 import { PATH } from './consts/consts';
 import Loading from "./components/Loading";
+import NavigationBar from "./components/NavigationBar";
+import Search from "./components/Search";
 
 
 class Root extends Component {
@@ -16,27 +18,14 @@ class Root extends Component {
     if (this.props.isInitialized) {
       body = (
         <div>
+          <NavigationBar />
           {/* Main App */}
           <Route exact path="/" render={() =>
+            <Home />
+          } />
+          <Route exact path="/search/:query" render={({match}) =>
             (
-              <MainApp
-                user={this.state.user}
-                type={PATH.MAIN}
-              />
-            )}/>
-          <Route exact path="/home" render={() =>
-            (
-              <Home
-                type={"HOME"}
-              />
-            )}/>
-          <Route exact path="/search/:string" render={({match}) =>
-            (
-              <MainApp
-                user={this.state.user}
-                type={PATH.SEARCH}
-                data={match.params.string}
-              />
+              <Search query={match.params.query} />
             )}/>
           <Route exact path="/repo/:index" render={({match}) =>
             (
@@ -56,13 +45,9 @@ class Root extends Component {
             )}/>
 
           {/* ProfileApp */}
-          <Route exact path="/profile" render={({match}) =>
+          <Route exact path="/profile" render={({_}) =>
             (
-              <ProfileApp
-                user={this.state.user}
-                data={1}
-                id={match.params.id}
-              />
+              <ProfileApp />
             )}/>
         </div>
       );

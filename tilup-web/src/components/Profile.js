@@ -5,6 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import './Profile.css';
 
 export default class Profile extends Component {
   state = {
@@ -26,15 +27,15 @@ export default class Profile extends Component {
   render() {
     return (
       <div className="Profile">
-        <img src={this.props.img} alt="profileImg" class="Profile__img" />
-        <div class="Profile__text">
-          <div class="Profile__name">{this.props.name}</div>
-          <div class="Profile__id">{this.props.id}</div>
+        <img src={this.props.img} alt="profileImg" className="Profile__img" />
+        <div className="Profile__text">
+          <div className="Profile__name">{this.props.name}</div>
+          <div className="Profile__id">{this.props.id}</div>
         </div>
-        <div class="Profile__table">
-          <div class="Profile__table__row">{this.props.organization}</div>
-          <div class="Profile__table__row">{this.props.location}</div>
-          <div class="Profile__table__row">{this.props.src}</div>
+        <div className="Profile__table">
+          <div className="Profile__table__row">{this.props.organization}</div>
+          <div className="Profile__table__row">{this.props.location}</div>
+          <div className="Profile__table__row">{this.props.src}</div>
         </div>
         <Button size="small" variant="outlined" className="logoutBtn" onClick={this.handleClickOpen}>
           follow

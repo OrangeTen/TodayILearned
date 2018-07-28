@@ -5,6 +5,21 @@ import * as log from "../utils/log";
 import * as FirebaseUtils from "../utils/firebaseUtils";
 
 
+export function getOptionWithAuthHeadersFromGetState(getState) {
+  const {
+    firebase: {
+      token: token
+    }
+  } = getState();
+
+  const option = {
+    headers: {
+      authorization: token
+    }
+  };
+  return option;
+}
+
 export function getHeadersWithToken(token) {
   return {
     headers: {
