@@ -5,6 +5,7 @@
   "scripts": {
     "rinstall": "cd ../tilup-web && npm install",
     "rbuild": "cd ../tilup-web && npm run build",
+    "test": "echo \"Error: no test specified\"",
     "lint": "./node_modules/eslint/bin/eslint.js --ignore-path .gitignore .",
     "production": "npm run rbuild && pm2 restart app"
   },

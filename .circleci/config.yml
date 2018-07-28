@@ -14,10 +14,10 @@ jobs:
           - v1-dependencies-web-{{ checksum "tilup-web/package.json" }}
           - v1-dependencies-web-
       - run:
-          name: npm install
+          name: yarn install
           command: |
             cd tilup-web
-            npm install
+            yarn install
 
       - save_cache:
           paths:
@@ -38,7 +38,7 @@ jobs:
           name: Run lint checks
           command: |
             cd tilup-web
-            npm run lint
+            yarn run lint
 
   react_tests:
     docker:
@@ -51,7 +51,7 @@ jobs:
           name: Run tests
           command: |
             cd tilup-web
-            npm run test
+            yarn run test
 
   react_build:
     docker:
@@ -64,7 +64,7 @@ jobs:
           name: Run build
           command: |
             cd tilup-web
-            CI=false npm run build
+            CI=false yarn run build
 
   express_install_dependencies:
     docker:
@@ -79,10 +79,10 @@ jobs:
           - v1-dependencies-server-{{ checksum "tilup-server/package.json" }}
           - v1-dependencies-server-
       - run:
-          name: npm install
+          name: yarn install
           command: |
             cd tilup-server
-            npm install
+            yarn install
 
       - save_cache:
           paths:
@@ -103,7 +103,7 @@ jobs:
           name: Run lint checks
           command: |
             cd tilup-server
-            npm run lint
+            yarn run lint
 
   express_tests:
     docker:
@@ -116,7 +116,7 @@ jobs:
           name: Run tests
           command: |
             cd tilup-server
-            npm run test
+            yarn run test
 
   docker_build_and_push:
     docker:
