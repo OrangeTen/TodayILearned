@@ -1,12 +1,23 @@
 version: 2.0
 
 jobs:
-  react_install_dependencies:
+  checkout_from_github:
     docker:
       - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/app
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  react_install_dependencies:
+    docker:
+      - image: circleci/node:9.10.0
+    working_directory: ~/app
+    steps:
       - attach_workspace:
           at: ~/app
       - restore_cache:
@@ -25,7 +36,7 @@ jobs:
           key: v1-dependencies-web-{{ checksum "tilup-web/package.json" }}
       - persist_to_workspace:
           root: .
-          paths: tilup-web
+          paths: tilup-web/node_modules
 
   react_lint_checks:
     docker:
@@ -71,7 +82,6 @@ jobs:
       - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
-      - checkout
       - attach_workspace:
           at: ~/app
       - restore_cache:
@@ -90,7 +100,7 @@ jobs:
           key: v1-dependencies-server-{{ checksum "tilup-server/package.json" }}
       - persist_to_workspace:
           root: .
-          paths: tilup-server
+          paths: tilup-server/node_modules
 
   express_lint_checks:
     docker:
@@ -123,6 +133,7 @@ jobs:
       - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
+      - checkout
       - attach_workspace:
           at: ~/app
       - setup_remote_docker:
@@ -260,7 +271,11 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - react_install_dependencies
+      - checkout_from_github
+
+      - react_install_dependencies:
+          requires:
+            - checkout_from_github
       - react_lint_checks:
           requires:
             - react_install_dependencies
@@ -272,7 +287,9 @@ workflows:
             - react_lint_checks
             - react_tests
 
-      - express_install_dependencies
+      - express_install_dependencies:
+          requires:
+            - checkout_from_github
       - express_lint_checks:
           requires:
             - express_install_dependencies
