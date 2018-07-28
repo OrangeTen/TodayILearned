@@ -1,4 +1,4 @@
-FROM node:7.10
+FROM node:9.10.0
 
 WORKDIR /app
 COPY tilup-web/package.json tilup-web/package-lock.json tilup-web/

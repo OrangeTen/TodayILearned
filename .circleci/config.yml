@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   react_install_dependencies:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - checkout
@@ -29,7 +29,7 @@ jobs:
 
   react_lint_checks:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - attach_workspace:
@@ -42,7 +42,7 @@ jobs:
 
   react_tests:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - attach_workspace:
@@ -55,7 +55,7 @@ jobs:
 
   react_build:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - attach_workspace:
@@ -68,7 +68,7 @@ jobs:
 
   express_install_dependencies:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - checkout
@@ -94,7 +94,7 @@ jobs:
 
   express_lint_checks:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - attach_workspace:
@@ -107,7 +107,7 @@ jobs:
 
   express_tests:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - attach_workspace:
@@ -120,7 +120,7 @@ jobs:
 
   docker_build_and_push:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - attach_workspace:
@@ -162,7 +162,7 @@ jobs:
 
   deploy_to_stage:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - attach_workspace:
@@ -210,7 +210,7 @@ jobs:
 
   deploy_to_prod:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.10.0
     working_directory: ~/app
     steps:
       - attach_workspace:
