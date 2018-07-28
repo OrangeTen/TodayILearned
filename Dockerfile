@@ -1,16 +1,16 @@
 FROM node:9.10.0
 
 WORKDIR /app
-COPY tilup-web/package.json tilup-web/package-lock.json tilup-web/
+COPY tilup-web/package.json tilup-web/yarn.lock tilup-web/
 RUN cd tilup-web &&\
- npm install
-COPY tilup-server/package.json tilup-server/package-lock.json tilup-server/
+ yarn install
+COPY tilup-server/package.json tilup-server/yarn.lock tilup-server/
 RUN cd tilup-server &&\
-  npm install
+  yarn install
 
 COPY . .
 RUN cd tilup-web &&\
- npm run build
+ yarn run build
 
 EXPOSE 3000
 CMD cd tilup-server &&\
