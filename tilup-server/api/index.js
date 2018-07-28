@@ -7,11 +7,11 @@ const searchApi = require('./search');
 const directoryApi = require('./directory');
 
 module.exports = {
-    meApi,
-    feedApi,
-    userApi,
-    tilApi,
-    loginApi,
-    directoryApi,
-    searchApi
+  meApi,
+  feedApi,
+  userApi,
+  tilApi,
+  loginApi,
+  directoryApi,
+  searchApi,
 };

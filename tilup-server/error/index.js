@@ -5,9 +5,9 @@ const BadRequestError = require('./bad');
 const ForbiddenError = require('./forbidden');
 
 module.exports = {
-    UnauthorizedError,
-    NotExistError,
-    ConflictError,
-    BadRequestError,
-    ForbiddenError,
+  UnauthorizedError,
+  NotExistError,
+  ConflictError,
+  BadRequestError,
+  ForbiddenError,
 };
