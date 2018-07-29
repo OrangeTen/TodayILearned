@@ -1,4 +1,9 @@
+const { config } = require('dotenv');
+
+
+config();
+
 module.exports = {
-  SERVER_PORT: 3000,
-  MONGODB: 'mongodb://52.78.190.224/tilup',
+  SERVER_PORT: process.env.SERVER_PORT,
+  MONGODB: process.env.MONGODB,
 };
