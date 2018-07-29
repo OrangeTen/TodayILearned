@@ -1,19 +1,19 @@
-const User = require('mongoose').model('User');
+const User = require('../data/user');
 const {
-    NotExistError,
+  NotExistError,
 } = require('../error');
 
 module.exports = {
-    get(req, res, next) {
-        User
-            .findOne({
-                token: req.query.token
-            })
-            .exec((err, user) => {
-                if (err) {
-                    throw new NotExistError(err);
-                }
-                res.send(user);
-            });
-    }
+  get(req, res, _next) {
+    User
+      .findOne({
+        token: req.query.token,
+      })
+      .exec((err, user) => {
+        if (err) {
+          throw new NotExistError(err);
+        }
+        res.send(user);
+      });
+  },
 };

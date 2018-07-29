@@ -5,5 +5,5 @@ const Directory = require('./directory');
 module.exports = {
   User,
   Til,
-  Directory
+  Directory,
 };
