@@ -1,35 +1,51 @@
 const User = require('../data/user');
 const Directory = require('../data/directory');
-
+const { loginRequired } = require('../auth');
+const { OkResponse } = require('../responses');
 const {
-  BadRequestError,
-} = require('../error');
+  DatabaseError,
+} = require('../errors');
+
 
 module.exports = {
-  login(req, res) {
+  login: loginRequired((_, fbUser) => new Promise((res, rej) => {
     User
-      .findById(req.uid)
+      .findById(fbUser.uid)
       .exec((err, user) => {
+        if (user) {
+          res(new OkResponse(user));
+        }
+
         if (!user) {
           const newUser = new User({
-            _id: req.userRecord.uid,
-            email: req.userRecord.email,
-            name: req.userRecord.displayName,
-            profileUrl: req.userRecord.photoURL,
+            _id: fbUser.uid,
+            email: fbUser.email,
+            name: fbUser.displayName,
+            profileUrl: fbUser.photoURL,
           });
           newUser
             .save((newUserErr) => {
               if (newUserErr) {
-                throw new BadRequestError(newUserErr);
+                rej(new DatabaseError(newUserErr));
               }
-              const directory = new Directory({ name: 'Inbox', uid: newUser._id });
+              const directory = new Directory({name: 'Inbox', uid: newUser._id});
               directory.save((directoryErr) => {
-                if (directoryErr) throw new BadRequestError(directoryErr);
+                if (directoryErr) rej(new DatabaseError(directoryErr));
+
+                User
+                  .findById(fbUser.uid)
+                  .exec((createdUserFindError, createdUser) => {
+                    if (createdUserFindError) {
+                      rej(new DatabaseError(createdUserFindError));
+                    }
+
+                    if (createdUser) {
+                      res(new OkResponse(createdUser));
+                    }
+                  });
               });
             });
         }
       });
-
-    res.status(200).send();
-  },
+  })),
 };

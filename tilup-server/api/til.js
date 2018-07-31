@@ -1,39 +1,52 @@
+const User = require('../data/user');
 const Til = require('../data/til');
 const Directory = require('../data/directory');
 const popConfig = require('../popConfig.json');
+const { CreatedResponse } = require('../responses');
+const { loginRequired } = require('../auth');
 const {
   NotExistError,
   BadRequestError,
-} = require('../error');
+  UnauthorizedError,
+} = require('../errors');
 
 module.exports = {
-  add(req, res) {
-    const til = new Til(req.body);
-    til.uid = req.uid;
+  add: loginRequired((bindParams, fbUser) => new Promise((res, _rej) => {
+    const til = new Til(bindParams);
 
-    if (!req.body.directory) req.body.directory = 'Inbox'; // default
-
-    Directory
-      .findOne({
-        name: req.body.directory,
-        uid: til.uid,
-      })
-      .exec((err, directory) => {
+    User
+      .findById(fbUser.uid)
+      .exec((err, user) => {
         if (err) {
-          throw new BadRequestError(err);
-        } else if (!directory) {
-          throw new NotExistError('No directory');
+          throw new UnauthorizedError('Signup first.', err);
         }
 
-        til.directory = directory._id;
-        til.save((tilErr, savedTil) => {
-          if (tilErr) {
-            throw new BadRequestError(tilErr);
-          }
-          res.send(savedTil);
-        });
+        const {
+          _id: uid,
+        } = user;
+        til.uid = uid;
+        const directory = bindParams.directory ? bindParams.directory : 'Inbox';
+
+        Directory
+          .findOne({
+            uid,
+            name: directory,
+          })
+          .exec((findDirectoryError, foundDirectory) => {
+            if (findDirectoryError) {
+              throw new NotExistError('No directory', findDirectoryError);
+            }
+
+            til.directory = foundDirectory._id;
+            til.save((tilErr, savedTil) => {
+              if (tilErr) {
+                throw new BadRequestError(tilErr);
+              }
+              res(new CreatedResponse(savedTil));
+            });
+          });
       });
-  },
+  })),
 
   get(req, res) {
     Til

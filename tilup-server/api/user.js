@@ -3,7 +3,7 @@ const Directory = require('../data/directory');
 const {
   NotExistError,
   BadRequestError,
-} = require('../error');
+} = require('../errors');
 
 module.exports = {
   add(req, res) {

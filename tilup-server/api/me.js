@@ -1,7 +1,7 @@
 const User = require('../data/user');
 const {
   NotExistError,
-} = require('../error');
+} = require('../errors');
 
 module.exports = {
   get(req, res, _next) {
