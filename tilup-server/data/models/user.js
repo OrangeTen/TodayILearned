@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { emailRegex } = require('../utils/regex');
+const { emailRegex } = require('../../utils/regex');
 
 const {
   Schema,

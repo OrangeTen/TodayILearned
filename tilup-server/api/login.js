@@ -1,5 +1,5 @@
-const User = require('../data/user');
-const Directory = require('../data/directory');
+const User = require('../data/models/user');
+const Directory = require('../data/models/directory');
 const { loginRequired } = require('../auth');
 const { OkResponse } = require('../http/responses');
 const {

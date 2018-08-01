@@ -1,4 +1,4 @@
-const User = require('../data/user');
+const User = require('../data/models/user');
 const {
   NotExistError,
 } = require('../http/errors');

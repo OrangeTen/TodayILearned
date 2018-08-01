@@ -1,6 +1,6 @@
-const User = require('../data/user');
-const Til = require('../data/til');
-const Directory = require('../data/directory');
+const User = require('../data/models/user');
+const Til = require('../data/models/til');
+const Directory = require('../data/models/directory');
 const popConfig = require('../popConfig.json');
 const { CreatedResponse } = require('../http/responses');
 const { loginRequired } = require('../auth');

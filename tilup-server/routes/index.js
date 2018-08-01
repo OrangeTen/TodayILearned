@@ -108,7 +108,8 @@ router.get('/users', apiResponse(userApi.getOne))
   .put('/users/follow', apiResponse(userApi.updateFollow));
 
 router.get('/directory', apiResponse(directoryApi.getMyDir))
-  .post('/directory', apiResponse(directoryApi.add));
+  .post('/directory', apiResponse(directoryApi.add))
+  .delete('/directory/:directoryId', apiResponse(directoryApi.del));
 
 router.get('/til/:tilId', apiResponse(tilApi.getOne))
   .post('/til', apiResponse(tilApi.add))
