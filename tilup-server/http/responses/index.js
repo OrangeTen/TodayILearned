@@ -1,4 +1,4 @@
-const HttpResponse = require('./http');
+const HttpResponse = require('./httpresponse');
 const CreatedResponse = require('./createdresponse');
 const OkResponse = require('./okresponse');
 

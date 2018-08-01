@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
-const { HttpResponse } = require('../responses');
-const { InternalError } = require('../errors');
+const { HttpResponse } = require('./responses');
+const { InternalError } = require('./errors');
 
 
 const apiResponse = func => (req, res, next) => {

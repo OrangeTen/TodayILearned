@@ -1,4 +1,4 @@
-const HttpResponse = require('./http');
+const HttpResponse = require('./httpresponse');
 
 
 class CreatedResponse extends HttpResponse {

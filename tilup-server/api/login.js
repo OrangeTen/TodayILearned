@@ -1,10 +1,10 @@
 const User = require('../data/user');
 const Directory = require('../data/directory');
 const { loginRequired } = require('../auth');
-const { OkResponse } = require('../responses');
+const { OkResponse } = require('../http/responses');
 const {
   DatabaseError,
-} = require('../errors');
+} = require('../http/errors');
 
 
 module.exports = {
@@ -28,7 +28,7 @@ module.exports = {
               if (newUserErr) {
                 rej(new DatabaseError(newUserErr));
               }
-              const directory = new Directory({name: 'Inbox', uid: newUser._id});
+              const directory = new Directory({ name: 'Inbox', uid: newUser._id });
               directory.save((directoryErr) => {
                 if (directoryErr) rej(new DatabaseError(directoryErr));
 

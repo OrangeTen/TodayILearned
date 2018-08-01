@@ -1,13 +1,13 @@
 const Til = require('../data/til');
 const User = require('../data/user');
 const popConfig = require('../popConfig.json');
-const { OkResponse } = require('../responses');
+const { OkResponse } = require('../http/responses');
 const { loginRequired } = require('../auth');
 const {
   BadRequestError,
   UnauthorizedError,
   DatabaseError,
-} = require('../errors');
+} = require('../http/errors');
 
 module.exports = {
   getFeedWord(req, res) {

@@ -1,4 +1,4 @@
-const { UnauthorizedError } = require('../errors');
+const { UnauthorizedError } = require('../http/errors');
 
 
 const loginRequired = func => (bindParams, fbUser) => {

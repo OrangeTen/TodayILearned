@@ -2,13 +2,13 @@ const User = require('../data/user');
 const Til = require('../data/til');
 const Directory = require('../data/directory');
 const popConfig = require('../popConfig.json');
-const { CreatedResponse } = require('../responses');
+const { CreatedResponse } = require('../http/responses');
 const { loginRequired } = require('../auth');
 const {
   NotExistError,
   BadRequestError,
   UnauthorizedError,
-} = require('../errors');
+} = require('../http/errors');
 
 module.exports = {
   add: loginRequired((bindParams, fbUser) => new Promise((res, _rej) => {
