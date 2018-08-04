@@ -76,13 +76,8 @@ ssh -i $PEMFILE $DEPLOY_SSH_USER@$DEPLOY_SSH_HOST \
     sudo docker kill $APPNAME
     sudo docker rm $APPNAME
     set -e
-    echo docker run -d \
-               -p $DEPLOY_APP_PORT:3000 \
-               -e DOTENVURL=$DEPLOY_DOTENVURL \
-               --name $APPNAME \
-               $DOCKER_USER/todayilearned:$DOCKER_TAG
     sudo docker run -d \
       -p $DEPLOY_APP_PORT:3000 \
+      -e DOTENVURL=$DEPLOY_DOTENVURL \
       --name $APPNAME \
       $DOCKER_USER/todayilearned:$DOCKER_TAG
-    DEPLOY
