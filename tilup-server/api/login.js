@@ -47,7 +47,7 @@ const _createUser = fbUser => new Promise((res, rej) => {
 });
 
 module.exports = {
-  login: loginRequired(({ headers: { authorization } }, _) => new Promise((res, rej) => {
+  login: ({ headers: { authorization } }, _) => new Promise((res, rej) => {
     Promise.resolve()
       .then(() => {
         if (!authorization) {
@@ -74,5 +74,5 @@ module.exports = {
             });
         }
       });
-  })),
+  }),
 };
