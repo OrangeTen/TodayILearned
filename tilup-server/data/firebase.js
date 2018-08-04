@@ -1,8 +1,7 @@
 const admin = require('firebase-admin');
 
-const { DatabaseError } = require('../http/errors');
+const { getUser } = require('./user');
 const { UnauthorizedError } = require('../http/errors');
-const User = require('./models/user');
 const serviceAccount = require('../firebase_secret.json');
 
 admin.initializeApp({
@@ -38,14 +37,5 @@ module.exports = {
       });
   }),
 
-  getUserWithFbUser: fbUser => new Promise((res, rej) => {
-    User
-      .findById(fbUser.uid)
-      .exec((err, user) => {
-        if (err) {
-          rej(new DatabaseError('Signup first.', err));
-        }
-        res(user);
-      });
-  }),
+  getUserWithFbUser: fbUser => getUser(fbUser.uid),
 };

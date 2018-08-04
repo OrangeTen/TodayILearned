@@ -1,8 +1,14 @@
-const User = require('../data/models/user');
-const Directory = require('../data/models/directory');
+const { User, Directory } = require('../data/models');
+const { getUser, getAllUsers } = require('../data/user');
+const { loginRequired } = require('../auth');
+const {
+  UpdatedResponse,
+  OkResponse,
+} = require('../http/responses');
 const {
   NotExistError,
   BadRequestError,
+  DatabaseError,
 } = require('../http/errors');
 
 module.exports = {
@@ -29,16 +35,11 @@ module.exports = {
       });
   },
 
-  get(req, res) {
-    User
-      .find()
-      .exec((err, users) => {
-        if (err) {
-          throw new BadRequestError(err);
-        }
-        res.send(users);
-      });
-  },
+  getAll: (_bindParams, _user) => new Promise((res, _rej) => {
+    getAllUsers().then((users) => {
+      res(new OkResponse(users));
+    });
+  }),
 
   getOne(req, res) {
     User
@@ -54,36 +55,49 @@ module.exports = {
       });
   },
 
-  updateFollow(req, res) {
-    User
-      .findById(req.uid)
-      .exec((myUserErr, myUser) => {
-        User
-          .findById(req.body.uid)
-          .exec((targetUserErr, targetUser) => {
-            const followingIndex = myUser.following.indexOf(req.body.uid);
-            const followerIndex = targetUser.follower.indexOf(myUser._id);
+  updateFollow: loginRequired(
+    ({ body: { uid: targetUid } }, myUser) => new Promise((resolveRequest, rejectRequest) => {
+      if (targetUid === myUser._id) {
+        return rejectRequest(new BadRequestError('Cannot follow yourself.'));
+      }
 
-            if (followingIndex > -1) { // 중복이 존재한다면 삭제
-              myUser.following.splice(followingIndex, 1);
-              targetUser.follower.splice(followerIndex, 1);
-            } else {
-              myUser.following.unshift(req.body.uid);
-              targetUser.follower.unshift(myUser._id);
-            }
-            targetUser
-              .save((err) => {
+      return getUser(targetUid)
+        .then((targetUser) => {
+          if (!targetUser) {
+            rejectRequest(new BadRequestError('Invalid target user'));
+          }
+
+          const followingIndex = myUser.following.indexOf(targetUid);
+          const followerIndex = targetUser.follower.indexOf(myUser._id);
+          if (followingIndex > -1) { // 중복이 존재한다면 삭제
+            myUser.following.splice(followingIndex, 1);
+            targetUser.follower.splice(followerIndex, 1);
+          } else {
+            myUser.following.unshift(targetUid);
+            targetUser.follower.unshift(myUser._id);
+          }
+
+          Promise.resolve()
+            .then(() => new Promise((res, _rej) => {
+              targetUser.save((err) => {
                 if (err) {
-                  throw new BadRequestError(err);
+                  throw new DatabaseError(err);
                 }
-                myUser.save((myUserSaveErr, savedMyUser) => {
-                  if (myUserSaveErr) {
-                    throw new BadRequestError(myUserSaveErr);
-                  }
-                  res.send(savedMyUser);
-                });
+
+                res();
               });
-          });
-      });
-  },
+            }))
+            .then(() => new Promise((res, _rej) => {
+              myUser.save((err, savedMyUser) => {
+                if (err) {
+                  throw new DatabaseError(err);
+                }
+
+                res(savedMyUser);
+              });
+            }))
+            .then(savedMyUser => resolveRequest(new UpdatedResponse(savedMyUser)));
+        });
+    }),
+  ),
 };

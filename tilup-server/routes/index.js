@@ -95,7 +95,7 @@ router.get('/search/contents/:word', apiResponse(searchApi.searchContents))
   .get('/search/:word', apiResponse(feedApi.getFeedWord));
 // .get("/search/:word", apiResponse(searchApi.searchBoth))
 
-router.get('/admin/users', apiResponse(userApi.get))
+router.get('/admin/users', apiResponse(userApi.getAll))
   .get('/admin/directory', apiResponse(directoryApi.get))
   .get('/admin/til', apiResponse(tilApi.get))
   .get('/admin/feed', apiResponse(feedApi.getAllFeed));
