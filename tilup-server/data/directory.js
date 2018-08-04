@@ -3,14 +3,14 @@ const Directory = require('./models/directory');
 
 
 module.exports = {
-  createDirectory: (uid, name) => new Promise((res, _rej) => {
-    if ((!uid) || (!name)) {
+  createDirectory: (uid, body) => new Promise((res, _rej) => {
+    if ((!uid) || (!body)) {
       throw new Error('Invalid parameters.');
     }
 
     const directory = new Directory({
       uid,
-      name,
+      ...body,
     });
 
     directory.save((createError, createdDirectory) => {

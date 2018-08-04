@@ -3,6 +3,7 @@ const Directory = require('../data/models/directory');
 const {
   getTil,
   removeTilWithDoc,
+  updateTilWithDoc,
 } = require('../data/til');
 const popConfig = require('../popConfig.json');
 const { loginRequired } = require('../auth');
@@ -10,6 +11,7 @@ const {
   CreatedResponse,
   OkResponse,
   DeletedResponse,
+  UpdatedResponse,
 } = require('../http/responses');
 const {
   NotExistError,
@@ -18,14 +20,14 @@ const {
 } = require('../http/errors');
 
 module.exports = {
-  add: loginRequired((bindParams, user) => new Promise((res, _rej) => {
-    const til = new Til(bindParams);
+  add: loginRequired(({ body }, user) => new Promise((res, _rej) => {
+    const til = new Til(body);
 
     const {
       _id: uid,
     } = user;
     til.uid = uid;
-    const directory = bindParams.directory ? bindParams.directory : 'Inbox';
+    const directory = body.directory ? body.directory : 'Inbox';
 
     Directory
       .findOne({
@@ -60,7 +62,7 @@ module.exports = {
       });
   },
 
-  getOne: ({ tilId }, _) => new Promise((res, rej) => {
+  getOne: ({ params: { tilId } }, _) => new Promise((res, rej) => {
     Promise.resolve()
       .then(() => getTil(tilId))
       .then((til) => {
@@ -73,7 +75,24 @@ module.exports = {
       .catch(err => rej(err));
   }),
 
-  del: loginRequired(({ tilId }, user) => new Promise((res, rej) => {
+  update: loginRequired(({ params: { tilId }, body }, user) => new Promise((res, rej) => {
+    getTil(tilId)
+      .then((til) => {
+        if (til == null) {
+          throw new NotExistError();
+        }
+
+        if (til.uid !== user._id) {
+          throw new UnauthorizedError();
+        }
+
+        updateTilWithDoc(til, body)
+          .then(updatedTil => res(new UpdatedResponse(updatedTil)));
+      })
+      .catch(err => rej(err));
+  })),
+
+  del: loginRequired(({ params: { tilId } }, user) => new Promise((res, rej) => {
     Promise.resolve()
       .then(() => {
         getTil(tilId)

@@ -35,7 +35,7 @@ function _getUserTokenWithReq(req) {
     if (token) {
       res(token);
     } else {
-      console.log('routes/index.js', 'getUserTokenWithReq', "Token doesn't exist", 'req=', req);
+      // console.log('routes/index.js', 'getUserTokenWithReq', "Token doesn't exist", 'req=', req);
       res();
     }
   });
@@ -82,6 +82,7 @@ router.get('/directory', apiResponse(directoryApi.getMyDir))
 
 router.get('/til/:tilId', apiResponse(tilApi.getOne))
   .delete('/til/:tilId', apiResponse(tilApi.del))
+  .put('/til/:tilId', apiResponse(tilApi.update))
   .post('/til', apiResponse(tilApi.add))
   .post('/til/fork', apiResponse(tilApi.fork))
   .put('/til/directory/:tilId', apiResponse(tilApi.changeDir)); // 연동 test 필요

@@ -36,4 +36,19 @@ module.exports = {
       res();
     });
   }),
+
+  updateTilWithDoc: (doc, body) => new Promise((res, _rej) => {
+    if ((!doc)) {
+      throw new Error('Invalid parameters.');
+    }
+
+    doc.set(body);
+    doc.save((err, updateResult) => {
+      if (err) {
+        throw new DatabaseError(err);
+      }
+
+      res(updateResult);
+    });
+  }),
 };

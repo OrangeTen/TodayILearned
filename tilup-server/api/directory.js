@@ -17,9 +17,9 @@ const {
 } = require('../http/errors');
 
 module.exports = {
-  add: loginRequired(({ name }, user) => new Promise((res, rej) => {
+  add: loginRequired(({ body }, user) => new Promise((res, rej) => {
     Promise.resolve()
-      .then(() => createDirectory(user._id, name))
+      .then(() => createDirectory(user._id, body))
       .then(directory => res(new CreatedResponse(directory)))
       .catch(err => rej(err));
   })),
@@ -49,7 +49,7 @@ module.exports = {
       .catch(err => rej(err));
   })),
 
-  del: loginRequired(({ directoryId }, user) => new Promise((res, rej) => {
+  del: loginRequired(({ params: { directoryId } }, user) => new Promise((res, rej) => {
     Promise.resolve()
       .then(() => {
         getDirectory(directoryId)

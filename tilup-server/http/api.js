@@ -1,11 +1,14 @@
-const _ = require('lodash');
-
 const { HttpResponse } = require('./responses');
 const { InternalError } = require('./errors');
 
 
 const apiResponse = func => (req, res, next) => {
-  const bindParams = _.assign(req.body, req.params, req.query, req.headers);
+  const bindParams = {
+    body: req.body,
+    params: req.params,
+    query: req.query,
+    headers: req.headers,
+  };
 
   Promise.resolve()
     .then(() => func.call(null, bindParams, req.user))
