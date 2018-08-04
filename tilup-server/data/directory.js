@@ -1,27 +1,68 @@
-const mongoose = require('mongoose');
+const { DatabaseError } = require('../http/errors');
+const Directory = require('./models/directory');
 
-const {
-  Schema,
-} = mongoose;
 
-const DirectorySchema = new Schema({
-  name: {
-    type: String,
-  },
-  uid: {
-    type: String,
-    ref: 'User',
-  },
-  created: {
-    type: Date,
-    default: Date.now,
-  },
-  updated: {
-    type: Date,
-    default: Date.now,
-  },
-}, {
-  versionKey: false,
-});
+module.exports = {
+  createDirectory: (uid, body) => new Promise((res, _rej) => {
+    if ((!uid) || (!body)) {
+      throw new Error('Invalid parameters.');
+    }
 
-module.exports = mongoose.model('Directory', DirectorySchema);
+    const directory = new Directory({
+      uid,
+      ...body,
+    });
+
+    directory.save((createError, createdDirectory) => {
+      if (createError) {
+        throw new DatabaseError(createError);
+      }
+      res(createdDirectory);
+    });
+  }),
+
+  getDirectoriesWithUid: uid => new Promise((res, _rej) => {
+    if ((!uid)) {
+      throw new Error('Invalid parameters.');
+    }
+
+    Directory.find({ uid })
+      .sort({ created: -1 })
+      .exec((findError, directories) => {
+        if (findError) {
+          throw new DatabaseError(findError);
+        }
+
+        res(directories);
+      });
+  }),
+
+  getDirectory: id => new Promise((res, _rej) => {
+    if ((!id)) {
+      throw new Error('Invalid parameters.');
+    }
+
+    Directory.findById(id)
+      .exec((findError, directory) => {
+        if (findError) {
+          throw new DatabaseError(findError);
+        }
+
+        res(directory);
+      });
+  }),
+
+  removeDirectoryWithDoc: doc => new Promise((res, _rej) => {
+    if ((!doc)) {
+      throw new Error('Invalid parameters.');
+    }
+
+    doc.remove((err) => {
+      if (err) {
+        throw new DatabaseError(err);
+      }
+
+      res();
+    });
+  }),
+};

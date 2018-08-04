@@ -1,9 +1,9 @@
-const User = require('../data/user');
-const Directory = require('../data/directory');
+const User = require('../data/models/user');
+const Directory = require('../data/models/directory');
 const {
   NotExistError,
   BadRequestError,
-} = require('../error');
+} = require('../http/errors');
 
 module.exports = {
   add(req, res) {

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "node app.js",
     "rinstall": "cd ../tilup-web && npm install",
     "rbuild": "cd ../tilup-web && npm run build",
     "test": "echo \"Error: no test specified\"",
@@ -12,6 +13,7 @@
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^6.0.0",
     "express": "~4.16.0",
     "firebase-admin": "^5.12.1",
     "http-errors": "~1.6.2",

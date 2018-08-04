@@ -49,14 +49,15 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use((error, req, res, _next) => {
+  const statusCode = error.statusCode ? error.statusCode : 500;
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  const defaultMessage = error.name ? error.name : '무언가 문제가 발생했습니다.';
+  const message = error.message ? error.message : defaultMessage;
+
+  res.status(statusCode).send({
+    message,
+  });
 });
 
 function getReactBuildPath() {

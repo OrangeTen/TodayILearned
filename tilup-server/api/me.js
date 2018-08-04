@@ -1,7 +1,7 @@
-const User = require('../data/user');
+const User = require('../data/models/user');
 const {
   NotExistError,
-} = require('../error');
+} = require('../http/errors');
 
 module.exports = {
   get(req, res, _next) {

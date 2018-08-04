@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { emailRegex } = require('../../utils/regex');
 
 const {
   Schema,
@@ -36,7 +37,6 @@ const UserSchema = new Schema({
   usePushEach: true,
 });
 
-const emailRegex = /^(([^<>()[]\\.,;:\s@"]+(\.[^<>()[]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 UserSchema.path('email').validate(email => emailRegex.test(email), 'Please fill a valid email address');
 
 module.exports = mongoose.model('User', UserSchema);

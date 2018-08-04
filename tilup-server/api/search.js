@@ -1,5 +1,5 @@
-const Til = require('../data/til');
-const User = require('../data/user');
+const Til = require('../data/models/til');
+const User = require('../data/models/user');
 
 module.exports = {
   searchBoth(req, res) {

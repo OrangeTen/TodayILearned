@@ -1,39 +1,53 @@
-const Til = require('../data/til');
-const Directory = require('../data/directory');
+const { Til } = require('../data/models');
+const Directory = require('../data/models/directory');
+const {
+  getTil,
+  removeTilWithDoc,
+  updateTilWithDoc,
+} = require('../data/til');
 const popConfig = require('../popConfig.json');
+const { loginRequired } = require('../auth');
+const {
+  CreatedResponse,
+  OkResponse,
+  DeletedResponse,
+  UpdatedResponse,
+} = require('../http/responses');
 const {
   NotExistError,
   BadRequestError,
-} = require('../error');
+  UnauthorizedError,
+} = require('../http/errors');
 
 module.exports = {
-  add(req, res) {
-    const til = new Til(req.body);
-    til.uid = req.uid;
+  add: loginRequired(({ body }, user) => new Promise((res, _rej) => {
+    const til = new Til(body);
 
-    if (!req.body.directory) req.body.directory = 'Inbox'; // default
+    const {
+      _id: uid,
+    } = user;
+    til.uid = uid;
+    const directory = body.directory ? body.directory : 'Inbox';
 
     Directory
       .findOne({
-        name: req.body.directory,
-        uid: til.uid,
+        uid,
+        name: directory,
       })
-      .exec((err, directory) => {
-        if (err) {
-          throw new BadRequestError(err);
-        } else if (!directory) {
-          throw new NotExistError('No directory');
+      .exec((findDirectoryError, foundDirectory) => {
+        if (findDirectoryError) {
+          throw new NotExistError('No directory', findDirectoryError);
         }
 
-        til.directory = directory._id;
+        til.directory = foundDirectory._id;
         til.save((tilErr, savedTil) => {
           if (tilErr) {
             throw new BadRequestError(tilErr);
           }
-          res.send(savedTil);
+          res(new CreatedResponse(savedTil));
         });
       });
-  },
+  })),
 
   get(req, res) {
     Til
@@ -48,19 +62,55 @@ module.exports = {
       });
   },
 
-  getOne(req, res) {
-    Til.findById(req.params.tilId)
-      .populate('directory', popConfig.directory)
-      .populate('uid', popConfig.user)
-      .exec((err, til) => {
-        if (err) {
-          throw new BadRequestError(err);
-        } else if (!til) {
-          throw new NotExistError('No TIL');
+  getOne: ({ params: { tilId } }, _) => new Promise((res, rej) => {
+    Promise.resolve()
+      .then(() => getTil(tilId))
+      .then((til) => {
+        if (!til) {
+          rej(new NotExistError('No TIL'));
         }
-        res.send(til);
+
+        res(new OkResponse(til));
+      })
+      .catch(err => rej(err));
+  }),
+
+  update: loginRequired(({ params: { tilId }, body }, user) => new Promise((res, rej) => {
+    getTil(tilId)
+      .then((til) => {
+        if (til == null) {
+          throw new NotExistError();
+        }
+
+        if (til.uid !== user._id) {
+          throw new UnauthorizedError();
+        }
+
+        updateTilWithDoc(til, body)
+          .then(updatedTil => res(new UpdatedResponse(updatedTil)));
+      })
+      .catch(err => rej(err));
+  })),
+
+  del: loginRequired(({ params: { tilId } }, user) => new Promise((res, rej) => {
+    Promise.resolve()
+      .then(() => {
+        getTil(tilId)
+          .then((til) => {
+            if (til == null) {
+              throw new NotExistError();
+            }
+
+            if (til.uid !== user._id) {
+              throw new UnauthorizedError();
+            }
+
+            removeTilWithDoc(til)
+              .then(() => res(new DeletedResponse()));
+          })
+          .catch(err => rej(err));
       });
-  },
+  })),
 
   fork(req, res) {
     Til.findById(req.body.tilId)
