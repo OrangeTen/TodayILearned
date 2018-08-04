@@ -185,13 +185,14 @@ jobs:
          name: Docker environment variables check
          command: |
            echo Docker environment variables check
-           NUM_OF_VARIABLES_TO_CHECK=7
+           NUM_OF_VARIABLES_TO_CHECK=8
            VARIABLES_TO_CHECK=(\
            $CI_STAGE_SSH_PEMURL \
            "$CI_STAGE_SSH_FINGERPRINT" \
            $CI_STAGE_SSH_USER \
            $CI_STAGE_HOST \
            $CI_STAGE_APP_PORT \
+           $CI_STAGE_DOTENVURL \
            $CI_DOCKER_USER \
            $CI_DOCKER_PASSWORD \
            )
@@ -201,8 +202,8 @@ jobs:
              echo "  "Add Environment Variables on ci environment.
              echo "  "Number of variables. Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
              echo "  "CI_STAGE_SSH_PEMURL CI_STAGE_SSH_FINGERPRINT CI_STAGE_SSH_USER \
-               CI_STAGE_HOST CI_STAGE_APP_PORT CI_DOCKER_USER \
-               CI_DOCKER_PASSWORD required.
+               CI_STAGE_HOST CI_STAGE_APP_PORT CI_STAGE_DOTENVURL \
+               CI_DOCKER_USER CI_DOCKER_PASSWORD required.
              exit 1
            fi
 
@@ -217,6 +218,7 @@ jobs:
             export DEPLOY_SSH_USER=$CI_STAGE_SSH_USER
             export DEPLOY_SSH_HOST=$CI_STAGE_HOST
             export DEPLOY_APP_PORT=$CI_STAGE_APP_PORT
+            export DEPLOY_DOTENVURL=$CI_STAGE_DOTENVURL
             export DOCKER_USER=$CI_DOCKER_USER
             export DOCKER_PASSWORD=$CI_DOCKER_PASSWORD
             export DOCKER_TAG=$TAG
@@ -236,13 +238,14 @@ jobs:
          name: Docker environment variables check
          command: |
            echo Docker environment variables check
-           NUM_OF_VARIABLES_TO_CHECK=7
+           NUM_OF_VARIABLES_TO_CHECK=8
            VARIABLES_TO_CHECK=(\
            $CI_PROD_SSH_PEMURL \
            "$CI_PROD_SSH_FINGERPRINT" \
            $CI_PROD_SSH_USER \
            $CI_PROD_HOST \
            $CI_PROD_APP_PORT \
+           $CI_PROD_DOTENVURL \
            $CI_DOCKER_USER \
            $CI_DOCKER_PASSWORD \
            )
@@ -252,8 +255,8 @@ jobs:
              echo "  "Add Environment Variables on ci environment.
              echo "  "Number of variables. Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
              echo "  "CI_PROD_SSH_PEMURL CI_PROD_SSH_FINGERPRINT CI_PROD_SSH_USER \
-               CI_PROD_HOST CI_PROD_APP_PORT CI_DOCKER_USER \
-               CI_DOCKER_PASSWORD required.
+               CI_PROD_HOST CI_PROD_APP_PORT CI_PROD_DOTENVURL \
+               CI_DOCKER_USER CI_DOCKER_PASSWORD required.
              exit 1
            fi
 
@@ -268,6 +271,7 @@ jobs:
             export DEPLOY_SSH_USER=$CI_PROD_SSH_USER
             export DEPLOY_SSH_HOST=$CI_PROD_HOST
             export DEPLOY_APP_PORT=$CI_PROD_APP_PORT
+            export DEPLOY_DOTENVURL=$CI_PROD_DOTENVURL
             export DOCKER_USER=$CI_DOCKER_USER
             export DOCKER_PASSWORD=$CI_DOCKER_PASSWORD
             export DOCKER_TAG=$TAG

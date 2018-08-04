@@ -6,6 +6,7 @@
 # export DEPLOY_SSH_USER=foo
 # export DEPLOY_SSH_HOST="0.0.0.0"
 # export DEPLOY_APP_PORT=0
+# export DEPLOY_DOTENVURL="https://foo.com"
 # export DOCKER_USER=foo
 # export DOCKER_PASSWORD=bar
 # export DOCKER_TAG=foo
@@ -25,13 +26,14 @@ if [ -z $DOCKER_TAG ]; then
 fi
 
 echo Check Script environment variables.
-NUM_OF_VARIABLES_TO_CHECK=8
+NUM_OF_VARIABLES_TO_CHECK=9
 VARIABLES_TO_CHECK=(\
 $DEPLOY_SSH_PEMURL \
 "$DEPLOY_SSH_FINGERPRINT" \
 $DEPLOY_SSH_USER \
 $DEPLOY_SSH_HOST \
 $DEPLOY_APP_PORT \
+$DEPLOY_DOTENVURL \
 $DOCKER_USER \
 $DOCKER_PASSWORD \
 $DOCKER_TAG \
@@ -42,8 +44,8 @@ then
     echo "  "Add Environment Variables before running script. With export statements.
     echo "  "Number of variables. Expected $NUM_OF_VARIABLES_TO_CHECK, Actual ${#VARIABLES_TO_CHECK[@]}
     echo "  "DEPLOY_SSH_PEMURL, DEPLOY_SSH_FINGERPRINT, DEPLOY_SSH_USER, \
-      DEPLOY_SSH_HOST, DEPLOY_APP_PORT, DOCKER_USER, \
-      DOCKER_PASSWORD, DOCKER_TAG required.
+      DEPLOY_SSH_HOST, DEPLOY_APP_PORT, DEPLOY_DOTENVURL, \
+      DOCKER_USER, DOCKER_PASSWORD, DOCKER_TAG required.
     exit 1
 fi
 
@@ -63,6 +65,7 @@ ssh -i $PEMFILE $DEPLOY_SSH_USER@$DEPLOY_SSH_HOST \
   DOCKER_USER=$DOCKER_USER \
   DOCKER_PASSWORD=$DOCKER_PASSWORD \
   DEPLOY_APP_PORT=$DEPLOY_APP_PORT \
+  DEPLOY_DOTENVURL=$DEPLOY_DOTENVURL \
   DOCKER_TAG=$DOCKER_TAG \
   'bash -s' << 'DEPLOY'
     APPNAME=todayileanred
@@ -75,9 +78,11 @@ ssh -i $PEMFILE $DEPLOY_SSH_USER@$DEPLOY_SSH_HOST \
     set -e
     echo docker run -d \
                -p $DEPLOY_APP_PORT:3000 \
+               -e DOTENVURL=$DEPLOY_DOTENVURL \
                --name $APPNAME \
                $DOCKER_USER/todayilearned:$DOCKER_TAG
     sudo docker run -d \
       -p $DEPLOY_APP_PORT:3000 \
       --name $APPNAME \
       $DOCKER_USER/todayilearned:$DOCKER_TAG
+    DEPLOY
