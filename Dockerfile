@@ -14,6 +14,6 @@ RUN cd tilup-web &&\
 
 EXPOSE 3000
 
-ENTRYPOINT cd tilup-server &&\
+CMD cd tilup-server &&\
   wget -O .env $DOTENVURL &&\
   node app.js
