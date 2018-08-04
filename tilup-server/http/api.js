@@ -5,10 +5,10 @@ const { InternalError } = require('./errors');
 
 
 const apiResponse = func => (req, res, next) => {
-  const bindParams = _.assign(req.body, req.params, req.query);
+  const bindParams = _.assign(req.body, req.params, req.query, req.headers);
 
   Promise.resolve()
-    .then(() => func.call(null, bindParams, req.fbUser))
+    .then(() => func.call(null, bindParams, req.user))
     .then((response) => {
       if (!(response instanceof HttpResponse)) {
         throw new InternalError('내부 Response가 HttpResponse를 확장한 클래스여야합니다.');

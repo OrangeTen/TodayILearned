@@ -1,11 +1,9 @@
 const Til = require('../data/models/til');
-const User = require('../data/models/user');
 const popConfig = require('../popConfig.json');
 const { OkResponse } = require('../http/responses');
 const { loginRequired } = require('../auth');
 const {
   BadRequestError,
-  UnauthorizedError,
   DatabaseError,
 } = require('../http/errors');
 
@@ -27,30 +25,24 @@ module.exports = {
         res.send(tils);
       });
   },
-  getFeed: loginRequired((_, fbUser) => new Promise((res, _rej) => {
+  getFeed: loginRequired((_, user) => new Promise((res, _rej) => {
     // me and follower's til
-    User.findById(fbUser.uid)
-      .exec((err, user) => {
-        if (err) {
-          throw new UnauthorizedError('Signup first.', err);
+    const users = user.following;
+
+    Til.find({
+      $or: [{ $and: [{ uid: { $in: users } }, { isPrivate: false }] }, { uid: user._id }],
+    }).sort({ created: -1 })
+      .populate('directory', popConfig.directory)
+      .populate('uid', popConfig.user)
+      .sort({ created: -1 })
+      .exec((tilErr, tils) => {
+        if (tilErr) {
+          throw new DatabaseError(tilErr);
         }
-
-        const users = user.following;
-
-        Til.find({
-          $or: [{ $and: [{ uid: { $in: users } }, { isPrivate: false }] }, { uid: user._id }],
-        }).sort({ created: -1 })
-          .populate('directory', popConfig.directory)
-          .populate('uid', popConfig.user)
-          .sort({ created: -1 })
-          .exec((tilErr, tils) => {
-            if (tilErr) {
-              throw new DatabaseError(tilErr);
-            }
-            res(new OkResponse(tils));
-          });
+        res(new OkResponse(tils));
       });
   })),
+
   getFeedAnonymouse: () => new Promise((res, _rej) => {
     Til
       .find({ isPrivate: false })

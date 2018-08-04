@@ -1,6 +1,7 @@
 const { DatabaseError } = require('../http/errors');
 const Directory = require('./models/directory');
 
+
 module.exports = {
   createDirectory: (uid, name) => new Promise((res, _rej) => {
     if ((!uid) || (!name)) {

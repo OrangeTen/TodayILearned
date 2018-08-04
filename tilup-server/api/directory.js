@@ -5,7 +5,6 @@ const {
   getDirectory,
   removeDirectoryWithDoc,
 } = require('../data/directory');
-const { getUserWithFbUser } = require('../data/firebase');
 const {
   CreatedResponse,
   DeletedResponse,
@@ -18,10 +17,9 @@ const {
 } = require('../http/errors');
 
 module.exports = {
-  add: loginRequired(({ name }, fbUser) => new Promise((res, rej) => {
+  add: loginRequired(({ name }, user) => new Promise((res, rej) => {
     Promise.resolve()
-      .then(() => getUserWithFbUser(fbUser))
-      .then(user => createDirectory(user._id, name))
+      .then(() => createDirectory(user._id, name))
       .then(directory => res(new CreatedResponse(directory)))
       .catch(err => rej(err));
   })),
@@ -44,18 +42,16 @@ module.exports = {
   //     });
   // },
 
-  getMyDir: loginRequired((_, fbUser) => new Promise((res, rej) => {
+  getMyDir: loginRequired((_, user) => new Promise((res, rej) => {
     Promise.resolve()
-      .then(() => getUserWithFbUser(fbUser))
-      .then(user => getDirectoriesWithUid(user._id))
+      .then(() => getDirectoriesWithUid(user._id))
       .then(directories => res(new OkResponse(directories)))
       .catch(err => rej(err));
   })),
 
-  del: loginRequired(({ directoryId }, fbUser) => new Promise((res, rej) => {
+  del: loginRequired(({ directoryId }, user) => new Promise((res, rej) => {
     Promise.resolve()
-      .then(() => getUserWithFbUser(fbUser))
-      .then((user) => {
+      .then(() => {
         getDirectory(directoryId)
           .then((directory) => {
             if (directory == null) {

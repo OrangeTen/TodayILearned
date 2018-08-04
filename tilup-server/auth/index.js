@@ -1,12 +1,12 @@
 const { UnauthorizedError } = require('../http/errors');
 
 
-const loginRequired = func => (bindParams, fbUser) => {
-  if (fbUser == null) {
+const loginRequired = func => (bindParams, user) => {
+  if (user == null) {
     throw new UnauthorizedError();
   }
 
-  return func.call(null, bindParams, fbUser);
+  return func.call(null, bindParams, user);
 };
 
 module.exports = {

@@ -1,15 +1,13 @@
 const express = require('express');
-const admin = require('firebase-admin');
 
-const { UnauthorizedError } = require('../http/errors');
-const serviceAccount = require('../firebase_secret.json');
+const {
+  getUserWithFbUser,
+  getFirebaseUidWithToken,
+  getFirebaseUserWithUid,
+} = require('../data/firebase');
 
 
 const router = express.Router();
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
 
 const {
   userApi,
@@ -26,30 +24,7 @@ const {
 } = require('../http');
 
 
-function getFirebaseUserRecord(req, res, next) {
-  return Promise.resolve()
-    .then(() => getUserTokenWithReq(req))
-    .then((token) => {
-      if (!token) {
-        next();
-      } else {
-        Promise.resolve()
-          .then(() => getFirebaseUidWithToken(token))
-          .then(uid => getFirebaseUserWithUid(uid))
-          .then((user) => {
-            req.fbUser = user;
-          })
-          .catch((err) => {
-            next(err);
-          })
-          .then(() => {
-            next();
-          });
-      }
-    });
-}
-
-function getUserTokenWithReq(req) {
+function _getUserTokenWithReq(req) {
   return new Promise((res, _rej) => {
     const {
       headers: {
@@ -66,39 +41,33 @@ function getUserTokenWithReq(req) {
   });
 }
 
-function getFirebaseUserWithUid(uid) {
-  return new Promise((res, rej) => {
-    admin.auth().getUser(uid)
-      .then((userRecord) => {
-        res(userRecord);
-      })
-      .catch((error) => {
-        console.log('routes/index.js', 'getFirebaseUserWithUid', 'Error! admin.auth().getUser', 'error=', error);
-        rej(error);
-      });
-  });
-}
-
-function getFirebaseUidWithToken(token) {
-  return new Promise((res, rej) => {
-    admin.auth().verifyIdToken(token)
-      .then((decodedToken) => {
-        const {
-          uid,
-        } = decodedToken;
-        res(uid);
-      }).catch((error) => {
-        if (error.code && error.code === 'auth/argument-error'
-          && error.message.includes('auth/id-token-expired')) {
-          rej(new UnauthorizedError(error.message));
-        }
-        rej(error);
-      });
-  });
+function getUserFromHeader(req, res, next) {
+  return Promise.resolve()
+    .then(() => _getUserTokenWithReq(req))
+    .then((token) => {
+      if (!token) {
+        next();
+      } else {
+        Promise.resolve()
+          .then(() => getFirebaseUidWithToken(token))
+          .then(uid => getFirebaseUserWithUid(uid))
+          .then(fbUser => getUserWithFbUser(fbUser))
+          .then((user) => {
+            req.user = user;
+          })
+          .catch((err) => {
+            console.log('routes/index.js', 'getUserFromHeader', 'err=', err);
+            req.user = null;
+          })
+          .then(() => {
+            next();
+          });
+      }
+    });
 }
 
 
-router.use(getFirebaseUserRecord);
+router.use(getUserFromHeader);
 router.get('/login', apiResponse(loginApi.login));
 
 router.get('/me', meApi.get);
@@ -112,6 +81,7 @@ router.get('/directory', apiResponse(directoryApi.getMyDir))
   .delete('/directory/:directoryId', apiResponse(directoryApi.del));
 
 router.get('/til/:tilId', apiResponse(tilApi.getOne))
+  .delete('/til/:tilId', apiResponse(tilApi.del))
   .post('/til', apiResponse(tilApi.add))
   .post('/til/fork', apiResponse(tilApi.fork))
   .put('/til/directory/:tilId', apiResponse(tilApi.changeDir)); // 연동 test 필요
