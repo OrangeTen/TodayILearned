@@ -12,9 +12,8 @@ COPY . .
 RUN cd tilup-web &&\
  yarn run build
 
-RUN cd tilup-server &&\
-  wget -O .env $DOTENVURL
-
 EXPOSE 3000
-CMD cd tilup-server &&\
- node app.js
+
+ENTRYPOINT cd tilup-server &&\
+  wget -O .env $DOTENVURL &&\
+  node app.js
