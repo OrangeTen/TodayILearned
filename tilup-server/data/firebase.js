@@ -1,9 +1,7 @@
 const admin = require('firebase-admin');
 
-const { DatabaseError } = require('../http/errors');
 const { getUser } = require('./user');
 const { UnauthorizedError } = require('../http/errors');
-const { User } = require('./models');
 const serviceAccount = require('../firebase_secret.json');
 
 admin.initializeApp({

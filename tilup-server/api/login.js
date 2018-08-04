@@ -4,7 +4,6 @@ const {
   getFirebaseUidWithToken,
   getFirebaseUserWithUid,
 } = require('../data/firebase');
-const { loginRequired } = require('../auth');
 const {
   OkResponse,
   CreatedResponse,
