@@ -68,10 +68,10 @@ ssh -i $PEMFILE $DEPLOY_SSH_USER@$DEPLOY_SSH_HOST \
   DEPLOY_DOTENVURL=$DEPLOY_DOTENVURL \
   DOCKER_TAG=$DOCKER_TAG \
   'bash -s' << 'DEPLOY'
-    APPNAME=todayileanred
+    APPNAME=todayilearned
     sudo docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     sudo docker system prune -af
-    sudo docker pull $DOCKER_USER/todayileanred:$DOCKER_TAG
+    sudo docker pull $DOCKER_USER/$APPNAME:$DOCKER_TAG
     set +e
     sudo docker kill $APPNAME
     sudo docker rm $APPNAME
@@ -80,4 +80,4 @@ ssh -i $PEMFILE $DEPLOY_SSH_USER@$DEPLOY_SSH_HOST \
       -p $DEPLOY_APP_PORT:3000 \
       -e DOTENVURL=$DEPLOY_DOTENVURL \
       --name $APPNAME \
-      $DOCKER_USER/todayilearned:$DOCKER_TAG
+      $DOCKER_USER/$APPNAME:$DOCKER_TAG
