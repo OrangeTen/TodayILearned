@@ -313,16 +313,16 @@ workflows:
             - express_lint_checks
             - express_tests
 
-      - deploy_to_stage:
-          requires:
-            - docker_build_and_push
-          filters:
-            branches:
-              only: dev
-
-      - deploy_to_prod:
-          requires:
-            - docker_build_and_push
-          filters:
-            branches:
-              only: master
+#      - deploy_to_stage:
+#          requires:
+#            - docker_build_and_push
+#          filters:
+#            branches:
+#              only: dev
+#
+#      - deploy_to_prod:
+#          requires:
+#            - docker_build_and_push
+#          filters:
+#            branches:
+#              only: master
