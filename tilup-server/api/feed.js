@@ -25,7 +25,7 @@ module.exports = {
         res.send(tils);
       });
   },
-  getFeed: loginRequired((_, user) => new Promise((res, _rej) => {
+  getAllFeed: loginRequired((_, user) => new Promise((res, _rej) => {
     // me and follower's til
     const users = user.following;
 
@@ -42,7 +42,26 @@ module.exports = {
         res(new OkResponse(tils));
       });
   })),
+  getFeed: loginRequired(({ params: { page } }, user) => new Promise((res, _rej) => {
+    // me and follower's til
+    const users = user.following;
+    const TILInPage = 5;
 
+    Til.find({
+      $or: [{ $and: [{ uid: { $in: users } }, { isPrivate: false }] }, { uid: user._id }],
+    }).sort({ created: -1 })
+      .populate('directory', popConfig.directory)
+      .populate('uid', popConfig.user)
+      .sort({ created: -1 })
+      .skip(TILInPage * page)
+      .limit(TILInPage)
+      .exec((tilErr, tils) => {
+        if (tilErr) {
+          throw new DatabaseError(tilErr);
+        }
+        res(new OkResponse(tils));
+      });
+  })),
   getFeedAnonymouse: () => new Promise((res, _rej) => {
     Til
       .find({ isPrivate: false })
@@ -70,17 +89,5 @@ module.exports = {
         res.send(tils);
       });
   },
-  getAllFeed(req, res) {
-    Til
-      .find()
-      .populate('directory', popConfig.directory)
-      .populate('uid', popConfig.user)
-      .sort({ created: -1 })
-      .exec((err, tils) => {
-        if (err) {
-          throw new BadRequestError(err);
-        }
-        res.send(tils);
-      });
-  },
+
 };

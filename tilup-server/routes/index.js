@@ -87,7 +87,8 @@ router.get('/til/:tilId', apiResponse(tilApi.getOne))
   .post('/til/fork', apiResponse(tilApi.fork))
   .put('/til/directory/:tilId', apiResponse(tilApi.changeDir)); // 연동 test 필요
 
-router.get('/feed', apiResponse(feedApi.getFeed))
+router.get('/feed', apiResponse(feedApi.getAllFeed))
+  .get('/feed/:page', apiResponse(feedApi.getFeed))
   .get('/feed/my', apiResponse(feedApi.getMyFeed));
 
 router.get('/search/contents/:word', apiResponse(searchApi.searchContents))
