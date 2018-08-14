@@ -1,36 +1,77 @@
-const User = require('mongoose').model('User');
-const Directory = require('mongoose').model('Directory');
-
+const User = require('../data/models/user');
+const Directory = require('../data/models/directory');
 const {
-    NotExistError,
-    BadRequestError
-} = require('../error');
+  getFirebaseUidWithToken,
+  getFirebaseUserWithUid,
+} = require('../data/firebase');
+const {
+  OkResponse,
+  CreatedResponse,
+} = require('../http/responses');
+const {
+  DatabaseError,
+  BadRequestError,
+} = require('../http/errors');
+
+
+const _createUser = fbUser => new Promise((res, rej) => {
+  const newUser = new User({
+    _id: fbUser.uid,
+    email: fbUser.email,
+    name: fbUser.displayName,
+    profileUrl: fbUser.photoURL,
+  });
+  newUser
+    .save((newUserErr) => {
+      if (newUserErr) {
+        rej(new DatabaseError(newUserErr));
+      }
+      const directory = new Directory({ name: 'Inbox', uid: newUser._id });
+      directory.save((directoryErr) => {
+        if (directoryErr) rej(new DatabaseError(directoryErr));
+
+        User
+          .findById(fbUser.uid)
+          .exec((createdUserFindError, createdUser) => {
+            if (createdUserFindError) {
+              rej(new DatabaseError(createdUserFindError));
+            }
+
+            if (createdUser) {
+              res(createdUser);
+            }
+          });
+      });
+    });
+});
 
 module.exports = {
-    login(req, res, next) {
-        User
-            .findById(req.uid)
-            .exec((err, user) => {
-                if (!user) {
-                    const newUser = new User({
-                        _id: req.userRecord.uid,
-                        email: req.userRecord.email,
-                        name: req.userRecord.displayName,
-                        profileUrl: req.userRecord.photoURL,
-                    });
-                    newUser
-                        .save(err => {
-                            if (err) {
-                                throw new BadRequestError(err);
-                            }
-                            const directory = new Directory({name : "Inbox", uid : newUser._id});
-                            directory.save(err=>{
-                                if(err) throw new BadRequestError(err);
-                            });
-                        });
-                }
+  login: ({ headers: { authorization } }, _) => new Promise((res, rej) => {
+    Promise.resolve()
+      .then(() => {
+        if (!authorization) {
+          rej(new BadRequestError());
+        } else {
+          Promise.resolve()
+            .then(() => getFirebaseUidWithToken(authorization))
+            .then(uid => getFirebaseUserWithUid(uid))
+            .then((fbUser) => {
+              User
+                .findById(fbUser.uid)
+                .exec((err, user) => {
+                  if (user) {
+                    res(new OkResponse(user));
+                  } else {
+                    _createUser(fbUser)
+                      .then(createdUser => res(new CreatedResponse(createdUser)))
+                      .catch(createdErr => rej(createdErr));
+                  }
+                });
+            })
+            .catch((err) => {
+              rej(err);
             });
-
-        res.status(200).send();
-    }
+        }
+      });
+  }),
 };

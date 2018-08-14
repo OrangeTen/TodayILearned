@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import './navigation-bar.css';
+import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-// import * as firebase from 'firebase'
+import Icon from '@material-ui/core/Icon';
+
 import logo from './logo.png'
 import realLogo from './real_logo.png'
+import './navigation-bar.css';
 import startEasterEgg from '../utils/startEasterEgg'
-import firebase from 'firebase';
-import getUserData from '../utils/getUserData';
-import TextField from '@material-ui/core/TextField';
-import Icon from '@material-ui/core/Icon';
-// import { Link } from 'react-router'
-import { Link } from 'react-router-dom';
+import * as log from "../utils/log";
+import {
+  firebasePopupGithubSignin, firebasePopupFacebookSignin, firebaseSignout,
+} from "../actions/firebase";
 
-export default class NavigationBar extends Component {
+
+class NavigationBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,94 +29,117 @@ export default class NavigationBar extends Component {
       ],
       query: ""
     };
-    
   }
 
-  handleLogin() {
-    var provider = new firebase.auth.GithubAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      var token = result.credential.accessToken;
-      var user = result.user;
-      console.log("로긴됨", user, token);
-      window.location.reload();
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-    });
+  getSigninOrUserIcon() {
+    const {
+      user,
+    } = this.props;
+
+    let signinOrUserIcon = '';
+    if (user == null) {
+      signinOrUserIcon = (
+        <React.Fragment>
+          <Button color="inherit" className="d-none d-sm-block"
+                  disabled={this.props.isSigningIn}
+                  onClick={this.props.firebasePopupGithubSignin}>Signin with GitHub</Button>
+          <Button color="inherit" className="d-none d-sm-block"
+                  disabled={this.props.isSigningIn}
+                  onClick={this.props.firebasePopupFacebookSignin}>Signin with Facebook</Button>
+        </React.Fragment>
+      );
+    } else {
+      signinOrUserIcon = (
+        <React.Fragment>
+          <Link to="/profile">
+            <img src={user.photoURL} alt="profilePhoto" style={{width: "40px", borderRadius: "50%", marginRight: "5px", marginLeft: "5px"}} />
+          </Link>
+          <div className="userName d-none d-sm-block">
+            <Link to="/profile">
+              <span style={{color:"#fff"}}>{user.displayName}</span>
+            </Link>
+          </div>
+
+          <Button disabled={this.props.isSigningOut}
+                  color="inherit" className="d-none d-sm-block"
+                  onClick={this.props.firebaseSignout}>
+            Signout
+          </Button>
+        </React.Fragment>
+      );
+    }
+
+    return signinOrUserIcon;
   }
 
   handleEasterEgg = () => {
     // this.setState({easterCount: this.state.easterCount - 1})
-    this.setState(function(prevState, props){
+    this.setState((prevState, props) => {
       return {easterCount: prevState.easterCount -1}
-   });
+    });
     if(this.state.easterCount <= 1) {
       startEasterEgg();
     }
-  }
+  };
 
   handleSubmit = (event) => {
-    console.log("키코", event, event.keyCode)
+    log.d("components/NavigationBar.js", "handleSubmit", "키코", event, event.keyCode);
     if (event.keyCode === 13) {
-      console.log(this.state.query);
+      log.d("components/NavigationBar.js", "handleSubmit", `query=${this.state.query}`);
       window.location.assign(`/search/${this.state.query}`);
     }
-  }
+  };
 
   render() {
-    const userData = getUserData();
     return (
       <AppBar position="sticky" color="default" className="navigation-bar">
         <Toolbar className="container">
           {
-            this.state.easterCount <= 0? 
+            this.state.easterCount <= 0?
               (
                 <React.Fragment>
-                  <img src={realLogo} className="logo" />
-                  <Typography variant="title" color="inherit" className="navigation-bar__title">TILUP with DecOrange!</Typography>  
+                  <img src={realLogo} alt="logo" className="logo" />
+                  <Typography variant="title" color="inherit" className="navigation-bar__title">TILUP with DecOrange!</Typography>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <img src={logo} className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/> 
+                  <img src={logo} alt="logo" className="logo" style={{opacity: this.state.easterCount/10}} onClick={this.handleEasterEgg}/>
                   <Link to="/" style={{color: "white", textDecoration: "none"}}><Typography variant="title" color="inherit" className="navigation-bar__title">TILUP</Typography>  </Link>
                 </React.Fragment>
-              ) 
+              )
           }
           <div className="search-container">
             <Icon>search</Icon>
             <input placeholder="Drop the query!" onKeyUp={this.handleSubmit} onChange={(query) => this.setState({query: query.target.value})} />
           </div>
           <div className="padding"></div>
-          
 
-          {userData ? (
-            <React.Fragment>
-              <Link to="/profile">
-                <img src={userData.photoURL} style={{width: "40px", borderRadius: "50%", marginRight: "5px", marginLeft: "5px"}} />
-              </Link>
-              <div className="userName d-none d-sm-block">
-                <Link to="/profile">
-                  <span style={{color:"#fff"}}>{getUserData().displayName}</span>
-                </Link>
-              </div>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Button color="inherit" className="d-none d-sm-block" onClick={this.handleLogin}>Login with GitHub</Button>
-              <Button color="inherit" className="d-sm-none" onClick={this.handleLogin}>Login</Button>
-            </React.Fragment>
-          )}
+          { this.getSigninOrUserIcon() }
+
         </Toolbar>
         <div style={{display: "none"}}>
-          <img id="source" src={realLogo} width="300" height="227" />
+          <img id="source" src={realLogo} alt="realLogo" width="300" height="227" />
         </div>
       </AppBar>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.firebase.user,
+    isSigningIn: state.user.isSigningIn,
+    isSigningOut: state.firebase.isSigningOut,
+  };
+}
+
+const mapDispatchToProps = {
+  firebasePopupGithubSignin,
+  firebasePopupFacebookSignin,
+  firebaseSignout,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavigationBar);

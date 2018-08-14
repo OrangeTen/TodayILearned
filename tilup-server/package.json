@@ -3,13 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "node app.js",
     "rinstall": "cd ../tilup-web && npm install",
     "rbuild": "cd ../tilup-web && npm run build",
-    "production": "npm run rbuild && pm2 restart app"
+    "test": "echo \"Error: no test specified\"",
+    "lint": "./node_modules/eslint/bin/eslint.js --ignore-path .gitignore .",
+    "production": "yarn run rbuild && pm2 restart app"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^6.0.0",
     "express": "~4.16.0",
     "firebase-admin": "^5.12.1",
     "http-errors": "~1.6.2",
@@ -20,6 +24,7 @@
   },
   "devDependencies": {
     "eslint": "^5.0.1",
-    "eslint-plugin-react": "^7.10.0"
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0"
   }
 }

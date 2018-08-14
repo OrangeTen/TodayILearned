@@ -1,39 +1,34 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { User } = require('./models');
+const {
+  DatabaseError,
+} = require('../http/errors');
 
-const UserSchema = new Schema({
-    _id: {
-        type: String
-    },
-    email: {
-        type: String
-    },
-    name: {
-        type: String
-    },
-    profileUrl: {
-        type: String
-    },
-    follower: [{
-        type: String
-    }],
-    following: [{
-        type: String
-    }],
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    updated: {
-        type: Date,
-        default: Date.now
+
+module.exports = {
+  getUser: id => new Promise((res, _rej) => {
+    if ((!id)) {
+      throw new Error('Invalid parameters.');
     }
-}, {
-    versionKey: false,
-    usePushEach: true
-});
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-UserSchema.path('email').validate(email => emailRegex.test(email), 'Please fill a valid email address');
+    User.findById(id)
+      .exec((err, doc) => {
+        if (err) {
+          throw new DatabaseError(err);
+        }
 
-mongoose.model('User', UserSchema);
+        res(doc);
+      });
+  }),
+
+  getAllUsers: () => new Promise((res, _rej) => {
+    User
+      .find()
+      .exec((err, users) => {
+        if (err) {
+          throw new DatabaseError(err);
+        }
+
+        res(users);
+      });
+  }),
+};

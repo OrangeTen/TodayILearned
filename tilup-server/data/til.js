@@ -1,39 +1,54 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { Til } = require('./models');
+const popConfig = require('../popConfig.json');
+const {
+  DatabaseError,
+} = require('../http/errors');
 
-const TilSchema = new Schema({
-    uid: {
-        type: String
-    },
-    contents: {
-        type: String
-    },
-    hash: [{
-        type: String
-    }],
-    directory: {
-        type: Schema.Types.ObjectId,
-        ref: 'Directory'
-    },
-    forkRef: {
-        type: Schema.Types.ObjectId,
-        ref: 'Til'
-    },
-    isPrivate: {
-        type: Boolean,
-        default: false
-    },
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    updated: {
-        type: Date,
-        default: Date.now
+
+module.exports = {
+  getTil: id => new Promise((res, _rej) => {
+    if ((!id)) {
+      throw new Error('Invalid parameters.');
     }
-}, {
-    versionKey: false,
-    usePushEach: true
-});
 
-mongoose.model('Til', TilSchema);
+    Til.findById(id)
+      .populate('directory', popConfig.directory)
+      .populate('user', popConfig.user)
+      .exec((err, til) => {
+        if (err) {
+          throw new DatabaseError(err);
+        }
+
+        res(til);
+      });
+  }),
+
+  removeTilWithDoc: doc => new Promise((res, _rej) => {
+    if ((!doc)) {
+      throw new Error('Invalid parameters.');
+    }
+
+    doc.remove((err) => {
+      if (err) {
+        throw new DatabaseError(err);
+      }
+
+      res();
+    });
+  }),
+
+  updateTilWithDoc: (doc, body) => new Promise((res, _rej) => {
+    if ((!doc)) {
+      throw new Error('Invalid parameters.');
+    }
+
+    doc.set(body);
+    doc.save((err, updateResult) => {
+      if (err) {
+        throw new DatabaseError(err);
+      }
+
+      res(updateResult);
+    });
+  }),
+};

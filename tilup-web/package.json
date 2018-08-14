@@ -5,18 +5,26 @@
   "dependencies": {
     "@material-ui/core": "^1.3.0",
     "axios": "^0.18.0",
+    "dotenv": "^6.0.0",
     "firebase": "^5.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-markdown": "^3.3.4",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
-    "react-simplemde-editor": "^3.6.16"
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "simplemde": "^1.11.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "node -r dotenv/config ./node_modules/.bin/react-scripts start",
+    "build": "node -r dotenv/config ./node_modules/.bin/react-scripts build",
+    "lint": "node ./node_modules/eslint/bin/eslint.js -c ./node_modules/eslint-config-react-app/index.js src",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "redux-logger": "^3.0.6"
   }
 }

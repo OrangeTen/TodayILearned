@@ -1,0 +1,103 @@
+@media (max-width: 575px) {
+    .signin__container {
+        min-height: 414px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 60px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 20px;
+        background-color: #fff;
+    }
+}
+@media (min-width: 576px) {
+    .signin__container {
+        min-height: 434px;
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 130px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 30px;
+        background-color: #fff;
+    }
+}
+
+.signin {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #eee;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.signin__logo {
+    margin: 0 auto;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-top: 15px;
+}
+.signin__title {
+    margin-top: 15px;
+    color: #000;
+    font-size: 30px;
+    font-weight: 500;
+}
+.signin__fb {
+    margin-top: 10px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    background-color: #3b5998;
+    color: #fff;
+    font-size: 18px;
+    line-height: 26px;
+    display: flex;
+    cursor: pointer;
+}
+.signin__fb__logo {
+    padding-right: 10px;
+    border-right: 1px solid #1d3469;
+}
+.signin__github {
+    margin-top: 30px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    background-color: #2f2f2f;
+    color: #fff;
+    font-size: 18px;
+    line-height: 26px;
+    display: flex;
+    cursor: pointer;
+}
+.signin__github__logo {
+    padding-right: 10px;
+    border-right: 1px solid #555;
+}
+.signin__btn__text {
+    padding-left: 12px;
+    line-height: 24px;
+    margin-top: 3px
+}
+
+.signin__icon {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
