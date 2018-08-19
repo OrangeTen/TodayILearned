@@ -1,4 +1,5 @@
 const Til = require('../data/models/til');
+const config = require('../config');
 const popConfig = require('../popConfig.json');
 const { OkResponse } = require('../http/responses');
 const { loginRequired } = require('../auth');
@@ -43,9 +44,13 @@ module.exports = {
       });
   })),
   getFeed: loginRequired(({ params: { page } }, user) => new Promise((res, _rej) => {
+    if (page <= 0) { // page statrs from 1
+      throw new BadRequestError();
+    }
+
     // me and follower's til
     const users = user.following;
-    const TILInPage = 5;
+    const pageNum = page - 1;
 
     Til.find({
       $or: [{ $and: [{ uid: { $in: users } }, { isPrivate: false }] }, { uid: user._id }],
@@ -53,13 +58,18 @@ module.exports = {
       .populate('directory', popConfig.directory)
       .populate('uid', popConfig.user)
       .sort({ created: -1 })
-      .skip(TILInPage * page)
-      .limit(TILInPage)
+      .skip(config.TILInPage * pageNum)
+      .limit(config.TILInPage)
       .exec((tilErr, tils) => {
         if (tilErr) {
           throw new DatabaseError(tilErr);
         }
-        res(new OkResponse(tils));
+        const maxPage = (tils.length / config.TILInPage) + 1;
+        res(new OkResponse({
+          page: pageNum,
+          maxPage,
+          tils,
+        }));
       });
   })),
   getFeedAnonymouse: () => new Promise((res, _rej) => {
