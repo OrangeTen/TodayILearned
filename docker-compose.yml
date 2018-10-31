@@ -1,0 +1,19 @@
+services:
+  todayilearned:
+    image: todayilearned
+    container_name: "todayilearned"
+    environment:
+    - DOTENVURL="--FIXME--"
+    ports:
+    - 81:3000
+    links:
+    - mongodb
+    depends_on:
+    - mongodb
+  mongodb:
+    image: mongodb
+    container_name: "mongodb"
+    volumes:
+    - "--FIXME--":/data/db
+    ports:
+    - 27017:27017
