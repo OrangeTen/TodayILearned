@@ -1,0 +1,11 @@
+FROM arm32v7/ubuntu:16.04
+
+RUN apt-get update \
+  && apt-get install -y mongodb \
+  && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /data/db
+#VOLUME /data/db /data/configdb
+
+EXPOSE 27017
+CMD ["mongod"]
+# docker build -t mongodb -f deploy-scripts/mongo/Dockerf.arm32v7 . && docker run -it --rm mongodb
